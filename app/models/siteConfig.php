@@ -16,9 +16,8 @@
             }
         }
 
-        public function singleSiteConfig($data){
-            $this->db->query('SELECT * from siteconfig where id=:id');
-            $this->db->bind(':id', $data);
+        public function singleSiteConfig(){
+            $this->db->query('SELECT * from siteconfig WHERE id=:id');
 
             $row = $this->db->single();
             if($this->db->rowCount() > 0){
