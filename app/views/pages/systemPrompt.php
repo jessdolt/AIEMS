@@ -8,10 +8,10 @@
           <span> Alumni Information Event Management Sytem </span>
         </header>
 
-        <form action="" class="form">
+        <form class="form" id="systemPromptForm">
           <div class="imageInputContainer_new">
-            <img />
-            <label for="news-image-input" class="fileUploadBtn">
+            <img id="myImg"/>
+            <label for="fileUpload" class="fileUploadBtn">
               Upload
               <svg
                 viewBox="0 0 18 18"
@@ -35,7 +35,7 @@
             <input
               type="file"
               name="newsImageInput"
-              id="news-image-input"
+              id="fileUpload"
               accept=".jpg, .png"
             />
           </div>
@@ -78,5 +78,6 @@
         </form>
       </div>
     </main>
+    <script src="<?= URLROOT?>/js/SiteConfig/systemPrompt.js"></script>
 </body>
 </html>

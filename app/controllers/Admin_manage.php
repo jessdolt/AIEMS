@@ -27,7 +27,9 @@
         }
 
         public function siteSettings(){
-            $data = [];
+            $data = [
+                
+            ];
             $this->view('admin/siteSettings', $data);
         }
 

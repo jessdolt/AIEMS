@@ -8,7 +8,8 @@
               <h1>Site Settings</h1>
               <span>Update your system information</span>
             </div>
-            <form action="" id="add-new-account">
+            <form id="site-settings-form">
+              <input type="hidden" value="19" id="site_id">
               <div>
                 <label for="school_name" class="outsideLabel"
                   >University Name:</label
@@ -28,8 +29,8 @@
                   >School Logo:</label
                 >
                 <div class="imageInputContainer_site">
-                  <img />
-                  <label for="news-image-input" class="fileUploadBtn">
+                  <img id="logo_container"/>
+                  <label for="logo_img" class="fileUploadBtn">
                     Upload
                     <svg
                       viewBox="0 0 18 18"
@@ -53,7 +54,7 @@
                   <input
                     type="file"
                     name="newsImageInput"
-                    id="news-image-input"
+                    id="logo_img"
                     accept=".jpg, .png"
                   />
                 </div>
@@ -66,8 +67,8 @@
                   class="imageInputContainer_site"
                   style="max-width: 100rem !important"
                 >
-                  <img />
-                  <label for="news-image-input" class="fileUploadBtn">
+                  <img id="hero_container"/>
+                  <label for="hero_img" class="fileUploadBtn">
                     Upload
                     <svg
                       viewBox="0 0 18 18"
@@ -91,7 +92,8 @@
                   <input
                     type="file"
                     name="newsImageInput"
-                    id="news-image-input"
+                    id="hero_img"
+                    
                     accept=".jpg, .png"
                   />
                 </div>
@@ -104,32 +106,33 @@
                   ><strong>System Color</strong></label
                 >
                 <div class="inputColor">
-                  <label for="">Primary Color: </label>
+                  <label for="primaryColor">Primary Color: </label>
                   <input
                     type="color"
-                    name="school_color"
-                    id="school_color"
+                    name="primaryColor"
+                    id="primaryColor"
                     required
                   />
                   <span class="error"></span>
                 </div>
                 <div class="inputColor">
-                  <label for="">Secondary Color: </label>
+                  <label for="secondaryColor">Secondary Color: </label>
                   <input
                     type="color"
-                    name="school_color"
-                    id="school_color"
+                    name="secondaryColor"
+                    id="secondaryColor"
                     required
                   />
                   <span class="error"></span>
                 </div>
               </div>
-            </form>
+         
             <div class="btn-con">
-              <button class="changePass" form="add-new-account">
+              <button class="changePass">
                 Save Changes
               </button>
             </div>
+            </form>
           </section>
         </main>
       </div>
@@ -146,5 +149,7 @@
         </div>
       </div>
     </div>
+
+<script src="<?= URLROOT?>/js/SiteConfig/siteSettings.js"></script>
 
 <?php require APPROOT . '/views/inc/footer_adminManage.php';?>
