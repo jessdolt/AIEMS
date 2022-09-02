@@ -125,6 +125,10 @@ class Pages extends Controller{
          $this->view('pages/home', $data);
     }
 
+    public function systemPrompt() {
+         $this->view('pages/systemPrompt');
+    }
+
     public function gallery() {
         $this->galleryModel = $this->model('Gallery');
 
