@@ -1,40 +1,72 @@
 window.onload = () => {
-  // const id = 3;
+  // const id = 7;
+  // const testData = {
+  //   schoolname: "321312",
+  //   logo: "421.jpg",
+  //   // file: "12345.jpg",
+  //   // isUploaded: 1,
+  // };
+
+
+    // SAVE SITE SETTINGS (FIRST TIME)
   // $.ajax({
-  //   type: "GET",
-  //   url: `/aiems/example/testSingleEvent/${id}`,
+  //   type: "POST",
+  //   url: `/aiems/site_config/saveSiteConfig`,
+  //   data: JSON.stringify(testData),
   //   dataType: "JSON",
+    
   //   success: function (data) {
-  //     console.log(data.message);
-  //     console.log(data.data);
+  //     console.log(data);
+      
   //   },
   //   error: function (xhr, status, error) {
-  //     console.log(xhr);
-  //     // document.getElementById("error-part").classList.remove("d-none");
+  //     console.error(error);
+  //       // if (error) {
+  //       //   resetForm();
+  //       //   swal(status, error, "error");
+  //       // }
   //   },
   // });
-  const tid = 2;
-  const testData = {
-    title: "BAGONG EVENT NA v2s",
-    description: "qwe",
-    image: "1223847472.39.jpg",
-    isUploaded: 1,
-  };
 
-  $.ajax({
-    type: "POST",
-    url: `/aiems/example/deleteTest/2`,
+    // UPDATE SITE SETTINGS
+  // $.ajax({
+  //   type: "POST",
+  //   url: `/aiems/site_config/editSiteConfig/${id}`,
+  //   data: JSON.stringify(testData),
+  //   dataType: "JSON",
+    
+  //   success: function (data) {
+  //     console.log(data);
+      
+  //   },
+  //   error: function (xhr, status, error) {
+  //     console.error(error);
+  //       // if (error) {
+  //       //   resetForm();
+  //       //   swal(status, error, "error");
+  //       // }
+  //   },
+  // });
 
-    dataType: "JSON",
-    success: function (data) {
-      console.log(data);
-    },
-    error: function (xhr, status, error) {
-      console.error(error);
-      // if (error) {
-      //   resetForm();
-      //   swal(status, error, "error");
-      // }
-    },
-  });
+
+
+    // GET SINGLE SITE SETTINGS
+  // const id = 7;
+  // $.ajax({
+  //   type: "GET",
+  //   url: `/aiems/site_config/getSiteConfig/${id}`,
+  //   dataType: "JSON",
+  //     success: function (data) {
+  //       console.log(data.message);
+  //       console.log(data.data);
+  //     },
+  //     error: function (xhr, status, error) {
+  //       console.log(xhr);
+  //       // document.getElementById("error-part").classList.remove("d-none");
+  //     },
+  // });
+
+
+
+
 };
