@@ -121,7 +121,7 @@
     </div>
 
 <script src="<?php echo URLROOT;?>/js/dashboard.js" defer></script>
-
+<script src="<?php echo URLROOT;?>/js/test/alumni.js"></script>
 <script>
 
 

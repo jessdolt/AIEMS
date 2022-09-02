@@ -4,7 +4,13 @@
         
        
         public function __construct() {
-
+            
+            // SETTING UP SITE IF NO RESULT
+            // REDIRECT TO SETTING UP SITE
+            if ($this->isSetUp() == false) {
+                // redirect('pages/home'); 
+            }
+ 
             if (!isLoggedIn()) {
                 redirect('users/login');
             }
@@ -16,6 +22,22 @@
         }
 
         public function index(){
+        }
+
+        public function isSetUp() {
+            $siteConfigModel = $this->model('siteconfig');
+            $siteConfig = $siteConfigModel->showSiteConfig();
+    
+            if ($siteConfig) {
+                // $response = ['message' => 'Successfully Fetched', 'data' => $siteConfig];
+                // echo json_encode($response);
+                
+                return true;
+            } else {
+                return false;
+            }
+    
+    
         }
 
         public function api_test(){
