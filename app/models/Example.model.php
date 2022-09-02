@@ -1,6 +1,6 @@
 <?php 
 
-    class Event{
+    class Example {
         private $db;
         public function __construct(){
             $this->db = new Database;
@@ -64,9 +64,9 @@
         public function addEvent($data){
             $this->db->query('INSERT INTO events(title,description,image) VALUES (:title,:description,:image)');
 
-            $this->db->bind(':title', $data['title']);
-            $this->db->bind(':description', $data['description']);
-            $this->db->bind(':image', $data['file']);
+            $this->db->bind(':title', $data->title);
+            $this->db->bind(':description', $data->description);
+            $this->db->bind(':image', $data->file);
             
             if($this->db->execute()){
                 return true;

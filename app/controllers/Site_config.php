@@ -2,25 +2,66 @@
 
 
 
-Class Example extends Controller {
+Class Site_config extends Controller {
 
     public function __construct(){
        
 
     }
 
-    
-    public function saveTest(){
-        $eventModel = $this->model('example');
+    // public function findSiteConfig() {
+    //     $siteConfigModel = $this->model('siteconfig');
+    //     $siteConfig = $siteConfigModel->showSiteConfig();
+
+    //     if ($siteConfig) {
+    //         $response = ['message' => 'Successfully Fetched', 'data' => $siteConfig];
+        
+    //         echo json_encode($response);
+    //     } else {
+    //         return false;
+    //     }
+
+
+    // }
+
+    public function getSiteConfig($id) {
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $siteConfigModel->singleSiteConfig($id);
+
+        $response = ['message' => 'Successfully Fetched', 'data' => $siteConfig];
+        
+        echo json_encode($response);
+    }
+
+    public function saveSiteConfig(){
+        $siteConfigModel = $this->model('siteconfig');
         $json  = json_decode(file_get_contents('php://input'));
 
-        $isSaved = $eventModel->addEvent($json);
+        $isSaved = $siteConfigModel->addSiteConfig($json);
 
-     
         $response = ['message' => 'Successfully Fetched', 'isSaved' => 1];
         
         echo json_encode($response);
     }
+
+    public function editSiteConfig($id){
+        $siteConfigModel = $this->model('siteconfig');
+        $json  = json_decode(file_get_contents('php://input'));
+
+        $isUpdated = $siteConfigModel->updateSiteConfig($json, $id);
+
+        if($isUpdated){
+            $response = ['message' => 'Successfully Fetched', 'isSuccess' => 1];
+            echo json_encode($response);
+        }
+        else{
+            $bad_request = ['message' => 'Something went wrong', 'isSuccess' => 0];
+            echo json_encode($bad_request);
+            //error
+        }
+        
+    }
+
 
     public function testSingleEvent($id) {
         $eventModel = $this->model('event');
