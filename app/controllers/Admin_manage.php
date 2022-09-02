@@ -26,6 +26,13 @@
             $this->view('admin/manage', $data);
         }
 
+        public function siteSettings(){
+            $data = [
+                
+            ];
+            $this->view('admin/siteSettings', $data);
+        }
+
         public function editProfile($id) {
             $admin = $this->adminModel->single($id);
 
