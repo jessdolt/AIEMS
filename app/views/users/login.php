@@ -42,4 +42,7 @@
         </div>
     </main>
 
+
+    <script src="<?= URLROOT?>/js/SiteConfig/test.js"></script>
+
 <?php require APPROOT . '/views/inc/footer.php'?>
