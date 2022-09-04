@@ -30,7 +30,7 @@
                 <span></span>
                 <span></span>
             </div>
-            <a href="<?php echo URLROOT?>/pages/home" class="logo"></a>
+            <a href="<?php echo URLROOT?>/pages/home" class="logo"    style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>); background-color: transparent !important"  ></a>
             <h1>PUP Institute of Technology</h1>
             <span class="userType">Admin Page</span>
             <a href="<?php echo URLROOT?>/admin/dashboard">Back to Admin Home</a>

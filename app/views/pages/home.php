@@ -1,14 +1,8 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
    
 <main class="alumni home">
-        <section class="heroBox">
-        
-            <div class="tint">
-                <div class="container">
-                    <h1 class="heroBoxText"><?php echo empty($_SESSION['schoolname']) ? "University Name" : $_SESSION['schoolname'];?><br> Alumni Information System</h1>
-                </div>
-            </div>
-        </section>
+    <?php require APPROOT . '/views/inc/heroContainer.php'; ?>
+
         <section class="welcomeBox">
             <div class="container">
                 <svg viewBox="0 0 127 127" fill="none" xmlns="http://www.w3.org/2000/svg">
