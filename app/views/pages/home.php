@@ -5,7 +5,7 @@
         
             <div class="tint">
                 <div class="container">
-                    <h1 class="heroBoxText">PUP Institute of Technology <br> Alumni Information System</h1>
+                    <h1 class="heroBoxText"><?php echo empty($_SESSION['schoolname']) ? "University Name" : $_SESSION['schoolname'];?><br> Alumni Information System</h1>
                 </div>
             </div>
         </section>

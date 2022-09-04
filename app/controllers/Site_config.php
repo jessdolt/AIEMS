@@ -5,10 +5,23 @@
 Class Site_config extends Controller {
 
     public function __construct(){
-       
+
+    
 
     }
+    
+    public function isSetUp() {
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $this->siteConfigModel->showSiteConfig();
 
+        if (!$siteConfig) {
+        
+            return false;
+        }
+
+        return true;
+    }
+    
     public function findSiteConfig() {
         $siteConfigModel = $this->model('siteconfig');
         $siteConfig = $siteConfigModel->showSiteConfig();
@@ -64,7 +77,6 @@ Class Site_config extends Controller {
         ];
 
         $json = json_decode(json_encode($data));
-        
         $isSaved = $siteConfigModel->addSiteConfig($json);
 
         if($isSaved){
@@ -75,8 +87,8 @@ Class Site_config extends Controller {
             $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
 
         }
-        // redirect('pages/firstAdmin');
-        echo (json_encode($response));
+
+        echo json_encode($response);
         
     }
 
@@ -172,6 +184,15 @@ Class Site_config extends Controller {
     }
 
     public function addAdmin() {
+        $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+
         $siteConfigModel = $this->model('siteconfig');
         $json  =  json_decode(file_get_contents('php://input'));
         
