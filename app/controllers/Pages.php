@@ -3,7 +3,9 @@
 class Pages extends Controller{
     public function __construct(){
         
-      
+      //query para kunin yung site config (university name)
+      //$_SESSION['universityanem'] = row db->schoolname
+    
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
