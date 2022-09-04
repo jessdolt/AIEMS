@@ -6,8 +6,10 @@
                 <h1>AIEMS</h1>
                 <div></div>
                 <span>
+                <title></title>
+
                     Sign in to 
-                    <b>University Name</b>
+                    <b><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></b>
                     <br>
                     Alumni Information Event Management Sytem
                 </span>

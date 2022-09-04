@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo SITENAME;?></title>
-    <link rel="shortcut icon" href="<?php echo URLROOT;?>/images/logo-32px.png" type="image/x-icon">
+
+    <title><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></title>
+    <link rel="shortcut icon" href="<?php echo URLROOT;?>/uploads/<?php echo empty($_SESSION['logo']) ? "" : $_SESSION['logo'];?>" type="image/x-icon">
+    
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/style.css">
     <script src="<?php echo URLROOT;?>/js/index.js" defer></script>
     <script

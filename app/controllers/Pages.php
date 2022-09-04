@@ -2,8 +2,21 @@
 
 class Pages extends Controller{
     public function __construct(){
+        $this->siteConfigModel = $this->model('siteconfig');
+
+        $isSetUp = $this->isSetUp();
+        if ($isSetUp) {
+            $siteConfig = $this->siteSession();
+            $_SESSION['schoolname'] = $siteConfig->schoolname;
+            $_SESSION['logo'] = $siteConfig->logo;
+            $_SESSION['heroimage'] = $siteConfig->heroimage;
+            $_SESSION['sitecolor'] = $siteConfig->sitecolor;
+            $_SESSION['sitecolor_dark'] = $siteConfig->sitecolor_dark;
+            $_SESSION['sitecolor_light'] = $siteConfig->sitecolor_light;
+            $_SESSION['sitecolor_secondary'] = $siteConfig->sitecolor_secondary;
+        }
+ 
         
-      
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -21,18 +34,57 @@ class Pages extends Controller{
         
     }
 
+    public function siteSession() {
+        // $this->siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $this->siteConfigModel->singleSiteConfig();
+
+        if ($siteConfig) {
+            return $siteConfig;
+        } else {
+            
+        }
+
+    }
+
     public function systemPrompt() {
+        $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+
         
         $this->view('pages/systemPrompt');
    }
 
     public function firstAdmin() {
-
+        $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+        
         $this->view('pages/firstAdmin');
     }
 
+    public function isSetUp() {
+        
+        $siteConfig = $this->siteConfigModel->showSiteConfig();
 
-    
+        if (!$siteConfig) {
+        
+            return false;
+        }
+
+        return true;
+    }
+
     public function index(){
         $isSetUp = $this->isSetUp();
         // SETTING UP SITE IF NO RESULT
@@ -68,17 +120,7 @@ class Pages extends Controller{
         }
     }
 
-    public function isSetUp() {
-        $this->siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
-
-        if (!$siteConfig) {
-        
-            return false;
-        }
-
-        return true;
-    }
+  
 
     function checkVerify() {
         $this->userModel = $this->model('user');
@@ -140,6 +182,15 @@ class Pages extends Controller{
     }
 
     public function home() {
+
+        $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
 
         $this->postModel = $this->model('post');
         $this->eventModel = $this->model('event');
