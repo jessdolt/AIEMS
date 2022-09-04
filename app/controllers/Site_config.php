@@ -24,17 +24,18 @@ Class Site_config extends Controller {
 
     }
 
-    public function getSiteConfig($id) {
-        $siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $siteConfigModel->singleSiteConfig($id);
+    // public function getSiteConfig() {
+    //     $siteConfigModel = $this->model('siteconfig');
+    //     $siteConfig = $siteConfigModel->singleSiteConfig();
 
-        $response = ['message' => 'Successfully Fetched', 'data' => $siteConfig];
+    //     $response = ['message' => 'Successfully Fetched', 'data' => $siteConfig];
         
-        echo json_encode($response);
-    }
+    //     echo json_encode($response);
+    // }
 
     public function saveSiteConfig(){
         $siteConfigModel = $this->model('siteconfig');
+
         $file = $_FILES['logo'];
         $filename = $file['name'];
         $fileTmpName = $file['tmp_name'];
@@ -42,8 +43,6 @@ Class Site_config extends Controller {
         $fileError = $file['error'];
         $fileType = $file['type'];
 
-      
-      
         $fileExt = explode ('.',$filename);
         $fileActualExt = strtolower(end($fileExt));
         $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
@@ -67,29 +66,78 @@ Class Site_config extends Controller {
 
         $json = json_decode(json_encode($data));
         
-  
         $isSaved = $siteConfigModel->addSiteConfig($json);
 
         $response = ['message' => 'Successfully Fetched', 'isSaved' => 1];
-        
+        // redirect('pages/firstAdmin');
         echo (json_encode($response));
+        
     }
 
     public function editSiteConfig($id){
       
         $siteConfigModel = $this->model('siteconfig');
-   
-        // $data = [
-        //     'schoolname' => $_POST['schoolname'],
-        //     'logo' => $fileNameLogoImg,
-        //     'heroimg'=> $fileNameHeroImg,
-        //     'sitecolor' => $_POST['sitecolor'],
-        //     'sitecolor_dark' => $_POST['sitecolor_dark'],
-        //     'sitecolor_light' => $_POST['sitecolor_light'],
-        //     'sitecolor_secondary' => $_POST['sitecolor_secondary'],
-        // ];
 
-        // $json = json_decode(json_encode($data));
+        // SCHOOL LOGO
+        if (isset($_FILES['logo'])) {
+            $file = $_FILES['logo'];
+            $filename = $file['name'];
+            $fileTmpName = $file['tmp_name'];
+            $fileSize = $file['size'];
+            $fileError = $file['error'];
+            $fileType = $file['type'];
+    
+            $fileExt = explode ('.',$filename);
+            $fileActualExt = strtolower(end($fileExt));
+            $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
+    
+            if(in_array($fileActualExt, $allowed)){
+                if( $fileError === 0){
+                    if($fileSize < 1000000){        
+                        $fileNameLogoImg = uniqid('',true).".".$fileActualExt;
+                        $target = "uploads/". basename($fileNameLogoImg);
+                        move_uploaded_file($fileTmpName, $target);
+                        $data['logo'] = $fileNameLogoImg;
+                    }
+                }
+            }
+        }
+        
+
+        // HERO IMAGE
+        // $file = $_FILES['heroimage'];
+        // $filename = $file['name'];
+        // $fileTmpName = $file['tmp_name'];
+        // $fileSize = $file['size'];
+        // $fileError = $file['error'];
+        // $fileType = $file['type'];
+
+        // $fileExt = explode ('.',$filename);
+        // $fileActualExt = strtolower(end($fileExt));
+        // $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
+
+        // if(in_array($fileActualExt, $allowed)){
+        //     if( $fileError === 0){
+        //         if($fileSize < 1000000){        
+        //             $fileNameNew = uniqid('',true).".".$fileActualExt;
+        //             $target = "uploads/". basename($fileNameNew);
+        //             move_uploaded_file($fileTmpName, $target);
+        //             $data['heroimage'] = $fileNameHeroImg;
+        //         }
+        //     }
+        // }
+   
+        $data = [
+            'schoolname' => $_POST['schoolname'],
+            'logo' => $fileNameLogoImg,
+            // 'heroimg'=> $fileNameHeroImg,
+            'sitecolor' => $_POST['sitecolor'],
+            'sitecolor_dark' => $_POST['sitecolor_dark'],
+            'sitecolor_light' => $_POST['sitecolor_light'],
+            'sitecolor_secondary' => $_POST['sitecolor_secondary'],
+        ];
+
+        $json = json_decode(json_encode($data));
 
         $isUpdated = $siteConfigModel->updateSiteConfig($json, $id);
 
@@ -102,6 +150,36 @@ Class Site_config extends Controller {
             echo json_encode($bad_request);
         }
         
+    }
+
+    public function addAdmin() {
+        $siteConfigModel = $this->model('siteconfig');
+        $json  =  json_decode(file_get_contents('php://input'));
+        
+        // $hashPassword = password_hash($json->password, PASSWORD_DEFAULT);
+
+        // get user_id in users table for admin table
+        // $isAdded = $siteConfigModel->addAdmin($json, $hashPassword);
+        $isAdded = $siteConfigModel->addAdmin($json);
+        
+        if(!empty($isAdded)) {
+            
+            $added = $siteConfigModel->registerAdmin($json, $isAdded);
+            $response = ['message' => 'Successfully Fetched', 'isSuccess' => 1];
+            echo json_encode($response);
+
+            // if ($added) {
+            //     redirect('users/login');
+            // }
+            
+        }
+        else{
+            $bad_request = ['message' => 'Something went wrong', 'isSuccess' => 0];
+            echo json_encode($bad_request);
+            //error
+        }
+
+  
     }
 
 

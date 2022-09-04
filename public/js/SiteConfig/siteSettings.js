@@ -85,7 +85,7 @@ const validateData = () => {
 };
 
 const updateData = (data, id) => {
-  console.log("zxc");
+  // console.log("zxc");
   $.ajax({
     type: "POST",
     url: `/aiems/site_config/editSiteConfig/${id}`,
@@ -96,7 +96,7 @@ const updateData = (data, id) => {
     method: "POST",
     success: function (data) {
       console.log(data);
-      console.log(JSON.parse(data));
+      // console.log(JSON.parse(data));
     },
     error: function (xhr, status, error) {
       console.error(error);
