@@ -45,7 +45,7 @@
         public function updateSiteConfig($data, $id){
 
 
-            $this->db->query('UPDATE siteconfig SET schoolname=:schoolname, logo=:logo, heroimage=:heroimage, sitecolor=:sitecolor, sitecolor_dark=:sitecolor_dark, sitecolor_light=:sitecolor_light, sitecolor_secondary=:sitecolor_secondary updated_on=:updated_on WHERE id =:id');
+            $this->db->query('UPDATE siteconfig SET schoolname=:schoolname, logo=:logo, heroimage=:heroimage, sitecolor=:sitecolor, sitecolor_dark=:sitecolor_dark, sitecolor_light=:sitecolor_light, sitecolor_secondary=:sitecolor_secondary, updated_on=:updated_on WHERE id =:id');
 
             $this->db->bind(':schoolname', $data->schoolname);
             $this->db->bind(':logo', $data->logo);
