@@ -3,6 +3,9 @@
     <main class="loginMain">
         <div>
             <header>
+                <div class="schoolLogoContainer">
+                    <img src="<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>" alt="" />
+                 </div>
                 <h1>AIEMS</h1>
                 <div></div>
                 <span>
