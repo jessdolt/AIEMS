@@ -58,7 +58,6 @@ Class Site_config extends Controller {
             }
         }
 
-
         $data = [
             'logo' => $fileNameNew,
             'schoolname' => $_POST['schoolname'],
@@ -68,7 +67,14 @@ Class Site_config extends Controller {
         
         $isSaved = $siteConfigModel->addSiteConfig($json);
 
-        $response = ['message' => 'Successfully Fetched', 'isSaved' => 1];
+        if($isSaved){
+            $response = ['message' => 'Site Information Successfully Saved', 'isSuccess' => 1];
+
+        }
+        else{
+            $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+
+        }
         // redirect('pages/firstAdmin');
         echo (json_encode($response));
         
@@ -79,6 +85,14 @@ Class Site_config extends Controller {
         $siteConfigModel = $this->model('siteconfig');
 
         // SCHOOL LOGO
+   
+        if (isset($_POST['heroimage'])){
+            $fileNameHeroImg = $_POST['heroimage'];
+        }
+        if (isset($_POST['logo'])){
+            $fileNameLogoImg = $_POST['logo'];
+        }
+
         if (isset($_FILES['logo'])) {
             $file = $_FILES['logo'];
             $filename = $file['name'];
@@ -105,32 +119,36 @@ Class Site_config extends Controller {
         
 
         // HERO IMAGE
-        // $file = $_FILES['heroimage'];
-        // $filename = $file['name'];
-        // $fileTmpName = $file['tmp_name'];
-        // $fileSize = $file['size'];
-        // $fileError = $file['error'];
-        // $fileType = $file['type'];
+        if (isset($_FILES['heroimage'])) {
+        $file = $_FILES['heroimage'];
+        $filename = $file['name'];
+        $fileTmpName = $file['tmp_name'];
+        $fileSize = $file['size'];
+        $fileError = $file['error'];
+        $fileType = $file['type'];
 
-        // $fileExt = explode ('.',$filename);
-        // $fileActualExt = strtolower(end($fileExt));
-        // $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
+        $fileExt = explode ('.',$filename);
+        $fileActualExt = strtolower(end($fileExt));
+        $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
 
-        // if(in_array($fileActualExt, $allowed)){
-        //     if( $fileError === 0){
-        //         if($fileSize < 1000000){        
-        //             $fileNameNew = uniqid('',true).".".$fileActualExt;
-        //             $target = "uploads/". basename($fileNameNew);
-        //             move_uploaded_file($fileTmpName, $target);
-        //             $data['heroimage'] = $fileNameHeroImg;
-        //         }
-        //     }
-        // }
-   
+        if(in_array($fileActualExt, $allowed)){
+            if( $fileError === 0){
+                if($fileSize < 1000000){        
+                    $fileNameHeroImg = uniqid('',true).".".$fileActualExt;
+                    $target = "uploads/". basename($fileNameHeroImg);
+                    move_uploaded_file($fileTmpName, $target);
+                    $data['heroimage'] = $fileNameHeroImg;
+                }
+            }
+        }
+        }
+
+
+
         $data = [
             'schoolname' => $_POST['schoolname'],
             'logo' => $fileNameLogoImg,
-            // 'heroimg'=> $fileNameHeroImg,
+            'heroimage'=> $fileNameHeroImg,
             'sitecolor' => $_POST['sitecolor'],
             'sitecolor_dark' => $_POST['sitecolor_dark'],
             'sitecolor_light' => $_POST['sitecolor_light'],
@@ -139,14 +157,15 @@ Class Site_config extends Controller {
 
         $json = json_decode(json_encode($data));
 
+        // print_r($json);
         $isUpdated = $siteConfigModel->updateSiteConfig($json, $id);
 
         if($isUpdated){
-            $response = ['message' => 'Successfully Fetched', 'isSuccess' => 1];
+            $response = ['message' => 'Site Settings has been updated', 'isSuccess' => 1];
             echo json_encode($response);
         }
         else{
-            $bad_request = ['message' => 'Something went wrong', 'isSuccess' => 0];
+            $bad_request = ['message' => 'Something went wrong. Try again', 'isSuccess' => 0];
             echo json_encode($bad_request);
         }
         
@@ -165,7 +184,7 @@ Class Site_config extends Controller {
         if(!empty($isAdded)) {
             
             $added = $siteConfigModel->registerAdmin($json, $isAdded);
-            $response = ['message' => 'Successfully Fetched', 'isSuccess' => 1];
+            $response = ['message' => 'Admin has been successfully added', 'isSuccess' => 1];
             echo json_encode($response);
 
             // if ($added) {

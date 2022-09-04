@@ -30,7 +30,7 @@
                   >School Logo:</label
                 >
                 <div class="imageInputContainer_site">
-                  <img src="<?php echo URLROOT?>/uploads/<?php echo $data->logo?>" id="logo_container"/>
+                <?php echo !empty($data->logo) ? '<img src='.URLROOT.'/uploads/'. $data->logo .' id="logo_container"/> ': '<img src=" " id="logo_container"/>'  ?>
                   <label for="logo_img" class="fileUploadBtn">
                     Upload
                     <svg
@@ -57,6 +57,8 @@
                     name="newsImageInput"
                     id="logo_img"
                     accept=".jpg, .png"
+
+                    <?= !empty($data->logo) ? 'value='. $data->logo. '': " " ?> 
                   />
                 </div>
               </div>
@@ -68,7 +70,7 @@
                   class="imageInputContainer_site"
                   style="max-width: 100rem !important"
                 >
-                  <img src="<?php echo URLROOT?>/uploads/<?php echo $data->heroimage?>" id="hero_container"/>
+                  <?php echo !empty($data->heroimage) ? '<img src='.URLROOT.'/uploads/'. $data->heroimage .' id="hero_container"/> ': '<img src=" " id="hero_container">'  ?>
                   <label for="hero_img" class="fileUploadBtn">
                     Upload
                     <svg
@@ -94,6 +96,7 @@
                     type="file"
                     name="newsImageInput"
                     id="hero_img"
+                    <?= !empty($data->heroimage) ? 'value='. $data->heroimage. '': " " ?> 
                     
                     accept=".jpg, .png"
                   />

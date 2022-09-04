@@ -2,6 +2,7 @@ const init = () => {
   const form = document.getElementById("systemPromptForm");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
     validateData();
   });
 
@@ -14,6 +15,9 @@ const fileUploadHandler = () => {
   const reader = new FileReader();
 
   fileUpload.addEventListener("change", function (event) {
+    document.querySelector(".imageInputContainer_new").style.border = "none";
+    document.querySelector(".imageInputContainer_new img").style.border =
+      "1px solid rgba(0, 0, 0, 0.38)";
     const files = event.target.files;
     const file = files[0];
     reader.readAsDataURL(file);
@@ -40,11 +44,24 @@ const validateData = () => {
   var newFData = new FormData();
   newFData.append("logo", data.logo);
   newFData.append("schoolname", data.schoolname);
-  
-  if (data.logo && data.schoolname) {
-    console.log(data);
 
-    addNewData(newFData);
+  if (!data.logo) {
+    document.querySelector(".imageInputContainer_new").style.border =
+      "1px solid red";
+    document.querySelector(".imageInputContainer_new img").style.border =
+      "none";
+  }
+
+  if (data.logo && data.schoolname) {
+    swal({
+      title: "Are you sure?",
+      text: "You can edit your site information in the System",
+      icon: "warning",
+      buttons: ["Cancel", "Update"],
+      dangerMode: true,
+    }).then((isConfirm) => {
+      isConfirm && addNewData(newFData);
+    });
   }
 };
 
@@ -58,7 +75,16 @@ const addNewData = (data) => {
     processData: false,
     method: "POST",
     success: function (data) {
-      console.log(JSON.parse(data));
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Updated Successfully", `${response.message}`, "success").then(
+          () => {
+            window.location.replace(`/aiems/pages/firstAdmin`);
+          }
+        );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
     },
     error: function (xhr, status, error) {
       console.error(error);
