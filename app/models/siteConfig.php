@@ -16,9 +16,8 @@
             }
         }
 
-        public function singleSiteConfig($data){
-            $this->db->query('SELECT * from siteconfig where id=:id');
-            $this->db->bind(':id', $data);
+        public function singleSiteConfig(){
+            $this->db->query('SELECT * FROM siteconfig ORDER BY updated_on DESC LIMIT 1');
 
             $row = $this->db->single();
             if($this->db->rowCount() > 0){
@@ -44,7 +43,9 @@
         }
 
         public function updateSiteConfig($data, $id){
-            $this->db->query('UPDATE siteconfig SET schoolname=:schoolname, logo=:logo, heroimage=:heroimage, sitecolor=:sitecolor, sitecolor_dark=:sitecolor_dark, sitecolor_light=:sitecolor_light, sitecolor_secondary=:sitecolor_secondary updated_on=:updated_on WHERE id =:id');
+
+
+            $this->db->query('UPDATE siteconfig SET schoolname=:schoolname, logo=:logo, heroimage=:heroimage, sitecolor=:sitecolor, sitecolor_dark=:sitecolor_dark, sitecolor_light=:sitecolor_light, sitecolor_secondary=:sitecolor_secondary, updated_on=:updated_on WHERE id =:id');
 
             $this->db->bind(':schoolname', $data->schoolname);
             $this->db->bind(':logo', $data->logo);
@@ -63,6 +64,40 @@
                     return false;
                 }
            
+        }
+
+        // PUT  addAdmin($data, $hashPassword)
+        public function addAdmin($data) {
+            $this->db->query('INSERT INTO users (name, email, password, user_type) VALUES (:name, :email, :password, :user_type)');
+            $this->db->bind(':name', $data->name);
+            $this->db->bind(':email', $data->email);
+            $this->db->bind(':password', $data->password);
+            // $this->db->bind(':password', $hashPassword);
+            $this->db->bind(':user_type', $data->user_type);
+
+            try{
+                if($this->db->execute()){
+                    
+                    return $this->db->getLastId();
+                }
+            }
+            catch (PDOException $e){
+                die('Something Went Wrong.');
+            }
+        }
+
+        public function registerAdmin($newData, $isAdded){
+            $this->db->query('INSERT INTO admin (user_id, name, email, user_type) VALUES (:user_id, :name, :email, :user_type)');
+            $this->db->bind(':user_id', $isAdded);
+            $this->db->bind(':name', $newData->name);
+            $this->db->bind(':email', $newData->email);
+            $this->db->bind(':user_type', $newData->user_type);
+            
+            if($this->db->execute()){
+                return true;
+            } else{
+                return false;
+            }
         }
 
         

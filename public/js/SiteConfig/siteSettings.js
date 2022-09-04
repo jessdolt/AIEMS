@@ -3,6 +3,7 @@ const init = () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
     validateData();
   });
 
@@ -23,6 +24,8 @@ const fileUploadHandler = () => {
         logo_box.src = event.target.result;
         logo_box.alt = file.name;
       });
+
+      logoFileUpload.removeAttribute("value");
     });
   };
 
@@ -39,6 +42,8 @@ const fileUploadHandler = () => {
         hero_box.src = event.target.result;
         hero_box.alt = file.name;
       });
+
+      heroImgfileUpload.removeAttribute("value");
     });
   };
 
@@ -47,10 +52,19 @@ const fileUploadHandler = () => {
 };
 
 const validateData = () => {
+  const logo_img = document.getElementById("logo_img");
+  const hero_img = document.getElementById("hero_img");
+
   const id = document.getElementById("site_id").value;
   const schoolName = document.getElementById("school_name").value;
-  const schoolLogoImage = document.getElementById("logo_img").files[0];
-  const heroImage = document.getElementById("hero_img").files[0];
+  const schoolLogoImage = logo_img.getAttribute("value")
+    ? logo_img.getAttribute("value")
+    : logo_img.files[0];
+
+  const heroImage = hero_img.getAttribute("value")
+    ? hero_img.getAttribute("value")
+    : hero_img.files[0];
+
   const primaryColor = document.getElementById("primaryColor").value;
   const secondaryColor = document.getElementById("secondaryColor").value;
 
@@ -68,6 +82,8 @@ const validateData = () => {
   //   var g_title = $("#fileUpload").val();
 
   //   newFData.append("gallery_title", g_title);
+  console.log(data);
+
   var newFData = new FormData();
   newFData.append("logo", data.logo);
   newFData.append("heroimage", data.heroimage);
@@ -79,13 +95,21 @@ const validateData = () => {
 
   // console.log(newFData);
   if (data) {
-    updateData(newFData, id);
+    swal({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      buttons: ["Cancel", "Update"],
+      dangerMode: true,
+    }).then((isConfirm) => {
+      isConfirm && updateData(newFData, id);
+    });
   }
   // resetForm();
 };
 
 const updateData = (data, id) => {
-  console.log("zxc");
+  // console.log("zxc");
   $.ajax({
     type: "POST",
     url: `/aiems/site_config/editSiteConfig/${id}`,
@@ -95,8 +119,16 @@ const updateData = (data, id) => {
     processData: false,
     method: "POST",
     success: function (data) {
-      console.log(data);
-      console.log(JSON.parse(data));
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Updated Successfully", `${response.message}`, "success").then(
+          () => {
+            window.location.replace(`/aiems/admin_manage/manage`);
+          }
+        );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
     },
     error: function (xhr, status, error) {
       console.error(error);

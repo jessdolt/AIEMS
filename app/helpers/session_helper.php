@@ -81,6 +81,8 @@
     }
 
     function userType() {
+
+        
         if ($_SESSION['user_type'] == "Super Admin") {
             return 'Super Admin';
         } elseif ($_SESSION['user_type'] == "Admin") {

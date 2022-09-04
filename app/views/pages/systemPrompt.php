@@ -38,6 +38,8 @@
               id="fileUpload"
               accept=".jpg, .png"
             />
+
+            <span class="error-logo"></span>
           </div>
 
           <div class="textFieldContainer">

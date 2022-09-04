@@ -2,25 +2,8 @@
 
 class Pages extends Controller{
     public function __construct(){
+        
       
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
-    
-        if(userType() == "Alumni") {
-            if ($this->checkVerify()) {
-                redirect('profile/editProfile/'.$_SESSION['alumni_id']);
-            } 
-            else {
-                if($this->isEmployed()) {
-                    redirect('profile/profileAdditionalAdd/'.$_SESSION['alumni_id']);
-                } 
-                 if($this->checkSurvey()){
-                    redirect('survey_widget');
-                }
-            }
-        }
-
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -37,12 +20,64 @@ class Pages extends Controller{
         //$this->alumniModel = $this->model('alumni_model');\
         
     }
+
+    public function systemPrompt() {
+        
+        $this->view('pages/systemPrompt');
+   }
+
+    public function firstAdmin() {
+
+        $this->view('pages/firstAdmin');
+    }
+
+
     
     public function index(){
+        $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+
+    
+        if (!isLoggedIn() && $isSetUp) {
+            redirect('users/login');
+        }
+
         if(isLoggedIn()) {
-        /* $this->checkSurvey(); */
+            /* $this->checkSurvey(); */
             redirect('pages/home');
         }
+
+        if(userType() == "Alumni") {
+            if ($this->checkVerify()) {
+                redirect('profile/editProfile/'.$_SESSION['alumni_id']);
+            } 
+            else {
+                if($this->isEmployed()) {
+                    redirect('profile/profileAdditionalAdd/'.$_SESSION['alumni_id']);
+                } 
+                 if($this->checkSurvey()){
+                    redirect('survey_widget');
+                }
+            }
+        }
+    }
+
+    public function isSetUp() {
+        $this->siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $this->siteConfigModel->showSiteConfig();
+
+        if (!$siteConfig) {
+        
+            return false;
+        }
+
+        return true;
     }
 
     function checkVerify() {
@@ -125,9 +160,7 @@ class Pages extends Controller{
          $this->view('pages/home', $data);
     }
 
-    public function systemPrompt() {
-         $this->view('pages/systemPrompt');
-    }
+
 
     public function gallery() {
         $this->galleryModel = $this->model('Gallery');
