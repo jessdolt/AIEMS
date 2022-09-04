@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
     class Users extends Controller{
         public function __construct(){
             $this->userModel = $this->model('user');
-
+            
             $isSetUp = $this->isSetUp();
             if (!$isSetUp) {
                 redirect('pages/systemPrompt');
