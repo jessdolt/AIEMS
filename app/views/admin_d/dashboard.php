@@ -168,6 +168,7 @@ function getLoginCount(filter){
     const spanVisitCount = document.getElementById('visit-count');
     fetch(`<?php echo URLROOT;?>/api/login_count/${filter}`).then(res => res.json())
     .then(data => {
+    
         spanVisitCount.textContent = data;
     });
 }
@@ -194,7 +195,7 @@ function checkLatestSurvey(){
         const surveyData = data.latest[2].taken[0][0].userTaken;
         spanRespondents.textContent = respondents;
         spanSurveyTitle.textContent = surveyTitle;
-        console.log(data);
+
         surveyChart(surveyData,respondents);
     });
 }
@@ -204,6 +205,7 @@ function checkBatch(){
     const batchContainer = document.getElementById('batch_container');
     fetch('<?php echo URLROOT;?>/api/batch/read').then(res=>res.json())
     .then(data=> {
+        if(data.message === 'No Events Found') return;
         data.data.forEach((batch, index) => {
             let opt;
             if(index == 0){

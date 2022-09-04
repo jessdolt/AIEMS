@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="<?php echo URLROOT;?>/uploads/<?php echo empty($_SESSION['logo']) ? "" : $_SESSION['logo'];?>" type="image/x-icon">
     
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/style.css">
+  
     <script src="<?php echo URLROOT;?>/js/index.js" defer></script>
     <script
      src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -32,7 +33,7 @@
                                 echo ($url[1] == 'editProfile' && $data['accInfo']->verify != "YES") ? 'userSurvey firstEdit' : ''; ?><?php 
                                 echo ($url[1] == 'profileAdditionalAdd') ? ' userSurvey' : '';
                                 ?> ">
-        <a href="<?php echo URLROOT?>/pages/home" class="mainLogo"></a>
+        <a href="<?php echo URLROOT?>/pages/home" class="mainLogo" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>)"></a>
         <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></h1>
         <svg class="icon hamburgerIcon" tabindex="0" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M13.3333 32H29.0286C29.7619 32 30.3619 31.4 30.3619 30.6667C30.3619 29.9333 29.7619 29.3333 29.0286 29.3333H13.3333C12.6 29.3333 12 29.9333 12 30.6667C12 31.4 12.6 32 13.3333 32ZM13.3333 25.3333H34.6667C35.4 25.3333 36 24.7333 36 24C36 23.2667 35.4 22.6667 34.6667 22.6667H13.3333C12.6 22.6667 12 23.2667 12 24C12 24.7333 12.6 25.3333 13.3333 25.3333ZM12 17.3333C12 18.0667 12.6 18.6667 13.3333 18.6667H29.0286C29.7619 18.6667 30.3619 18.0667 30.3619 17.3333C30.3619 16.6 29.7619 16 29.0286 16L13.3333 16C12.6 16 12 16.6 12 17.3333Z"/>
