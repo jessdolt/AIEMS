@@ -9,7 +9,7 @@
               <span>Update your system information</span>
             </div>
             <form id="site-settings-form">
-              <input type="hidden" value="19" id="site_id">
+              <input type="hidden" value="<?php echo $data->id?>" id="site_id">
               <div>
                 <label for="school_name" class="outsideLabel"
                   >University Name:</label
@@ -19,6 +19,7 @@
                     type="text"
                     name="school_name"
                     id="school_name"
+                    value="<?php echo $data->schoolname?>"
                     required
                   />
                   <span class="error"></span>
@@ -29,7 +30,7 @@
                   >School Logo:</label
                 >
                 <div class="imageInputContainer_site">
-                  <img id="logo_container"/>
+                  <img src="<?php echo URLROOT?>/uploads/<?php echo $data->logo?>" id="logo_container"/>
                   <label for="logo_img" class="fileUploadBtn">
                     Upload
                     <svg
@@ -67,7 +68,7 @@
                   class="imageInputContainer_site"
                   style="max-width: 100rem !important"
                 >
-                  <img id="hero_container"/>
+                  <img src="<?php echo URLROOT?>/uploads/<?php echo $data->heroimage?>" id="hero_container"/>
                   <label for="hero_img" class="fileUploadBtn">
                     Upload
                     <svg
@@ -111,6 +112,7 @@
                     type="color"
                     name="primaryColor"
                     id="primaryColor"
+                    value="<?php echo $data->sitecolor?>"
                     required
                   />
                   <span class="error"></span>
@@ -121,6 +123,7 @@
                     type="color"
                     name="secondaryColor"
                     id="secondaryColor"
+                    value="<?php echo $data->sitecolor_secondary?>"
                     required
                   />
                   <span class="error"></span>

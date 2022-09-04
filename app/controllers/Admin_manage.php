@@ -27,9 +27,20 @@
         }
 
         public function siteSettings(){
-            $data = [
-                
-            ];
+
+            $siteConfigModel = $this->model('siteconfig');
+            $data = $siteConfigModel->singleSiteConfig();
+            
+            // $data = [
+            //     'schoolname' => $siteConfig->schoolname,
+            //     'sitecolor' => $siteConfig->sitecolor,
+            //     'sitecolor_dark' => $siteConfig->sitecolor_dark,
+            //     'sitecolor_light' => $siteConfig->sitecolor_light,
+            //     'sitecolor_secondary' => $siteConfig->sitecolor_secondary,
+            //     'logo' => $siteConfig->logo,
+            //     'heroimage' => $siteConfig->heroimage,
+            // ];
+
             $this->view('admin/siteSettings', $data);
         }
 

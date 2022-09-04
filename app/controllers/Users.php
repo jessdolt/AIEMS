@@ -6,13 +6,41 @@ use PHPMailer\PHPMailer\Exception;
     class Users extends Controller{
         public function __construct(){
             $this->userModel = $this->model('user');
+
+            $isSetUp = $this->isSetUp();
+            if (!$isSetUp) {
+                redirect('pages/systemPrompt');
+                return;
+            }
+    
         }
 
         public function index(){
+
+        
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        // $isSetUp = $this->isSetUp();
+        // if (!$isSetUp) {
+        //     redirect('pages/systemPrompt');
+        //     return;
+        // }
+
             $data = [];
             $this->view('users/index', $data);
         }
 
+    public function isSetUp() {
+        $this->siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $this->siteConfigModel->showSiteConfig();
+
+        if (!$siteConfig) {
+        
+            return false;
+        }
+
+        return true;
+    }
         public function signup(){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -174,7 +202,7 @@ use PHPMailer\PHPMailer\Exception;
 
 
 
-        public function login() {
+        public function login() {        
             $data = [
                 'email' => '',
                 'password' => '',

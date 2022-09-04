@@ -40,6 +40,7 @@ const validateData = () => {
   var newFData = new FormData();
   newFData.append("logo", data.logo);
   newFData.append("schoolname", data.schoolname);
+  
   if (data.logo && data.schoolname) {
     console.log(data);
 

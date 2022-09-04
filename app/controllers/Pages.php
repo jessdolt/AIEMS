@@ -26,6 +26,11 @@ class Pages extends Controller{
         $this->view('pages/systemPrompt');
    }
 
+    public function firstAdmin() {
+
+        $this->view('pages/firstAdmin');
+    }
+
 
     
     public function index(){
