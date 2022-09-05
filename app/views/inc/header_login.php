@@ -19,4 +19,15 @@
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
     crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        .loginMain form button{
+            background-color: <?= $_SESSION['sitecolor_light'] ?>;
+        }
+
+        .loginMain p a, 
+        .loginMain p span,
+        .loginMain a span{
+            color: <?= $_SESSION['sitecolor_light'] ?>;
+        }
+    </style>
 </head>

@@ -22,7 +22,38 @@
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
     crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+   
+        /* Navbar and sideNav*/
 
+        .adminHeader a,
+        .adminNav .accountNameContainer,
+        .adminNav .mainCategoryList .open .categoryContainer {
+         background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
+        .adminNav .mainCategoryList .open .categoryContainer{
+            border-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
+        .open div a,
+        .open div span{
+            color: #ffffff !important;
+        }
+
+        /* Hero Container background for admin dashboard*/
+        .admin .pageSpecificHeader,
+        .admin .pageSpecificHeader::before{
+          background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
+        /* Thead table Alumni Page*/
+        .admin .mainContent .data-table thead{
+          background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+
+        }
+       
+    </style>
 </head>
 <body id="Admin">
 
@@ -64,17 +95,17 @@
                         <?php if(userType() == "Admin" || userType() == "Super Admin") : ?>
                         <li class="mainCategory <?php echo ($url[1] == 'dashboard') ? 'open' : ' '?>" >
                             <div class="categoryContainer">
-                                <a href="<?php echo URLROOT;?>/admin/dashboard">Dashboard</a>
+                                <a href="<?php echo URLROOT;?>/admin/dashboard" style="color:<?php echo $_SESSION['sitecolor_light']?>">Dashboard</a>
                             </div>
                         </li>
-                        <li class="mainCategory <?php echo ($url[1] == 'alumni' || $url[0] == 'alumni') ? 'open' : ' '?>" tabindex="0">
+                        <li class="mainCategory <?php echo ($url[1] == 'alumni' || $url[0] == 'alumni') ? 'open' : ' '?>" tabindex="0" >
                             <div class="categoryContainer">
-                                <a href="<?php echo URLROOT;?>/admin/alumni">Alumni</a>
+                                <a href="<?php echo URLROOT;?>/admin/alumni" style="color:<?php echo $_SESSION['sitecolor_light']?> ">Alumni</a>
                             </div>
                         </li>
                         <li class="mainCategory 
-                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal') ? 'open' : ' '?>" tabindex="0">
-                            <div class="categoryContainer">
+                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal') ? 'open' : ' '?>" tabindex="0" >
+                            <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
                                 <span>Contents</span>
                                 <span class="icon dropArrow">
                                     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +121,7 @@
                             </ul>
                         </li>
                         <li class="mainCategory <?php echo ($url[1] == 'alumni_report' || $url[0] == 'alumni_report'  || $url[1] == 'survey_list' || $url[1] == 'survey_report' || $url[1] == 'employment' || $url[0] == 'surveys' ) ? 'open' : ' '?>" tabindex="0">
-                            <div class="categoryContainer">
+                            <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
                                 <span>Survey</span>
                                 <span class="icon dropArrow">
                                     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -94,6 +94,7 @@ const validateData = () => {
   newFData.append("sitecolor_secondary", data.sitecolor_secondary);
 
   // console.log(newFData);
+
   if (data) {
     swal({
       title: "Are you sure?",
