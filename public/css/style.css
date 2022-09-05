@@ -1632,7 +1632,6 @@ html {
   background-repeat: no-repeat;
   background-position: bottom 0 right 9.5rem; }
   .admin .pageSpecificHeader {
-    background-image: url("../images/stonksGraph.svg"), url("../images/pageSpecificHeaderBg.png");
     background-repeat: no-repeat;
     background-position: center bottom, center center;
     background-color: #a63f3f;

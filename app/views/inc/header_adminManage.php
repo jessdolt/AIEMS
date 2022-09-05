@@ -17,6 +17,11 @@
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
     crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        .managePage .btn-con > button, .managePage .btn-con > a{
+            background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+    </style>
 </head>
 <?php   
     $url= rtrim($_GET['url'],'/');
@@ -33,6 +38,6 @@
             <a href="<?php echo URLROOT?>/pages/home" class="logo"    style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>); background-color: transparent !important"  ></a>
             <h1>PUP Institute of Technology</h1>
             <span class="userType">Admin Page</span>
-            <a href="<?php echo URLROOT?>/admin/dashboard">Back to Admin Home</a>
+            <a href="<?php echo URLROOT?>/admin/dashboard" style="background-color:<?php echo $_SESSION['sitecolor_light']?>">Back to Admin Home</a>
         </header>
         <div class="main">
