@@ -143,7 +143,10 @@
                             <span class="forumCount"><?php echo $data['all'][0]->counter ?></span>
                     </a>
                     </li>
-                <?php foreach($data['category'] as $category):?>
+                <?php if(!empty($data['category'])){   
+                   foreach($data['category'] as $category){
+                ?>
+                 
                     <li class="list-item">
                     <a href="<?php echo URLROOT; ?>/forum/showFiltered/<?php echo $category->category_id?>">
                             <span class="category"><?php echo $category->category_name?></span>
@@ -151,7 +154,9 @@
                     </a>
 
                     </li>
-                <?php endforeach;?>
+                    <?php
+                }
+                }?>
                 </ul>
             </div>
             <div class="container popCon">
