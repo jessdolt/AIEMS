@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mt-5 mb-5">
-            <form class="form">
+            <form id="promos-form">
               <div class="card p-5">
                 <h2>Create your Advertisement</h2>
                 <hr />
@@ -35,10 +35,10 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="adsType" class="form-label"
+                        <label for="description" class="form-label"
                           >Description</label
                         >
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea class="form-control" rows="3" id="description"></textarea>
                       </div>
                     </div>
                   </div>
@@ -50,8 +50,8 @@
                           class="imageInputContainer_site"
                           style="max-width: 100rem !important"
                         >
-                          <img />
-                          <label for="news-image-input" class="fileUploadBtn">
+                          <img id="myImg"/>
+                          <label for="voucher-image" class="fileUploadBtn">
                             Upload Reward Image
                             <svg
                               viewBox="0 0 18 18"
@@ -75,7 +75,7 @@
                           <input
                             type="file"
                             name="newsImageInput"
-                            id="news-image-input"
+                            id="voucher-image"
                             accept=".jpg, .png"
                           />
                         </div>
@@ -109,32 +109,32 @@
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="dateOfAds" class="form-label"
+                        <label for="referenceCode" class="form-label"
                           >Reference Code
                           <span id="btn-add-ref"
                             ><i class="fa-solid fa-plus"></i></span
                         ></label>
                         <input
                           type="input"
-                          class="form-control"
-                          id="dateOfAds"
+                          class="form-control references"
+                          id="referenceCode"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div id="reference add"></div>
+                  <div id="reference-add"></div>
 
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="duratation" class="form-label"
-                          >Duratation of Advertisement
+                        <label for="duration" class="form-label"
+                          >Duration of Advertisement
                         </label>
                         <select
                           type="input"
                           class="form-control"
-                          id="duratation"
+                          id="duration"
                         >
                           <option value=""></option>
                           <option value="1 Day">1 Day</option>
@@ -165,14 +165,14 @@
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="dateOfAds" class="form-label"
+                        <label for="gCashRefNumber" class="form-label"
                           >G-Cash Reference Number: (payment to
                           <span id="gcashNumber">09794823420</span>)
                         </label>
                         <input
                           type="input"
                           class="form-control"
-                          id="dateOfAds"
+                          id="gCashRefNumber"
                         />
                       </div>
                     </div>
@@ -183,8 +183,9 @@
                       <div class="btn-con d-flex justify-content-center">
                         <button
                           class="btn"
-                          form="add-new-account"
+                        
                           style="background-color: salmon"
+                          type="submit"
                         >
                           Save Changes
                         </button>
@@ -198,5 +199,7 @@
         </div>
       </div>
     </main>
+    <script src="<?= URLROOT?>/js/PromosAdvertisement/PromosAdvertisement.js"></script>
+
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 
