@@ -152,7 +152,7 @@
                 </svg>
                 Profile
             </a>
-            <a href="<?php echo URLROOT; ?>/users/logout" class="logout">
+            <a href="" class="logout">
                <i class="fa-solid fa-calendar-days" style="margin: 0 10px 0 5px"></i>
                 Promos and Advertisement
             </a>
