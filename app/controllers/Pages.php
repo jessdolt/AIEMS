@@ -167,6 +167,16 @@ class Pages extends Controller{
         
     }
 
+    public function promos() {
+        $this->jobModel = $this->model('job_portal');
+        $job_portal_active = $this->jobModel->showJobListActive();
+        $job_portal_archived = $this->jobModel->showJobListArchive();
+        $data = [
+            
+        ];
+        $this->view('pages/promos', $data);
+    }
+
     public function home() {
 
         $isSetUp = $this->isSetUp();
@@ -478,6 +488,8 @@ class Pages extends Controller{
         ];
         $this->view('pages/job_portals', $data);
     }
+
+
 
     public function login(){
         $data = [];
