@@ -34,8 +34,10 @@
 
               <div class="row">
                <div class="d-flex justify-content-between align-items-center">
+
                  <h3>Promos and Advertisement</h3>
                 <a class="btn btn-secondary" href="<?php echo URLROOT;?>/Promos_advertisement/addPromos">Add</a>
+
                </div>
                   <div class="col-md-6 mt-2 mb-2">
                     <div
