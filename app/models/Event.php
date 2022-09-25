@@ -66,7 +66,7 @@
 
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
-            $this->db->bind(':image', $data['image']);
+            $this->db->bind(':image', $data['file']);
             
             if($this->db->execute()){
                 return true;

@@ -37,9 +37,8 @@
                     </svg>
                     <h2>Welcome Alumni!</h2>
                     <p>
-                        Polytechnic University of the Philippines 
-                        Institute of Technology Alumni Information System 
-                        is website created for alumni from PUP Institute of Technology, 
+                        Alumni Information and Event Management System
+                        is website created for alumni from <?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?>, 
                         it is a web and mobile based application that 
                         allows former students to take advantage of the benefits and services 
                         that the university offers after graduation.
