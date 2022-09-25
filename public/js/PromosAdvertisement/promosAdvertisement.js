@@ -1,111 +1,168 @@
-// const init = () => {
-//   const form = document.getElementById("systemPromptForm");
-//   form.addEventListener("submit", (e) => {
-//     e.preventDefault();
+const init = () => {
+  const form = document.getElementById("promos-form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("qwe");
+    validateData();
+  });
 
-//     validateData();
-//   });
+  fileUploadHandler();
+  referenceHandler();
+};
 
-//   fileUploadHandler();
-// };
+const fileUploadHandler = () => {
+  const fileUpload = document.getElementById("voucher-image");
+  const img_box = document.getElementById("myImg");
+  const reader = new FileReader();
+  fileUpload.addEventListener("change", function (event) {
+    document.querySelector(".imageInputContainer_site").style.border = "none";
+    document.querySelector(".imageInputContainer_site img").style.border =
+      "1px solid rgba(0, 0, 0, 0.38)";
+    const files = event.target.files;
+    const file = files[0];
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", function (event) {
+      img_box.src = event.target.result;
+      img_box.alt = file.name;
+    });
+  });
+};
 
-// const fileUploadHandler = () => {
-//   const fileUpload = document.getElementById("fileUpload");
-//   const img_box = document.getElementById("myImg");
-//   const reader = new FileReader();
+const referenceHandler = () => {
+  const btnAddRef = document.getElementById("btn-add-ref");
+  const referenceAdd = document.getElementById("reference-add");
+  btnAddRef.addEventListener("click", (e) => {
+    e.preventDefault();
+    const parentDiv = document.createElement("div");
+    parentDiv.classList.add("row");
+    parentDiv.classList.add("mt-3");
+    const columnDiv = document.createElement("div");
+    columnDiv.classList.add("col-md-6");
 
-//   fileUpload.addEventListener("change", function (event) {
-//     document.querySelector(".imageInputContainer_new").style.border = "none";
-//     document.querySelector(".imageInputContainer_new img").style.border =
-//       "1px solid rgba(0, 0, 0, 0.38)";
-//     const files = event.target.files;
-//     const file = files[0];
-//     reader.readAsDataURL(file);
-//     reader.addEventListener("load", function (event) {
-//       img_box.src = event.target.result;
-//       img_box.alt = file.name;
-//     });
-//   });
-// };
+    const formGroupDiv = document.createElement("div");
+    formGroupDiv.classList.add("input-group");
+    const inputElement = document.createElement("input");
+    inputElement.classList.add("form-control");
+    inputElement.classList.add("references");
 
-// const validateData = () => {
-//   const schoolLogo = document.getElementById("fileUpload").files[0];
-//   const schoolName = document.getElementById("user-schoolname").value;
+    const groupAppendDiv = document.createElement("div");
+    groupAppendDiv.classList.add("input-group-append");
 
-//   const data = {
-//     logo: schoolLogo,
-//     schoolname: schoolName,
-//   };
+    const btnDelete = document.createElement("button");
+    btnDelete.classList.add("btn");
+    btnDelete.classList.add("btn-outline-secondary");
+    btnDelete.textContent = "Delete";
 
-//   //   var newFData = new FormData();
-//   //   var g_title = $("#fileUpload").val();
+    groupAppendDiv.appendChild(btnDelete);
+    formGroupDiv.appendChild(inputElement);
 
-//   //   newFData.append("gallery_title", g_title);
-//   var newFData = new FormData();
-//   newFData.append("logo", data.logo);
-//   newFData.append("schoolname", data.schoolname);
+    formGroupDiv.appendChild(groupAppendDiv);
+    columnDiv.appendChild(formGroupDiv);
+    parentDiv.appendChild(columnDiv);
 
-//   if (!data.logo) {
-//     document.querySelector(".imageInputContainer_new").style.border =
-//       "1px solid red";
-//     document.querySelector(".imageInputContainer_new img").style.border =
-//       "none";
-//   }
+    referenceAdd.insertAdjacentElement("beforeend", parentDiv);
+  });
+};
 
-//   if (data.logo && data.schoolname) {
-//     swal({
-//       title: "Are you sure?",
-//       text: "You can edit your site information in the System",
-//       icon: "warning",
-//       buttons: ["Cancel", "Update"],
-//       dangerMode: true,
-//     }).then((isConfirm) => {
-//       isConfirm && addNewData(newFData);
-//     });
-//   }
-// };
+init();
+const validateData = () => {
+  const v_img = document.getElementById("voucher-image");
+  const voucherImage = v_img.getAttribute("value")
+    ? v_img.getAttribute("value")
+    : v_img.files[0];
 
-// const addNewData = (data) => {
-//   $.ajax({
-//     type: "POST",
-//     url: `/aiems/site_config/saveSiteConfig`,
-//     data: data,
-//     cache: false,
-//     contentType: false,
-//     processData: false,
-//     method: "POST",
-//     success: function (data) {
-//       const response = JSON.parse(data);
-//       if (response.isSuccess) {
-//         swal("Updated Successfully", `${response.message}`, "success").then(
-//           () => {
-//             window.location.replace(`/aiems/pages/firstAdmin`);
-//           }
-//         );
-//       } else {
-//         swal("Error", `${response.message}`, "error");
-//       }
-//     },
-//     error: function (xhr, status, error) {
-//       console.error(error);
-//     },
-//   });
-// };
+  const type = document.getElementById("adsType").value;
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const date = document.getElementById("dateOfAds").value;
+  const quantity = document.getElementById("quantity").value;
+  const duration = document.getElementById("duration").value;
+  const payment = document.getElementById("payment").value;
+  const gCashRefNumber = document.getElementById("gCashRefNumber").value;
 
-// init();
-window.onload = () => {
-  const id = 7;
+  const data = {
+    type,
+    title,
+    description,
+    date,
+    quantity,
+    voucherImage,
+    referenceCode: getReferenceCodes(),
+    duration,
+    payment,
+    gCashRefNumber,
+  };
+
+  console.log(data);
+
+  const newFData = new FormData();
+  newFData.append("type", data.type);
+  newFData.append("title", data.title);
+  newFData.append("description", data.description);
+  newFData.append("date", data.date);
+  newFData.append("quantity", data.quantity);
+  newFData.append("duration", data.duration);
+  newFData.append("payment", data.payment);
+  newFData.append("gCashRefNumber", data.gCashRefNumber);
+  newFData.append("voucherImage", data.voucherImage);
+
+  swal({
+    title: "Are you sure?",
+    text: "You can edit your site information in the System",
+    icon: "warning",
+    buttons: ["Cancel", "Save"],
+    dangerMode: true,
+  }).then((isConfirm) => {
+    isConfirm && addNewData(newFData);
+  });
+};
+
+const getReferenceCodes = () => {
+  const referenceCodes = document.querySelectorAll(".references");
+  return Array.from(referenceCodes).map((r) => r.value);
+};
+
+const addNewData = (data) => {
   $.ajax({
-    type: "GET",
-    url: `/aiems/site_config/getSiteConfig/${id}`,
-    dataType: "JSON",
+    type: "POST",
+    url: `/aiems/site_config/saveSiteConfig`,
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: "POST",
     success: function (data) {
-      console.log(data.message);
-      console.log(data.data);
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Updated Successfully", `${response.message}`, "success").then(
+          () => {
+            window.location.replace(`/aiems/pages/promos`);
+          }
+        );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
     },
     error: function (xhr, status, error) {
-      console.log(xhr);
-      // document.getElementById("error-part").classList.remove("d-none");
+      console.error(error);
     },
   });
 };
+
+// init();
+// window.onload = () => {
+//   const id = 7;
+//   $.ajax({
+//     type: "GET",
+//     url: `/aiems/site_config/getSiteConfig/${id}`,
+//     dataType: "JSON",
+//     success: function (data) {
+//       console.log(data.message);
+//       console.log(data.data);
+//     },
+//     error: function (xhr, status, error) {
+//       console.log(xhr);
+//       // document.getElementById("error-part").classList.remove("d-none");
+//     },
+//   });
+// };
