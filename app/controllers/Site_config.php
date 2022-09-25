@@ -173,6 +173,14 @@ Class Site_config extends Controller {
         $isUpdated = $siteConfigModel->updateSiteConfig($json, $id);
 
         if($isUpdated){
+            $_SESSION['schoolname'] = $data['schoolname'];
+            $_SESSION['logo'] = $data['logo'];
+            $_SESSION['heroimage'] = $data['heroimage'];
+            $_SESSION['sitecolor'] = $data['sitecolor'];
+            $_SESSION['sitecolor_dark'] = $data['sitecolor_dark'];
+            $_SESSION['sitecolor_light'] = $data['sitecolor_light'];
+            $_SESSION['sitecolor_secondary'] = $data['sitecolor_secondary'];
+
             $response = ['message' => 'Site Settings has been updated', 'isSuccess' => 1];
             echo json_encode($response);
         }

@@ -801,4 +801,15 @@
 
             $this->view('admin_d/alumni_report', $data);
         }
+
+            public function promos_advertisement(){
+                // $this->galleryModel = $this->model('gallery');
+                // $rowGallery = $this->galleryModel->showGallery();
+                // $rowImages = $this->galleryModel->showImages();
+                $data = [
+
+                ];
+
+                $this->view('admin_d/promos_advertisement', $data);
+            }
 }

@@ -11,6 +11,27 @@ use PHPMailer\PHPMailer\Exception;
             if (!$isSetUp) {
                 redirect('pages/systemPrompt');
                 return;
+            } else {
+                $siteConfig = $this->siteSession();
+                $_SESSION['schoolname'] = $siteConfig->schoolname;
+                $_SESSION['logo'] = $siteConfig->logo;
+                $_SESSION['heroimage'] = $siteConfig->heroimage;
+                $_SESSION['sitecolor'] = $siteConfig->sitecolor;
+                $_SESSION['sitecolor_dark'] = $siteConfig->sitecolor_dark;
+                $_SESSION['sitecolor_light'] = $siteConfig->sitecolor_light;
+                $_SESSION['sitecolor_secondary'] = $siteConfig->sitecolor_secondary;
+            }
+    
+        }
+
+        public function siteSession() {
+            // $this->siteConfigModel = $this->model('siteconfig');
+            $siteConfig = $this->siteConfigModel->singleSiteConfig();
+    
+            if ($siteConfig) {
+                return $siteConfig;
+            } else {
+                
             }
     
         }

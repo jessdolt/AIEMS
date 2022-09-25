@@ -4,19 +4,6 @@ class Pages extends Controller{
     public function __construct(){
         $this->siteConfigModel = $this->model('siteconfig');
 
-        $isSetUp = $this->isSetUp();
-        if ($isSetUp) {
-            $siteConfig = $this->siteSession();
-            $_SESSION['schoolname'] = $siteConfig->schoolname;
-            $_SESSION['logo'] = $siteConfig->logo;
-            $_SESSION['heroimage'] = $siteConfig->heroimage;
-            $_SESSION['sitecolor'] = $siteConfig->sitecolor;
-            $_SESSION['sitecolor_dark'] = $siteConfig->sitecolor_dark;
-            $_SESSION['sitecolor_light'] = $siteConfig->sitecolor_light;
-            $_SESSION['sitecolor_secondary'] = $siteConfig->sitecolor_secondary;
-        }
- 
-        
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -30,7 +17,7 @@ class Pages extends Controller{
         //     redirect('survey_widget');
         // }   
       
-        //$this->alumniModel = $this->model('alumni_model');\
+        //$this->alumniModel = $this->model('alumni_model');
         
     }
 
@@ -94,9 +81,8 @@ class Pages extends Controller{
             redirect('pages/systemPrompt');
             return;
         }
-
     
-        if (!isLoggedIn() && $isSetUp) {
+        if (!isLoggedIn()) {
             redirect('users/login');
         }
 
@@ -181,6 +167,13 @@ class Pages extends Controller{
         
     }
 
+    public function promos() {
+        $promosAdvertisementModel = $this->model('promosadvertisement');
+        $data = $promosAdvertisementModel->allPromosAdvertisement();
+        
+        $this->view('pages/promos', $data);
+    }
+
     public function home() {
 
         $isSetUp = $this->isSetUp();
@@ -190,6 +183,10 @@ class Pages extends Controller{
         if (!$isSetUp) {
             redirect('pages/systemPrompt');
             return;
+        }
+
+        if (!isLoggedIn()) {
+            redirect('users/login');
         }
 
         $this->postModel = $this->model('post');
@@ -488,6 +485,8 @@ class Pages extends Controller{
         ];
         $this->view('pages/job_portals', $data);
     }
+
+
 
     public function login(){
         $data = [];
