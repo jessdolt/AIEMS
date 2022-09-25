@@ -168,12 +168,9 @@ class Pages extends Controller{
     }
 
     public function promos() {
-        $this->jobModel = $this->model('job_portal');
-        $job_portal_active = $this->jobModel->showJobListActive();
-        $job_portal_archived = $this->jobModel->showJobListArchive();
-        $data = [
-            
-        ];
+        $promosAdvertisementModel = $this->model('promosadvertisement');
+        $data = $promosAdvertisementModel->allPromosAdvertisement();
+        
         $this->view('pages/promos', $data);
     }
 

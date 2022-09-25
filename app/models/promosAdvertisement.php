@@ -6,9 +6,18 @@ class promosAdvertisement {
         $this->db = new Database;
     }
 
+    public function allPromosAdvertisement() {
+        $this->db->query('SELECT * FROM promos_advertisement ORDER BY created_on;');
+        $row = $this->db->resultSet();
+        if($row > 0){
+            return $row;
+        }
+    }
+
     public function addPromosAdvertisement($data) {
      
-        $this->db->query('INSERT INTO promos_advertisement(title, date_of_advertisement, image, quantity, user_type, posted_by, created_on) VALUES (:schoolname, :logo)');
+        $this->db->query('INSERT INTO promos_advertisement(title, date_of_advertisement, image, quantity, user_type, posted_by, created_on) 
+        VALUES (:schoolname, :date_of_advertisement, :image, :quantity, :user_type, :posted_by, :created_on)');
 
         $this->db->bind(':title', $data->title);
         $this->db->bind(':date_of_advertisement', $data->date_of_advertisement);
@@ -24,5 +33,7 @@ class promosAdvertisement {
             return false;
         }
     }
+
+
 }
 ?>

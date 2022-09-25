@@ -6,8 +6,17 @@
     
 
         }
+        
+        public function addPromos() {
 
-        public function savePromosAdvertisement(){
+            $data = [
+
+            ];
+
+            $this->view('promos/add_promo', $data);
+        }
+
+        public function addPromosAdvertisement(){
             $promosAdvertismentModel = $this->model('promosadvertisement');
     
             $file = $_FILES['image'];
