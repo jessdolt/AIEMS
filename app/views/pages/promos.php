@@ -21,22 +21,26 @@
 
       .btn {
         font-size: 14px;
-        padding: 15px;
+        padding: 10px;
+        background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
       }
     </style>
-    <main class="alumni forum">
+   <main class="alumni forum">
       <div class="container">
         <div class="row">
           <div class="col-md-8 mt-5 mb-5">
             <div class="card p-5">
-              <h3>Promos and Advertisement</h3>
+              <div class="d-flex justify-content-between align-items-center">
+                <h3>Promos and Advertisement</h3>
+                <a class="btn btn-secondary" href="<?php echo URLROOT?>/promos_advertisement/addPromos">Add</a>
+              </div>
               <hr />
 
               <div class="row">
-               <div class="d-flex justify-content-between align-items-center">
-                 <h3>Promos and Advertisement</h3>
-                <a class="btn btn-secondary" href="">Add</a>
-               </div>
+                <h2 class="mb-5 mt-5">Your Redeemed Rewards</h2>
+                <div
+                  class="row d-flex justify-content-around align-items-center"
+                >
                   <div class="col-md-6 mt-2 mb-2">
                     <div
                       class="card rounded"
@@ -44,7 +48,7 @@
                     >
                       <img
                         class="rounded"
-                        src="./images/voucher.jpg"
+                        src="<?php echo URLROOT?>/images/voucher.jpg"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
@@ -71,40 +75,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 mt-2 mb-2">
-                    <div
-                      class="card rounded"
-                      style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
-                    >
-                      <img
-                        class="rounded"
-                        src="./images/voucher.jpg"
-                        alt=""
-                        style="max-width: 100%; height: 150px"
-                      />
-                      <div class="p-2">
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <h2 class="mt-2">Reward No. 2</h2>
-                          <button class="btn rounded-pill">Send Email</button>
-                        </div>
-                        <div
-                          class="d-flex justify-content-end align-items-center"
-                        >
-                          <p
-                            style="
-                              margin: 0;
-                              margin-right: 10px;
-                              margin-top: 10px;
-                            "
-                          >
-                            <strong>Collected</strong>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
 
@@ -120,7 +91,7 @@
                     >
                       <img
                         class="rounded"
-                        src="./images/voucher.jpg"
+                        src="<?php echo URLROOT?>/images/voucher.jpg"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
@@ -150,43 +121,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 mt-2 mb-2">
-                    <div
-                      class="card rounded"
-                      style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
-                    >
-                      <img
-                        class="rounded"
-                        src="./images/voucher.jpg"
-                        alt=""
-                        style="max-width: 100%; height: 150px"
-                      />
-                      <div class="p-2">
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <h2 class="mt-2">Reward No. 2</h2>
-                          <button class="btn rounded-pill">Edit</button>
-                        </div>
-                        <div
-                          class="d-flex justify-content-center align-items-center"
-                        >
-                          <p
-                            style="
-                              margin: 0;
-                              margin-right: 10px;
-                              margin-top: 10px;
-                            "
-                          >
-                            <strong
-                              >Remaining Rewards:
-                              <span class="remaining-rewards">19</span></strong
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                 
+                 
                 </div>
               </div>
             </div>
@@ -202,7 +138,7 @@
                 >
                   <img
                     class="rounded"
-                    src="./images/voucher.jpg"
+                    src="<?php echo URLROOT?>/images/voucher.jpg"
                     alt=""
                     style="max-width: 100%; height: 150px"
                   />
@@ -215,43 +151,9 @@
                   </div>
                 </div>
 
-                <div
-                  class="card rounded"
-                  style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
-                >
-                  <img
-                    class="rounded"
-                    src="./images/voucher.jpg"
-                    alt=""
-                    style="max-width: 100%; height: 150px"
-                  />
-                  <div class="p-2">
-                    <h2 class="mt-2">Reward No. 1</h2>
-                    <div class="d-flex justify-content-end align-items-center">
-                      <p style="margin: 0; margin-right: 10px">10.00 AC</p>
-                      <button class="btn rounded-pill">Redeem</button>
-                    </div>
-                  </div>
-                </div>
+              
 
-                <div
-                  class="card rounded"
-                  style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
-                >
-                  <img
-                    class="rounded"
-                    src="./images/voucher.jpg"
-                    alt=""
-                    style="max-width: 100%; height: 150px"
-                  />
-                  <div class="p-2">
-                    <h2 class="mt-2">Reward No. 1</h2>
-                    <div class="d-flex justify-content-end align-items-center">
-                      <p style="margin: 0; margin-right: 10px">10.00 AC</p>
-                      <button class="btn rounded-pill">Redeem</button>
-                    </div>
-                  </div>
-                </div>
+               
               </div>
             </div>
           </div>

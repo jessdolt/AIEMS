@@ -65,7 +65,7 @@
                 <span></span>
             </div>
             <a href="<?php echo URLROOT;?>/pages/home" class="logo" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>); background-color: transparent !important"></a>
-            <h1>PUP Institute of Technology</h1>
+            <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></h1>
             <span>Admin Page</span>
             <a href="<?php echo URLROOT;?>/pages/home">Switch to homepage</a>
         </header>
@@ -118,6 +118,7 @@
                                 <li><a href="<?php echo URLROOT;?>/admin/events">Events</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/gallery">Gallery</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/job_portal">Job Portal</a></li>
+                                <li><a href="<?php echo URLROOT;?>/admin/promos_advertisement">Promos / Advertisement</a></li>
                             </ul>
                         </li>
                         <li class="mainCategory <?php echo ($url[1] == 'alumni_report' || $url[0] == 'alumni_report'  || $url[1] == 'survey_list' || $url[1] == 'survey_report' || $url[1] == 'employment' || $url[0] == 'surveys' ) ? 'open' : ' '?>" tabindex="0">
