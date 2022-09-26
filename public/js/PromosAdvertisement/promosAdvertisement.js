@@ -148,7 +148,7 @@ const addNewData = (data) => {
     },
   });
 };
-
+// console.log(wala lang)
 // init();
 // window.onload = () => {
 //   const id = 7;
