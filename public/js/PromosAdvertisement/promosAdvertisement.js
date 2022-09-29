@@ -101,6 +101,7 @@ const validateData = () => {
   newFData.append("description", data.description);
   newFData.append("date", data.date);
   newFData.append("quantity", data.quantity);
+  newFData.append("referenceCode", data.referenceCode);
   newFData.append("duration", data.duration);
   newFData.append("payment", data.payment);
   newFData.append("gCashRefNumber", data.gCashRefNumber);
@@ -108,7 +109,7 @@ const validateData = () => {
 
   swal({
     title: "Are you sure?",
-    text: "You can edit your site information in the System",
+    text: "",
     icon: "warning",
     buttons: ["Cancel", "Save"],
     dangerMode: true,
@@ -125,7 +126,7 @@ const getReferenceCodes = () => {
 const addNewData = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/site_config/saveSiteConfig`,
+    url: `/aiems/promos_advertisement/addPromosAdvertisement`,
     data: data,
     cache: false,
     contentType: false,
@@ -148,6 +149,7 @@ const addNewData = (data) => {
     },
   });
 };
+
 // console.log(wala lang)
 // init();
 // window.onload = () => {
