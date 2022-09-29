@@ -3,11 +3,30 @@ const init = () => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log("qwe");
-    validateData();
+    const isValid = checkValidQty();
+    if (isValid) eventHandlers();
+    // validateData();
   });
 
   fileUploadHandler();
   referenceHandler();
+};
+
+const checkValidQty = () => {
+  const qty = document.getElementById("quantity").value;
+  const references = document.querySelectorAll(".references").length;
+  console.log(qty);
+  console.log(references);
+  if (+qty != +references) {
+    swal(
+      "Error",
+      `Quantity does not match the number of Redeemable Code`,
+      "error"
+    );
+    return false;
+  }
+
+  return true;
 };
 
 const fileUploadHandler = () => {
@@ -52,7 +71,7 @@ const referenceHandler = () => {
     btnDelete.classList.add("btn");
     btnDelete.classList.add("btn-outline-secondary");
     btnDelete.textContent = "Delete";
-
+    btnDelete.setAttribute("type", "button");
     groupAppendDiv.appendChild(btnDelete);
     formGroupDiv.appendChild(inputElement);
 
