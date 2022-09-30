@@ -42,30 +42,32 @@
             }
 
             $data = [
-                'referenceCode' => $_POST['referenceCode'],
+                'type' => $_POST['type'],
+                'title' => $_POST['title'],
+                'description' => $_POST['description'],
+                'date' => $_POST['date'],
+                'quantity' => $_POST['quantity'],
+                'voucherImage' => $fileNameNew,
+                'duration' => $_POST['duration'],
+                'payment' => $_POST['payment'],
+                'gCashRefNumber' => $_POST['gCashRefNumber'],
+                'user_type' => $_SESSION['user_type'],
+                'posted_by' => $_SESSION['alumni_id']
             ];
 
-            $arrayReference = explode(",",$data['referenceCode']);
+            $jsonPromo = json_decode(json_encode($data));
+            $lastPromoId = $promosAdvertismentModel->addPromosAdvertisement($jsonPromo);
+
+            $arrayReference = explode(",",$_POST['referenceCode']);
 
             foreach($arrayReference as $reference) {
-                $newData = [
-                    'type' => $_POST['type'],
-                    'title' => $_POST['title'],
-                    'description' => $_POST['description'],
-                    'date' => $_POST['date'],
-                    'quantity' => $_POST['quantity'],
-                    'voucherImage' => $fileNameNew,
-                    'duration' => $_POST['duration'],
-                    'payment' => $_POST['payment'],
-                    'gCashRefNumber' => $_POST['gCashRefNumber'],
-                    'user_type' => $_SESSION['user_type'],
-                    'posted_by' => $_SESSION['alumni_id'],
-                    'referenceCode' => $reference,
-                ];
-                $json = json_decode(json_encode($newData));
-                $lastPromoId = $promosAdvertismentModel->addPromosAdvertisement($json);
-                $isReferenceSaved = $promosAdvertismentModel->addReferenceCode($json, $lastPromoId);
 
+                $newData = [
+                    'referenceCode' =>  $reference
+                ];
+                
+                $jsonReference = json_decode(json_encode($newData));
+                $isReferenceSaved = $promosAdvertismentModel->addReferenceCode($lastPromoId, $jsonReference);
             }
             
 

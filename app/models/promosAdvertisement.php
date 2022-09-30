@@ -41,7 +41,7 @@ class promosAdvertisement {
         FROM reference_code
         LEFT JOIN promos_advertisement
         ON reference_code.promoid = promos_advertisement.promoid
-        WHERE reference_code.redeemed_by != :id
+        WHERE promos_advertisement.posted_by != :id AND promos_advertisement.date <= CURDATE()
         ORDER BY promos_advertisement.date DESC
         LIMIT 3;');
         $this->db->bind(':id', $id);
@@ -54,8 +54,8 @@ class promosAdvertisement {
 
     public function addPromosAdvertisement($data) {
      
-        $this->db->query('INSERT INTO promos_advertisement (type, title, description, date, image, quantity, reference_code, duration, payment, gCashRefNumber, user_type, posted_by, created_on) 
-        VALUES (:type, :title, :description, :date, :image, :quantity, :reference_code, :duration, :payment, :gCashRefNumber, :user_type, :posted_by, :created_on)');
+        $this->db->query('INSERT INTO promos_advertisement (type, title, description, date, image, quantity, duration, payment, gCashRefNumber, user_type, posted_by, created_on) 
+        VALUES (:type, :title, :description, :date, :image, :quantity, :duration, :payment, :gCashRefNumber, :user_type, :posted_by, :created_on)');
 
         $this->db->bind(':type', $data->type);
         $this->db->bind(':title', $data->title);
@@ -63,7 +63,6 @@ class promosAdvertisement {
         $this->db->bind(':date', $data->date);
         $this->db->bind(':image', $data->voucherImage);
         $this->db->bind(':quantity', $data->quantity);
-        $this->db->bind(':reference_code', $data->referenceCode);
         $this->db->bind(':duration', $data->duration);
         $this->db->bind(':payment', $data->payment);
         $this->db->bind(':gCashRefNumber', $data->gCashRefNumber);
@@ -79,12 +78,11 @@ class promosAdvertisement {
         }
     }
 
-    public function addReferenceCode($data, $lastPromoId) {
-        $this->db->query('INSERT INTO reference_code (promoid, code, quantity) VALUES (:promoid, :code, :quantity)');
+    public function addReferenceCode($lastPromoId, $data) {
+        $this->db->query('INSERT INTO reference_code (promoid, code) VALUES (:promoid, :code)');
         
         $this->db->bind(':promoid', $lastPromoId);
         $this->db->bind(':code', $data->referenceCode);
-        $this->db->bind(':quantity', $data->quantity);
 
         if($this->db->execute()){
             return true;

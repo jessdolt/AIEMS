@@ -60,7 +60,7 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <h2 class="mt-2">Reward No. 1</h2>
+                          <h2 class="mt-2"><?php echo($redeemed->title); ?></h2>
                           <button class="btn rounded-pill">Send Email</button>
                         </div>
                         <div
@@ -88,6 +88,10 @@
                 <div
                   class="row d-flex justify-content-around align-items-center"
                 >
+                <?php 
+                if (!empty($data['yourAdvertisement'])) {
+                  foreach ($data['yourAdvertisement'] as $yourAdvertisement):
+                ?>
                   <div class="col-md-6 mt-2 mb-2">
                     <div
                       class="card rounded"
@@ -95,7 +99,7 @@
                     >
                       <img
                         class="rounded"
-                        src="<?php echo URLROOT?>/images/voucher.jpg"
+                        src="<?php echo URLROOT?>/uploads/<?php echo($yourAdvertisement->image); ?>"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
@@ -103,8 +107,8 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <h2 class="mt-2">Reward No. 2</h2>
-                          <button class="btn rounded-pill">Edit</button>
+                          <h2 class="mt-2"><?php echo($yourAdvertisement->title); ?></h2>
+                          <button class="btn rounded-pill">D</button>
                         </div>
                         <div
                           class="d-flex justify-content-center align-items-center"
@@ -118,14 +122,14 @@
                           >
                             <strong
                               >Remaining Rewards:
-                              <span class="remaining-rewards">19</span></strong
+                              <span class="remaining-rewards"><?php echo($yourAdvertisement->quantity); ?></span></strong
                             >
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                 
+                <?php endforeach; } ?>
                  
                 </div>
               </div>
@@ -136,25 +140,29 @@
               <h3>Unclaimed Rewards</h3>
               <hr />
               <div class="row d-flex" style="gap: 20px">
+              <?php 
+                if (!empty($data['unclaimedRewards'])) {
+                  foreach ($data['unclaimedRewards'] as $unclaimedRewards):
+                ?>
                 <div
                   class="card rounded"
                   style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
                 >
                   <img
                     class="rounded"
-                    src="<?php echo URLROOT?>/images/voucher.jpg"
+                    src="<?php echo URLROOT?>/uploads/<?php echo($unclaimedRewards->image); ?>"
                     alt=""
                     style="max-width: 100%; height: 150px"
                   />
                   <div class="p-2">
-                    <h2 class="mt-2">Reward No. 1</h2>
+                    <h2 class="mt-2"><?php echo($unclaimedRewards->title); ?></h2>
                     <div class="d-flex justify-content-end align-items-center">
                       <p style="margin: 0; margin-right: 10px">10.00 AC</p>
                       <button class="btn rounded-pill">Redeem</button>
                     </div>
                   </div>
                 </div>
-
+              <?php endforeach; } ?>
               
 
                
