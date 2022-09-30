@@ -14,6 +14,14 @@ class promosAdvertisement {
         }
     }
 
+    public function yourRedeemedRewards() {
+        $this->db->query('SELECT * FROM promos_advertisement;');
+        $row = $this->db->resultSet();
+        if($row > 0){
+            return $row;
+        }
+    }
+
     public function addPromosAdvertisement($data) {
      
         $this->db->query('INSERT INTO promos_advertisement (type, title, description, date, image, quantity, reference_code, duration, payment, gCashRefNumber, user_type, posted_by, created_on) 

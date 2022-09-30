@@ -64,7 +64,6 @@
                 ];
                 $json = json_decode(json_encode($newData));
                 $lastPromoId = $promosAdvertismentModel->addPromosAdvertisement($json);
-
                 $isReferenceSaved = $promosAdvertismentModel->addReferenceCode($json, $lastPromoId);
 
             }
