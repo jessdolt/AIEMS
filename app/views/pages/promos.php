@@ -41,6 +41,10 @@
                 <div
                   class="row d-flex justify-content-around align-items-center"
                 >
+                <?php 
+                if (!empty($data['redeemedRewards'])) {
+                  foreach ($data['redeemedRewards'] as $redeemed):
+                ?>
                   <div class="col-md-6 mt-2 mb-2">
                     <div
                       class="card rounded"
@@ -48,7 +52,7 @@
                     >
                       <img
                         class="rounded"
-                        src="<?php echo URLROOT?>/images/voucher.jpg"
+                        src="<?php echo URLROOT?>/uploads/<?php echo($redeemed->image); ?>"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
@@ -75,7 +79,7 @@
                       </div>
                     </div>
                   </div>
-                 
+                <?php endforeach; } ?>
                 </div>
               </div>
 
