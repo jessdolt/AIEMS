@@ -517,10 +517,9 @@ class Pages extends Controller{
     }
 
     public function rewards() {
+        $promosAdvertisementModel = $this->model('promosadvertisement');
+        $data = $promosAdvertisementModel->allRewards($_SESSION['alumni_id']);
 
-        $data = [
-
-        ];
         $this->view('pages/rewards', $data);
     }
 
