@@ -6,6 +6,43 @@
     
 
         }
+
+
+        public function ayusinmonlangniel(){
+            
+
+
+            $allAvailablePromos = $this->model->getAllAvailablePromos();
+
+            // SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND CurrentDate >= date AND id != alumni id
+
+            if(!empty($allAvailablePromos)){
+               $data =[$allAvailablePromos];
+               $thi->view()
+            }
+        }
+
+        public function kayjessgalingto($promoid){
+            
+            //UPDATE TO
+            //Pag may nag reredeem 
+            //Update yung reference code 1, Update din yung sa promos +1; 
+            //To know what will the alumni will redeem  
+
+            $hasReferenceCode = $this->model->checkHasReferenceCode($promoid);
+            // SELECT * FROM `promos_advertisement` AS a LEFT JOIN `reference_code` AS b ON a.promoid = b.promoid WHERE b.quantity <> b.used_quantity AND a.date AND a.promoid = :promoid
+
+            // UPDATE promo_advertisement SET used_qty = (used_qty + 1) where promoid
+            if(!empty($hasReferenceCode)){
+                $redeemableReward = $hasReferenceCode[0];
+
+                $isUpdated = $this->model->updateReferenceCode($redeemableReward->id);
+
+                if($isUpdated){
+                     $isUpdated = $this->model->updatePromoAdvertisement($redeemableReward->promoid);
+                }
+            }
+        }
         
         public function addPromos() {
 
