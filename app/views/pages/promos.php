@@ -70,9 +70,9 @@
                           class="d-flex justify-content-between align-items-center"
                         >
 
-                          <h2 class="mt-2"><?php echo($redeemed->title); ?></h2>
+                          <h2 class="mt-2 text-white"><?php echo($redeemed->title); ?></h2>
 
-                          <button class="btn rounded-pill">Send Email</button>
+                          <button class="btn rounded-pill ">Send Email</button>
                         </div>
                         <div
                           class="d-flex justify-content-end align-items-center"
@@ -119,8 +119,8 @@
                           class="d-flex justify-content-between align-items-center"
                         >
 
-                          <h2 class="mt-2"><?php echo($yourAdvertisement->title); ?></h2>
-                          <button class="btn rounded-pill">D</button>
+                          <h2 class="mt-2 text-white"><?php echo($yourAdvertisement->title); ?></h2>
+                          <button class="btn rounded-pill text-white">D</button>
 
                         </div>
                         <div
@@ -169,7 +169,7 @@
                   />
                   <div class="p-2">
 
-                    <h2 class="mt-2"><?php echo($unclaimedRewards->title); ?></h2>
+                    <h2 class="mt-2 text-white"><?php echo($unclaimedRewards->title); ?></h2>
 
 
                     <div class="d-flex justify-content-end align-items-center">
