@@ -35,15 +35,15 @@
                             </tr>
                         </thead>
                         <tbody id="search_insert">
-                            <?php // foreach($data['jobs'] as $job) : ?>
+                            <?php foreach($data as $promoAd) : ?>
                             <tr>
-                            <td><input type="checkbox" name="checkbox[]" value=""></td>
-                            <td><p class="jobTitle">Lazada</p></td>
-                            <td><p class="description">Free Shipping</p></td>
-                            <td><p class="company">13</p></td>
-                            <td><time datetime="0000-09-02">9/25/2022</time></td>
-                            <td><p class="jobTitle">Aniel</p></td>
-                            <td><p class="workType fullTime">Accepted</p></td>
+                            <td><input type="checkbox" name="checkbox[]" value="<?php echo $promoAd->promoid; ?>"></td>
+                            <td><p class="jobTitle"><?php echo $promoAd->title; ?></p></td>
+                            <td><p class="description"><?php echo $promoAd->description; ?></p></td>
+                            <td><p class="company"><?php echo $promoAd->quantity; ?></p></td>
+                            <td><time datetime="0000-09-02"><?php echo $promoAd->date; ?></time></td>
+                            <td><p class="jobTitle"><?php echo $promoAd->posted_by; ?></p></td>
+                            <td><p class="workType fullTime">For Approval</p></td>
                             <td><div class="option" tabindex="0">
                                     <span class="optionSpan icon">&#8942</span>
                                     <div class="optionModal">
@@ -64,7 +64,7 @@
                                 </div>
                             </td>
                             </tr>
-                            <?php //endforeach; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     

@@ -169,8 +169,16 @@ class Pages extends Controller{
 
     public function promos() {
         $promosAdvertisementModel = $this->model('promosadvertisement');
-        $data = $promosAdvertisementModel->allPromosAdvertisement();
-        
+        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards();
+        // $yourAdvertisement = $promosAdvertisementModel->allPromosAdvertisement();
+        // $unclaimedRewards = $promosAdvertisementModel->allPromosAdvertisement();
+
+        $data = [
+            'redeemedRewards' =>  $redeemedRewards,
+            // 'yourAdvertisement' => $yourAdvertisement,
+            // 'unclaimedRewards' => $unclaimedRewards
+        ];
+
         $this->view('pages/promos', $data);
     }
 
