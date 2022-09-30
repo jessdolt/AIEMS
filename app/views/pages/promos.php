@@ -13,7 +13,7 @@
         cursor: pointer;
         border-radius: 50%;
         transition: all 0.5s ease;
-        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.062);
+        box-shadow: 0 0 1px 1px grey;
       }
       #btn-add-ref:hover i {
         transform: scale(1.3);
@@ -22,10 +22,19 @@
       .btn {
         font-size: 14px;
         padding: 10px;
-        background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        color: white;
+        background-color: black !important;
+        outline:none;
+        border:none;
+      }
+
+      .btn:hover{
+        color:white;
+        outline:none;
+        border:none;
       }
     </style>
-   <main class="alumni forum">
+   <main class="alumni forum" id="promos-ads">
       <div class="container">
         <div class="row">
           <div class="col-md-8 mt-5 mb-5">
@@ -41,14 +50,18 @@
                 <div
                   class="row d-flex justify-content-around align-items-center"
                 >
+                <?php 
+                if (!empty($data['redeemedRewards'])) {
+                  foreach ($data['redeemedRewards'] as $redeemed):
+                ?>
                   <div class="col-md-6 mt-2 mb-2">
                     <div
                       class="card rounded"
-                      style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
+                      style="background-color: grey; padding: 0; border:none;"
                     >
                       <img
                         class="rounded"
-                        src="<?php echo URLROOT?>/images/voucher.jpg"
+                        src="<?php echo URLROOT?>/uploads/<?php echo($redeemed->image); ?>"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
@@ -56,7 +69,7 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <h2 class="mt-2">Reward No. 1</h2>
+                          <h2 class="mt-2 text-white">Reward No. 1</h2>
                           <button class="btn rounded-pill">Send Email</button>
                         </div>
                         <div
@@ -69,13 +82,13 @@
                               margin-top: 10px;
                             "
                           >
-                            <strong>Collected</strong>
+                            <strong class="text-white">Collected</strong>
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                 
+                <?php endforeach; } ?>
                 </div>
               </div>
 
@@ -87,7 +100,7 @@
                   <div class="col-md-6 mt-2 mb-2">
                     <div
                       class="card rounded"
-                      style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
+                      style="background-color: grey; padding: 0; border:none;"
                     >
                       <img
                         class="rounded"
@@ -99,8 +112,8 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <h2 class="mt-2">Reward No. 2</h2>
-                          <button class="btn rounded-pill">Edit</button>
+                          <h2 class="mt-2 text-white">Reward No. 2</h2>
+                          <button class="btn rounded-pill text-white" >Edit</button>
                         </div>
                         <div
                           class="d-flex justify-content-center align-items-center"
@@ -112,7 +125,7 @@
                               margin-top: 10px;
                             "
                           >
-                            <strong
+                            <strong class="text-white"
                               >Remaining Rewards:
                               <span class="remaining-rewards">19</span></strong
                             >
@@ -134,7 +147,7 @@
               <div class="row d-flex" style="gap: 20px">
                 <div
                   class="card rounded"
-                  style="background-color: rgba(0, 0, 0, 0.062); padding: 0"
+                  style="background-color: grey; padding: 0 ; border:none;"
                 >
                   <img
                     class="rounded"
@@ -143,10 +156,10 @@
                     style="max-width: 100%; height: 150px"
                   />
                   <div class="p-2">
-                    <h2 class="mt-2">Reward No. 1</h2>
+                    <h2 class="mt-2 text-white">Reward No. 1</h2>
                     <div class="d-flex justify-content-end align-items-center">
-                      <p style="margin: 0; margin-right: 10px">10.00 AC</p>
-                      <button class="btn rounded-pill">Redeem</button>
+                      <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
+                      <button class="btn rounded-pill text-white">Redeem</button>
                     </div>
                   </div>
                 </div>

@@ -311,7 +311,6 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['alumni_id'] = $newUser->a_id;
                 $_SESSION['user_type'] = $newUser->user_control;
                 $_SESSION['image'] = $newUser->image;
-                $_SESSION['first_name'] = $newUser->first_name;
             } else {
                 $newUser = $this->userModel->forSessionAdmin($user);
                 $_SESSION['id'] = $newUser->user_id;
