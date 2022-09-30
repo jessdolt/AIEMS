@@ -516,4 +516,12 @@ class Pages extends Controller{
 
     }
 
+    public function rewards() {
+
+        $data = [
+
+        ];
+        $this->view('pages/rewards', $data);
+    }
+
 }
