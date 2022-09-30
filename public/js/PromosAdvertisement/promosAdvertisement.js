@@ -4,8 +4,7 @@ const init = () => {
     e.preventDefault();
     console.log("qwe");
     const isValid = checkValidQty();
-    if (isValid) eventHandlers();
-    // validateData();
+    if (isValid) validateData();
   });
 
   fileUploadHandler();
@@ -63,6 +62,7 @@ const referenceHandler = () => {
     const inputElement = document.createElement("input");
     inputElement.classList.add("form-control");
     inputElement.classList.add("references");
+    inputElement.setAttribute("required", "true");
 
     const groupAppendDiv = document.createElement("div");
     groupAppendDiv.classList.add("input-group-append");

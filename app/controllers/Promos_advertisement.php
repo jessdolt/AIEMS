@@ -59,7 +59,7 @@
                     'payment' => $_POST['payment'],
                     'gCashRefNumber' => $_POST['gCashRefNumber'],
                     'user_type' => $_SESSION['user_type'],
-                    'posted_by' => $_SESSION['name'],
+                    'posted_by' => $_SESSION['alumni_id'],
                     'referenceCode' => $reference,
                 ];
                 $json = json_decode(json_encode($newData));

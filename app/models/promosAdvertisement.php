@@ -14,10 +14,40 @@ class promosAdvertisement {
         }
     }
 
-    public function yourRedeemedRewards() {
-        $this->db->query('SELECT * FROM promos_advertisement;');
+    public function yourRedeemedRewards($id) {
+        $this->db->query('SELECT *
+        FROM reference_code
+        LEFT JOIN promos_advertisement
+        ON reference_code.promoid = promos_advertisement.promoid
+        WHERE reference_code.redeemed_by=:id;');
+        $this->db->bind(':id', $id);
         $row = $this->db->resultSet();
-        if($row > 0){
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+    public function yourAdvertisement($id) {
+        $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by=:id;');
+        $this->db->bind(':id', $id);
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+    public function unclaimedRewards($id) {
+        $this->db->query('SELECT *
+        FROM reference_code
+        LEFT JOIN promos_advertisement
+        ON reference_code.promoid = promos_advertisement.promoid
+        WHERE reference_code.redeemed_by != :id
+        ORDER BY promos_advertisement.date DESC
+        LIMIT 3;');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
             return $row;
         }
     }
