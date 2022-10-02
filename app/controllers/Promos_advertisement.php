@@ -41,28 +41,30 @@
             }
         }
 
-        // FOR DELETING //
-        public function deletePromos($id) {
+        // FOR DELETING INLINE //
+        public function deleteRow($id) {
             $promosAdvertismentModel = $this->model('promosadvertisement');
             $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
 
-            if ($isPromoDeleted) {
-
-                $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
-    
+            if ($isPromoDeleted){
+                flash('promo_delete_success', 'Promo successfully deleted', 'successAlert');
+                redirect('admin/promos_advertisement');
             }
-            else{
-                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-
+            else {
+                die("There's an error deleting this record");
             }
         }
-        // FOR ADMIN?
+
+
+        // FOR DELETING CHECKBOX
         public function delete() {
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $todelete = $_POST['checkbox'];
                 foreach ($todelete as $id) {
-                    if ($this->postModel->deleteNews($id)){
-                        flash('news_delete_success', 'News successfully deleted', 'successAlert');
+                    if ($promosAdvertismentModel->deletePromo($id)){
+                        flash('promo_delete_success', 'News successfully deleted', 'successAlert');
                         redirect('admin/news');
                     }
                     else {

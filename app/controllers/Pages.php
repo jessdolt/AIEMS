@@ -518,7 +518,12 @@ class Pages extends Controller{
 
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
-        $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['alumni_id']);
+        if (userType() == "Alumni") {
+            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['alumni_id']);
+        } else {
+            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromosAdmin();
+        }
+        
         
         if(!empty($allAvailablePromos)){
             $data = [
