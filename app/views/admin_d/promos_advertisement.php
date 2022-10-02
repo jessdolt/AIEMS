@@ -50,7 +50,7 @@
                                     <span class="optionSpan icon">&#8942</span>
                                     <div class="optionModal">
                                         <a href="">View</a>
-                                        <button type="button" data-id="<?php echo $promoAd->promoid ?>" data-url="<?php echo URLROOT; ?>/Promos_advertisement/approveRow" class="btnDeleteInline">
+                                        <button type="button" data-id="<?php echo $promoAd->promoid ?>" data-url="<?php echo URLROOT; ?>/Promos_advertisement/approveRow" class="btnApproval">
                                             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
                                                 <path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
@@ -132,6 +132,52 @@
     })
 
 
+    window.onload = () =>{
+        btnApprovalHandler();
+    }
+
+    const btnApprovalHandler = () =>{
+        const btnApprovals = document.querySelectorAll('.btnApproval');
+        btnApprovals.forEach(btn =>{
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                swal({
+                    title: "Approval",
+                    text: "Do you wish to approve this promo?",
+                    icon: "info",
+                    buttons: ["Cancel", "Approve"],
+                    dangerMode: true,
+                }).then((isConfirm) => {
+                    isConfirm && updateData(id);
+                });
+            })
+        })
+    }
+
+
+        const updateData = (id) => {
+        // console.log("zxc");
+        $.ajax({
+            type: "POST",
+            url: `/aiems/promos_advertisement/approveRow/${id}`,
+            method: "POST",
+            success: function (data) {
+            const response = JSON.parse(data);
+            if (response.isSuccess) {
+                swal("Updated Successfully", `${response.message}`, "success").then(
+                () => {
+                    window.location.replace(`/aiems/admin_manage/promos_advertisement`);
+                }
+                );
+            } else {
+                swal("Error", `${response.message}`, "error");
+            }
+            },
+            error: function (xhr, status, error) {
+            console.error(error);
+            },
+        });
+        };
 </script>
 <script src="<?= URLROOT?>/js/PromosAdvertisement/promosAdvertisement.js"></script>
 <script>
