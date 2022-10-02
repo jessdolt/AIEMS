@@ -47,16 +47,20 @@
               <div class="row d-flex flex-wrap justify-content-around align-items-center">
                 <!-- Start of card voucher -->
                     <!-- DITO START NG FOREACH -->
+                    <?php 
+                    if (!empty($data['allAvailablePromos'])) {
+                    foreach ($data['allAvailablePromos'] as $allAvailablePromos): 
+                    ?>
                   <div class="col-md-4 mt-2 mb-2">
                     <div class="card rounded shadow-lg"  style="background-color: grey; padding: 0; border:none;">
                       <img
                         class="rounded"
-                        src="<?php echo URLROOT?>/images/voucher.jpg"
+                        src="<?php echo URLROOT?>/uploads/<?php echo($allAvailablePromos->image); ?>"
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
                       <div class="p-2">
-                        <h2 class="mt-2 text-white">Reward No. 1</h2>
+                        <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
                         <div class="d-flex justify-content-end align-items-center">
                             <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
                             <button class="btn rounded-pill text-white">Redeem</button>
@@ -64,6 +68,7 @@
                       </div>
                     </div>
                   </div>
+                  <?php endforeach; } ?>
                     <!-- END NG FOREACH -->
                 <!-- end of card voucher -->
               </div>

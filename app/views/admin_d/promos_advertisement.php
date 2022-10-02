@@ -42,8 +42,8 @@
                             <td><p class="description"><?php echo $promoAd->description; ?></p></td>
                             <td><p class="company"><?php echo $promoAd->quantity; ?></p></td>
                             <td><time datetime="0000-09-02"><?php echo $promoAd->date; ?></time></td>
-                            <td><p class="jobTitle"><?php echo $promoAd->posted_by; ?></p></td>
-                            <td><p class="workType fullTime">For Approval</p></td>
+                            <td><p class="jobTitle"><?php echo $promoAd->name; ?></p></td>
+                            <td><p class="workType <?php echo ($promoAd->is_approved == '1') ? 'fullTime' : 'partTime' ?>"><?php echo ($promoAd->is_approved == '1') ? 'Approved' : 'For Approval'?></p></td>
                             <td><div class="option" tabindex="0">
                                     <span class="optionSpan icon">&#8942</span>
                                     <div class="optionModal">

@@ -7,19 +7,119 @@ class promosAdvertisement {
     }
 
     public function allPromosAdvertisement() {
-        $this->db->query('SELECT * FROM promos_advertisement ORDER BY created_on;');
+        $this->db->query('SELECT a.*, b.name FROM promos_advertisement AS a LEFT JOIN users AS b ON a.posted_by = b.a_id ORDER BY a.created_on DESC;');
         $row = $this->db->resultSet();
         if($row > 0){
+            return $row;
+        }
+    }
+    
+    // AND is_approved = 1
+    public function checkHasReferenceCode($id) {
+        $this->db->query('SELECT * 
+        FROM `promos_advertisement` AS a 
+        LEFT JOIN `reference_code` AS b 
+        ON a.promoid = b.promoid 
+        WHERE b.quantity <> b.used_quantity 
+        AND a.date <= CURDATE()
+        AND a.promoid = :promoid');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+    public function updateReferenceCode($id, $alumni_id) {
+        $this->db->query('UPDATE reference_code SET used_quantity = (used_quantity + 1), redeemed_by = :alumni_id WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->bind(':alumni_id', $alumni_id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updatePromosAdvertisement($id) {
+        $this->db->query('UPDATE promos_advertisement SET used_quantity = (used_quantity + 1) WHERE promoid = :id');
+        $this->db->bind(':id', $id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function approvePromo($id) {
+        $this->db->query('UPDATE promos_advertisement SET is_approved = 1 WHERE promoid = :id');
+        $this->db->bind(':id', $id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deletePromo($id){
+        $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+
+        if($this->db->rowCount() > 0 ){
+           $img = $row->image;
+        }
+        else{
+            return false;
+        }
+
+        if(unlink(IMAGEROOT.$img)) {
+            $this->db->query('DELETE FROM promos_advertisement WHERE promoid = :id');
+            $this->db->bind(':id', $id);
+
+            if($this->db->execute()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+    }
+
+    // AND is_approved = 1
+    public function getAllAvailablePromos($id) {
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by  ORDER BY date DESC');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+    // AND is_approved = 1
+    public function unclaimedRewards($id) {
+    
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by ORDER BY date DESC LIMIT 3 ');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
             return $row;
         }
     }
 
     public function yourRedeemedRewards($id) {
         $this->db->query('SELECT *
-        FROM reference_code
-        LEFT JOIN promos_advertisement
-        ON reference_code.promoid = promos_advertisement.promoid
-        WHERE reference_code.redeemed_by=:id;');
+        FROM reference_code AS a
+        LEFT JOIN promos_advertisement AS b
+        ON a.promoid = b.promoid
+        WHERE a.redeemed_by=:id;');
         $this->db->bind(':id', $id);
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -30,22 +130,6 @@ class promosAdvertisement {
     public function yourAdvertisement($id) {
         $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by=:id;');
         $this->db->bind(':id', $id);
-        $row = $this->db->resultSet();
-        if($this->db->rowCount() > 0){
-            return $row;
-        }
-    }
-
-    public function unclaimedRewards($id) {
-        $this->db->query('SELECT *
-        FROM reference_code
-        LEFT JOIN promos_advertisement
-        ON reference_code.promoid = promos_advertisement.promoid
-        WHERE promos_advertisement.posted_by != :id AND promos_advertisement.date <= CURDATE()
-        ORDER BY promos_advertisement.date DESC
-        LIMIT 3;');
-        $this->db->bind(':id', $id);
-
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
             return $row;
