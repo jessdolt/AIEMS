@@ -167,21 +167,6 @@ class Pages extends Controller{
         
     }
 
-    public function promos() {
-        $promosAdvertisementModel = $this->model('promosadvertisement');
-        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['alumni_id']);
-        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['alumni_id']);
-        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['alumni_id']);
-
-        $data = [
-            'redeemedRewards' =>  $redeemedRewards,
-            'yourAdvertisement' => $yourAdvertisement,
-            'unclaimedRewards' => $unclaimedRewards
-        ];
-
-        $this->view('pages/promos', $data);
-    }
-
     public function home() {
 
         $isSetUp = $this->isSetUp();
@@ -516,10 +501,33 @@ class Pages extends Controller{
 
     }
 
-    public function rewards() {
+    public function promos() {
         $promosAdvertisementModel = $this->model('promosadvertisement');
-        $data = $promosAdvertisementModel->allRewards($_SESSION['alumni_id']);
+        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['alumni_id']);
+        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['alumni_id']);
+        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['alumni_id']);
 
+        $data = [
+            'redeemedRewards' =>  $redeemedRewards,
+            'yourAdvertisement' => $yourAdvertisement,
+            'unclaimedRewards' => $unclaimedRewards
+        ];
+
+        $this->view('pages/promos', $data);
+    }
+
+    public function rewards() {
+        $promosAdvertismentModel = $this->model('promosadvertisement');
+        $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['alumni_id']);
+        
+        if(!empty($allAvailablePromos)){
+            $data = [
+                'allAvailablePromos' =>  $allAvailablePromos
+            ];
+        } else {
+            $data = [];
+        }
+        
         $this->view('pages/rewards', $data);
     }
 

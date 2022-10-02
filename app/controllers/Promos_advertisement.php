@@ -6,6 +6,71 @@
     
 
         }
+
+        public function redeemReward($promoid){
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            //UPDATE TO
+            //Pag may nag reredeem 
+            //Update yung reference code 1, Update din yung sa promos +1; 
+            //To know what will the alumni will redeem  
+            // SELECT * FROM `promos_advertisement` AS a LEFT JOIN `reference_code` AS b ON a.promoid = b.promoid WHERE b.quantity <> b.used_quantity AND a.date AND a.promoid = :promoid
+            $hasReferenceCode = $promosAdvertismentModel->checkHasReferenceCode($promoid);
+            
+            if(!empty($hasReferenceCode)){
+                $redeemableReward = $hasReferenceCode[0];
+
+                // UPDATE reference_code SET used_qty = (used_qty + 1) where promoid
+                $isReferenceUpdated = $promosAdvertismentModel->updateReferenceCode($redeemableReward->id, $_SESSION['alumni_id']);
+
+                if($isReferenceUpdated){
+                    // UPDATE promo_advertisement SET used_qty = (used_qty + 1) where promoid
+                     $isPromosUpdated = $promosAdvertismentModel->updatePromosAdvertisement($redeemableReward->promoid);
+                }
+
+                if($isPromosUpdated){
+
+                    $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
+    
+                }
+                else{
+                    $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+    
+                }
+    
+                echo json_encode($response);
+            }
+        }
+
+        // FOR DELETING //
+        public function deletePromos($id) {
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
+
+            if ($isPromoDeleted) {
+
+                $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
+    
+            }
+            else{
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+
+            }
+        }
+        // FOR ADMIN?
+        public function delete() {
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $todelete = $_POST['checkbox'];
+                foreach ($todelete as $id) {
+                    if ($this->postModel->deleteNews($id)){
+                        flash('news_delete_success', 'News successfully deleted', 'successAlert');
+                        redirect('admin/news');
+                    }
+                    else {
+                        die("There's an error deleting this record");
+                    }
+                }
+            }
+        }
         
         public function addPromos() {
 
