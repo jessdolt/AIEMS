@@ -50,6 +50,7 @@ const referenceHandler = () => {
   const btnAddRef = document.getElementById("btn-add-ref");
   const referenceAdd = document.getElementById("reference-add");
   btnAddRef.addEventListener("click", (e) => {
+    const randomNumber = Math.floor(Math.random() * 1000);
     e.preventDefault();
     const parentDiv = document.createElement("div");
     parentDiv.classList.add("row");
@@ -63,6 +64,7 @@ const referenceHandler = () => {
     inputElement.classList.add("form-control");
     inputElement.classList.add("references");
     inputElement.setAttribute("required", "true");
+    inputElement.style.fontSize = "14px";
 
     const groupAppendDiv = document.createElement("div");
     groupAppendDiv.classList.add("input-group-append");
@@ -70,7 +72,9 @@ const referenceHandler = () => {
     const btnDelete = document.createElement("button");
     btnDelete.classList.add("btn");
     btnDelete.classList.add("btn-outline-secondary");
-    btnDelete.textContent = "Delete";
+    btnDelete.classList.add(`btn-delete-reference-${randomNumber}`);
+    btnDelete.classList.add(`text-white`);
+    btnDelete.textContent = `Delete`;
     btnDelete.setAttribute("type", "button");
     groupAppendDiv.appendChild(btnDelete);
     formGroupDiv.appendChild(inputElement);
@@ -80,7 +84,18 @@ const referenceHandler = () => {
     parentDiv.appendChild(columnDiv);
 
     referenceAdd.insertAdjacentElement("beforeend", parentDiv);
+    initBtnDelete(randomNumber);
   });
+};
+
+const initBtnDelete = (randomNumber) => {
+  console.log("qwe");
+  const btnDelete = document
+    .querySelector(`.btn-delete-reference-${randomNumber}`)
+    .addEventListener("click", function () {
+      this.parentNode.parentNode.parentNode.parentNode.remove();
+      console.log(this);
+    });
 };
 
 init();
