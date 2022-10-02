@@ -7,6 +7,20 @@
 
         }
 
+        public function approveRow($promoid){
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
+  
+            if($isPromosUpdated){
+                $response = ['message' => 'Promo is successfully approve', 'isSuccess' => 1];
+            }
+            else{
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+
+            echo json_encode($response);
+        }
+
         public function redeemReward($promoid){
             $promosAdvertismentModel = $this->model('promosadvertisement');
             //UPDATE TO
