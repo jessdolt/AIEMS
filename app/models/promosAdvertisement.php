@@ -6,6 +6,14 @@ class promosAdvertisement {
         $this->db = new Database;
     }
 
+    public function allPromosAdvertisement() {
+        $this->db->query('SELECT a.*, b.name FROM promos_advertisement AS a LEFT JOIN users AS b ON a.posted_by = b.a_id');
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
     public function allRewards($id) {
         $this->db->query('SELECT *
         FROM reference_code
@@ -103,6 +111,15 @@ class promosAdvertisement {
     public function getAllAvailablePromos($id) {
         $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by  ORDER BY date DESC');
         $this->db->bind(':id', $id);
+
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+    public function getAllAvailablePromosAdmin() {
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() ORDER BY date DESC');
 
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
