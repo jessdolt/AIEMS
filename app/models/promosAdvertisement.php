@@ -6,10 +6,18 @@ class promosAdvertisement {
         $this->db = new Database;
     }
 
-    public function allPromosAdvertisement() {
-        $this->db->query('SELECT a.*, b.name FROM promos_advertisement AS a LEFT JOIN users AS b ON a.posted_by = b.a_id ORDER BY a.created_on DESC;');
+    public function allRewards($id) {
+        $this->db->query('SELECT *
+        FROM reference_code
+        LEFT JOIN promos_advertisement
+        ON reference_code.promoid = promos_advertisement.promoid
+        WHERE promos_advertisement.posted_by != :id AND promos_advertisement.date <= CURDATE()
+        ORDER BY promos_advertisement.date DESC
+        ;');
+        $this->db->bind(':id', $id);
+
         $row = $this->db->resultSet();
-        if($row > 0){
+        if($this->db->rowCount() > 0){
             return $row;
         }
     }

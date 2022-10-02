@@ -47,23 +47,38 @@
               <div class="row d-flex flex-wrap justify-content-around align-items-center">
                 <!-- Start of card voucher -->
                     <!-- DITO START NG FOREACH -->
+<<<<<<< HEAD
                     <?php 
                     if (!empty($data['allAvailablePromos'])) {
                     foreach ($data['allAvailablePromos'] as $allAvailablePromos): 
                     ?>
+=======
+                  <?php 
+                    if (!empty($data)) {
+                      foreach ($data as $allAdvertisement):
+                  ?>
+>>>>>>> d37fb56b3650b3524afd887f3506e38777644a8e
                   <div class="col-md-4 mt-2 mb-2">
                     <div class="card rounded shadow-lg"  style="background-color: grey; padding: 0; border:none;">
                       <img
                         class="rounded"
+<<<<<<< HEAD
                         src="<?php echo URLROOT?>/uploads/<?php echo($allAvailablePromos->image); ?>"
+=======
+                        src="<?php echo URLROOT?>/uploads/<?php echo($allAdvertisement->image); ?>"
+>>>>>>> d37fb56b3650b3524afd887f3506e38777644a8e
                         alt=""
                         style="max-width: 100%; height: 150px"
                       />
                       <div class="p-2">
+<<<<<<< HEAD
                         <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
+=======
+                        <h2 class="mt-2 text-white"><?php echo($allAdvertisement->title); ?></h2>
+>>>>>>> d37fb56b3650b3524afd887f3506e38777644a8e
                         <div class="d-flex justify-content-end align-items-center">
                             <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
-                            <button class="btn rounded-pill text-white">Redeem</button>
+                            <button class="btn rounded-pill text-white" data=>Redeem</button>
                         </div>
                       </div>
                     </div>
