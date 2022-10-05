@@ -41,6 +41,8 @@
                 <button type="submit" value="submit">Sign in</button>
             </form>
             <p>Register for an Alumni account here. <a href="<?php echo URLROOT;?>/users/signup">Sign Up</a></p>
+
+            <p>Register for an Advertiser account here. <a href="<?php echo URLROOT;?>/advertiser/signup">Sign Up</a></p>
             <a href="<?php echo URLROOT; ?>/email/forgotPassword"><span>forgot password</span></a>
         </div>
     </main>
