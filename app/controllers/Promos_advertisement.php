@@ -21,6 +21,23 @@
             echo json_encode($response);
         }
 
+        public function actionViewPromo(){
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+
+            // $json = json_decode(json_encode($data));
+            $json = json_decode(file_get_contents('php://input'));
+            $isPromosUpdated = $promosAdvertismentModel->promoApproveReject($json);
+  
+            if($isPromosUpdated){
+                $response = ['message' => 'Updated Successfully', 'isSuccess' => 1];
+            }
+            else{
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+
+            echo json_encode($response);
+        }
+
         public function redeemReward($promoid){
             $promosAdvertismentModel = $this->model('promosadvertisement');
             //UPDATE TO
@@ -78,14 +95,21 @@
                 $todelete = $_POST['checkbox'];
                 foreach ($todelete as $id) {
                     if ($promosAdvertismentModel->deletePromo($id)){
-                        flash('promo_delete_success', 'News successfully deleted', 'successAlert');
-                        redirect('admin/news');
+                        flash('promo_delete_success', 'Promo successfully deleted', 'successAlert');
+                        redirect('admin/promos_advertisement');
                     }
                     else {
                         die("There's an error deleting this record");
                     }
                 }
             }
+        }
+
+        public function viewPromo($id) {
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $data = $promosAdvertismentModel->singlePromo($id);
+
+            $this->view('promos/view_promo', $data);
         }
         
         public function addPromos() {

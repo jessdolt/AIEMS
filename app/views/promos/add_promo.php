@@ -15,7 +15,7 @@
                         <label for="adsType" class="form-label"
                           >Type of Advertisement</label
                         >
-                        <select type="input" class="form-control" id="adsType">
+                        <select type="input" class="form-control" id="adsType" required>
                           <option value=""></option>
                           <option value="1">Promos</option>
                           <option value="2">Discount/Voucher</option>
@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" />
+                        <input type="text" class="form-control" id="title" required/>
                       </div>
                     </div>
                   </div>
@@ -77,6 +77,7 @@
                             name="newsImageInput"
                             id="voucher-image"
                             accept=".jpg, .png"
+                            required
                           />
                         </div>
                       </div>
@@ -93,6 +94,7 @@
                           type="date"
                           class="form-control"
                           id="dateOfAds"
+                          required
                         />
                       </div>
                     </div>
@@ -101,7 +103,7 @@
                         <label for="quantity" class="form-label"
                           >Reedemable Quantity</label
                         >
-                        <input type="text" class="form-control" id="quantity" />
+                        <input type="text" class="form-control" id="quantity" required/>
                       </div>
                     </div>
                   </div>
@@ -117,7 +119,7 @@
                         <input
                           type="input"
                           class="form-control references"
-                          id="referenceCode"
+                          id="referenceCode" required
                         />
                       </div>
                     </div>

@@ -63,7 +63,7 @@
                         <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
                         <div class="d-flex justify-content-end align-items-center">
                             <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
-                            <button class="btn rounded-pill text-white" data=>Redeem</button>
+                            <button id="btnRedeem" class="btn rounded-pill text-white" data-id="<?php echo $allAvailablePromos->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/redeemReward">Redeem</button>
                         </div>
                       </div>
                     </div>
@@ -82,5 +82,6 @@
         </div>
       </div>
     </main>
+    <script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 
