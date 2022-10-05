@@ -129,6 +129,26 @@ class User {
         }
     }
 
+    public function forSessionAdvertiser($user) {
+        
+        $this->db->query('SELECT *
+                        FROM users AS a
+                        LEFT JOIN user_type AS b
+                        ON a.user_type = b.id 
+                        LEFT JOIN advertiser AS c
+                        ON a.user_id = c.user_id
+                        WHERE a.email= :email');
+
+        $this->db->bind(':email', $user->email);
+
+        $row = $this->db->single();
+        if($this->db->rowCount() > 0) {
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
     public function forSessionAdmin($user) {
         
         $this->db->query('SELECT *

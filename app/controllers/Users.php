@@ -270,8 +270,7 @@ use PHPMailer\PHPMailer\Exception;
                         else {
                             $data['passwordError'] = 'Password or email is incorrect.';
                         }
-                }
-                else {
+                } else {
                     $this->userModel->addLoginDate($date);
                     if ($loggedInUser) {
                         $this->createUserSession($loggedInUser);
@@ -311,6 +310,14 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['alumni_id'] = $newUser->a_id;
                 $_SESSION['user_type'] = $newUser->user_control;
                 $_SESSION['image'] = $newUser->image;
+            } if($check->user_control == "Advertiser") {
+                $newUser = $this->userModel->forSessionAdvertiser($user);
+                $_SESSION['id'] = $newUser->user_id;
+                $_SESSION['advertiser_id'] = $newUser->advertiser_id;
+                $_SESSION['email'] = $newUser->email;
+                $_SESSION['name'] = $newUser->name;
+                $_SESSION['user_type'] = $newUser->user_control;
+                $_SESSION['image'] = $newUser->image;
             } else {
                 $newUser = $this->userModel->forSessionAdmin($user);
                 $_SESSION['id'] = $newUser->user_id;
@@ -323,28 +330,18 @@ use PHPMailer\PHPMailer\Exception;
 
             if ($_SESSION['user_type'] == "Admin" || $_SESSION['user_type'] == "Super Admin") {
                 redirect('admin/dashboard');
-            }
-            elseif($_SESSION['user_type'] == "Content Creator") {
+            } elseif ($_SESSION['user_type'] == "Content Creator") {
                 redirect('admin/news');
-            } 
-            else {
+            } elseif ($_SESSION['user_type'] == "Advertiser") {
+                redirect('advertiser');
+            } else {
                 redirect('pages'); 
             }
         }
 
         public function logout() {
-            unset($_SESSION['id']);
-            unset($_SESSION['admin_id']);
-            unset($_SESSION['email']);
-            unset($_SESSION['name']);
-            unset($_SESSION['alumni_id']);
-            unset($_SESSION['student_no']);
-            unset($_SESSION['user_type']);
-            unset($_SESSION['image']);
             session_destroy();
-            
             redirect('users/login');
-
         }
 
         public function edit($id){
