@@ -14,7 +14,9 @@
                 </div>
                 <hr />
 
-                <form action="">
+                <form action="" id="account-form">
+                  <!-- ID PAL DITO  -->
+                  <input type="hidden" id="id">
                   <div class="row">
                     <div class="col-md-7">
                       <div class="form-group">
@@ -29,10 +31,10 @@
                   <div class="row mt-3">
                     <div class="col-md-6 ">
                       <div class="form-group">
-                        <label for="Email" class="form-label"
+                        <label for="email" class="form-label"
                           >Email</label
                         >
-                        <input type="text" class="form-control" id="Email" />
+                        <input type="text" class="form-control" id="email" />
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -66,13 +68,14 @@
                           src=" "
                           class="img-thumbnail rounded"
                           style="width: 200px; height: 200px"
+                          id="logo_container"
                         />
                         <button type="button" class="btn btn-secondary">
-                          <label for="logo" class="form-label m-0"
+                          <label for="logo_img" class="form-label m-0"
                             >Upload Logo</label
                           >
                         </button>
-                        <input type="file" class="d-none" id="logo" />
+                        <input type="file" class="d-none" id="logo_img" />
                       </div>
                     </div>
                     </div>
@@ -101,4 +104,6 @@
         </div>
       </div>
     </main>
+
+<script src="<?= URLROOT?>/js/Advertiser/AccountSettings.js"></script>
 <?php require APPROOT . '/views/external_user/inc/footer.php';?>

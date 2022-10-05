@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PUPIAIS</title>
-    <script src="index.js" defer></script>
+    
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -51,7 +51,7 @@
 
               <hr />
 
-              <form action="">
+              <form action="" id="signup-form">
                 <div class="row">
                   <div class="col-md-7">
                     <div class="form-group">
@@ -92,13 +92,14 @@
                         src=" "
                         class="img-thumbnail rounded"
                         style="width: 200px; height: 200px"
+                        id="logo_container"
                       />
                       <button type="button" class="btn btn-secondary">
-                        <label for="logo" class="form-label m-0"
+                        <label for="logo_img" class="form-label m-0"
                           >Upload Logo</label
                         >
                       </button>
-                      <input type="file" class="d-none" id="logo" />
+                      <input type="file" class="d-none" id="logo_img" />
                     </div>
                   </div>
                   </div>
@@ -126,6 +127,7 @@
                           class="form-control"
                           id="password"
                         />
+                        <span id="error-password" class="text-danger d-none">Password must be at least 6 characters or above.</span>
                       </div>
                     </div>
                     <div class="col-md-7 mt-3">
@@ -138,6 +140,8 @@
                           class="form-control"
                           id="confirmPassword"
                         />
+                        <span id="error-confirmPassword" class="text-danger d-none">Password does not match.</span>
+
                       </div>
                     </div>
                   </div>
@@ -163,6 +167,8 @@
         </div>
       </div>
     </main>
+
+    <script src="<?= URLROOT?>/js/Advertiser/Signup.js"></script>
 
     <?php require APPROOT . '/views/external_user/inc/footer.php';?>
 

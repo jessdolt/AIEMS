@@ -5,7 +5,7 @@
       style="height: 80vh !important"
     >
       <div class="col-md-12 pb-5">
-        <form class="form">
+        <form class="form" id="promos-form">
           <div class="card p-5">
             <h2>Create your Advertisement</h2>
             <hr />
@@ -36,30 +36,30 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label for="adsType" class="form-label">Description</label>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" rows="3" id="description"></textarea>
                   </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-md-12 mt-5">
-                  <div class="form-group d-flex justify-content-center">
-                    <!-- <img src="..." alt="Responsive image" /> -->
-
-                    <div class="col-md-8">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <span class="input-group-btn">
-                            <span class="btn btn-default btn-file">
-                              Upload Image <input type="file" id="imgInp" />
-                            </span>
-                          </span>
-                          <input type="text" class="form-control" readonly />
-                        </div>
-                        <img id="img-upload" class="img-fluid" />
-                      </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="form-group">
+                      <img
+                        src=" "
+                        class="img-thumbnail rounded"
+                        style="width: 800px; height: 300px"
+                        id="myImg"
+                      />
+                      <input type="file" class="d-none" id="voucher-image" />
                     </div>
+                    <button type="button" class="btn btn-secondary">
+                        <label for="voucher-image" class="form-label m-0"
+                          >Upload Logo</label
+                        >
+                      </button>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -84,27 +84,27 @@
               </div>
 
               <div class="row mt-3">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <div class="form-group">
-                    <label for="dateOfAds" class="form-label"
+                    <label for="referenceCode" class="form-label"
                       >Reference Code
                       <span id="btn-add-ref"
                         ><i class="fa-solid fa-plus"></i></span
                     ></label>
-                    <input type="input" class="form-control" id="dateOfAds" />
+                    <input type="input" class="form-control references" id="referenceCode" />
                   </div>
                 </div>
               </div>
 
-              <div id="reference add"></div>
+              <div id="reference-add"></div>
 
               <div class="row mt-3">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="duratation" class="form-label"
-                      >Duratation of Advertisement
+                    <label for="duration" class="form-label"
+                      >Duration of Advertisement
                     </label>
-                    <select type="input" class="form-control" id="duratation">
+                    <select type="input" class="form-control" id="duration">
                       <option value=""></option>
                       <option value="1 Day">1 Day</option>
                       <option value="2 Days">2 Days</option>
@@ -134,11 +134,11 @@
               <div class="row mt-3">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="dateOfAds" class="form-label"
+                    <label for="gCashRefNumber" class="form-label"
                       >G-Cash Reference Number: (payment to
                       <span id="gcashNumber">09794823420</span>)
                     </label>
-                    <input type="input" class="form-control" id="dateOfAds" />
+                    <input type="input" class="form-control" id="gCashRefNumber" />
                   </div>
                 </div>
               </div>
@@ -147,9 +147,8 @@
                 <div class="col-md-12 mt-5">
                   <div class="btn-con d-flex justify-content-center">
                     <button
-                      class="btn"
-                      form="add-new-account"
-                      style="background-color: salmon"
+                      class="btn btn-primary"
+              
                     >
                       Save Changes
                     </button>
@@ -161,5 +160,7 @@
         </form>
       </div>
     </main>
+    <script src="<?= URLROOT?>/js/Advertiser/Create.js"></script>
+
 <?php require APPROOT . '/views/external_user/inc/footer.php';?>
 

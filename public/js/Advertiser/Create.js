@@ -2,18 +2,24 @@ const init = () => {
   const form = document.getElementById("promos-form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-
     const isValid = checkValidQty();
     if (isValid) validateData();
   });
 
   fileUploadHandler();
   referenceHandler();
+  durationHandler();
+
+  $(document).ready(function () {
+    alert("qwe");
+  });
 };
 
 const checkValidQty = () => {
   const qty = document.getElementById("quantity").value;
   const references = document.querySelectorAll(".references").length;
+  console.log(qty);
+  console.log(references);
   if (+qty != +references) {
     swal(
       "Error",
@@ -31,9 +37,6 @@ const fileUploadHandler = () => {
   const img_box = document.getElementById("myImg");
   const reader = new FileReader();
   fileUpload.addEventListener("change", function (event) {
-    document.querySelector(".imageInputContainer_site").style.border = "none";
-    document.querySelector(".imageInputContainer_site img").style.border =
-      "1px solid rgba(0, 0, 0, 0.38)";
     const files = event.target.files;
     const file = files[0];
     reader.readAsDataURL(file);
@@ -41,6 +44,29 @@ const fileUploadHandler = () => {
       img_box.src = event.target.result;
       img_box.alt = file.name;
     });
+  });
+};
+
+const payments = [
+  { duration: "1 Day", amount: 100 },
+  { duration: "2 Days", amount: 150 },
+  { duration: "3 Days", amount: 250 },
+  { duration: "5 Days", amount: 450 },
+  { duration: "1 Week", amount: 650 },
+  { duration: "2 Weeks", amount: 1200 },
+  { duration: "1 Month", amount: 2000 },
+];
+
+const durationHandler = () => {
+  const duration = document.getElementById("duration");
+  const payment = document.getElementById("payment");
+  duration.addEventListener("change", (e) => {
+    if (e.target.value) {
+      const [amount] = payments.filter(
+        (payment) => e.target.value === payment.duration
+      );
+      payment.value = `₱ ${+amount.amount.toFixed(2)}`;
+    }
   });
 };
 
@@ -69,7 +95,7 @@ const referenceHandler = () => {
 
     const btnDelete = document.createElement("button");
     btnDelete.classList.add("btn");
-    btnDelete.classList.add("btn-outline-secondary");
+    btnDelete.classList.add("btn-secondary");
     btnDelete.classList.add(`btn-delete-reference-${randomNumber}`);
     btnDelete.classList.add(`text-white`);
     btnDelete.textContent = `Delete`;
@@ -109,7 +135,10 @@ const validateData = () => {
   const date = document.getElementById("dateOfAds").value;
   const quantity = document.getElementById("quantity").value;
   const duration = document.getElementById("duration").value;
-  const payment = document.getElementById("payment").value;
+  const payment = document
+    .getElementById("payment")
+    .value.replace("₱", "")
+    .trim();
   const gCashRefNumber = document.getElementById("gCashRefNumber").value;
 
   const data = {

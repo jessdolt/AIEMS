@@ -14,12 +14,14 @@
                 </div>
                 <hr />
 
-                <form action="">
+                <form action="" id="password-form">
                   <div class="row mt-3">
                     <div class="col-md-12">
                     <div
                       class="d-flex flex-column justify-content-center align-items-center"
                     >
+                    <!-- lagay value sa user_id ng id ng user pri -->
+                      <input type="hidden" id="user_id" value='1'>
                       <div class="col-md-7 mt-3">
                         <div class="form-group">
                           <label for="currentPassword" class="form-label"
@@ -30,6 +32,7 @@
                             class="form-control"
                             id="currentPassword"
                           />
+
                         </div>
                       </div>
                       <div class="col-md-7 mt-3">
@@ -42,6 +45,9 @@
                             class="form-control"
                             id="password"
                           />
+                          <span id="error-password" class="text-danger d-none">Password must be at least 6 characters or above.</span>
+
+
                         </div>
                       </div>
                       <div class="col-md-7 mt-3">
@@ -54,6 +60,8 @@
                             class="form-control"
                             id="confirmPassword"
                           />
+                        <span id="error-confirmPassword" class="text-danger d-none">Password does not match.</span>
+
                         </div>
                       </div>
                     </div>
@@ -67,6 +75,7 @@
                           class="btn btn-warning"
                           style="display: block"
                           type="submit"
+                          id="btn-save"
                         >
                           Update
                         </button>
@@ -80,4 +89,7 @@
         </div>
       </div>
 </main>
+
+<script src="<?= URLROOT?>/js/Advertiser/ChangePassword.js"></script>
+
 <?php require APPROOT . '/views/external_user/inc/footer.php';?>
