@@ -426,6 +426,7 @@
     <?php flash('department_duplicate'); ?>
     <?php flash('course_code_duplicate'); ?>
     <?php flash('batch_duplicate'); ?>
+    <?php flash('batchError'); ?>
 
     <!-- <script src="/js/test/alumni.js"></script> -->
 <script>

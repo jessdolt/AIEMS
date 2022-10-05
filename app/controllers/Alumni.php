@@ -653,7 +653,13 @@ class Alumni extends Controller{
 
     public function checkBatch($batch){
         $batch_year = $this->alumniModel->getBatchByYear($batch);
-        return $batch_year->id;
+        if(!empty($batch_year)) {
+            return $batch_year->id;
+        } else{
+            flash('batchError','Batch '.$batch.' is not yet in database','errorAlert');
+            redirect('admin/alumni'); 
+        }
+        
     }
 
 

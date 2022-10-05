@@ -38,8 +38,9 @@ class promosAdvertisement {
         ON a.promoid = b.promoid 
         WHERE b.quantity <> b.used_quantity 
         AND a.date <= CURDATE()
-        AND a.promoid = :promoid');
-        $this->db->bind(':id', $id);
+        AND a.promoid = :promoid
+        AND is_approved = 1');
+        $this->db->bind(':promoid', $id);
 
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -81,6 +82,28 @@ class promosAdvertisement {
         }
     }
 
+    public function promoApproveReject($data) {
+        $this->db->query('UPDATE promos_advertisement SET is_approved = :status WHERE promoid = :id');
+        $this->db->bind(':id', $data->id);
+        $this->db->bind(':status', $data->status);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function singlePromo($id) {
+        $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+
+        if($this->db->rowCount() > 0 ){
+           return $row;
+        }
+    }
+
     public function deletePromo($id){
         $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
         $this->db->bind(':id', $id);
@@ -109,7 +132,7 @@ class promosAdvertisement {
 
     // AND is_approved = 1
     public function getAllAvailablePromos($id) {
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by  ORDER BY date DESC');
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by AND is_approved = 1 ORDER BY date DESC');
         $this->db->bind(':id', $id);
 
         $row = $this->db->resultSet();
@@ -118,8 +141,9 @@ class promosAdvertisement {
         }
     }
 
+    // AND is_approved = 1
     public function getAllAvailablePromosAdmin() {
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() ORDER BY date DESC');
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 ORDER BY date DESC');
 
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -130,7 +154,7 @@ class promosAdvertisement {
     // AND is_approved = 1
     public function unclaimedRewards($id) {
     
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by ORDER BY date DESC LIMIT 3 ');
+        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by AND is_approved = 1 ORDER BY date DESC LIMIT 3 ');
         $this->db->bind(':id', $id);
 
         $row = $this->db->resultSet();

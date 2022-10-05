@@ -174,19 +174,19 @@
 
                     <div class="d-flex justify-content-end align-items-center">
                       <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
-                      <button class="btn rounded-pill text-white">Redeem</button>
+                      <button class="btn rounded-pill text-white" button id="btnRedeem" data-id="<?php echo $unclaimedRewards->promoid ?>">Redeem</button>
                     </div>
                   </div>
                 </div>
               <?php endforeach; } ?>
               
-
-               
               </div>
             </div>
           </div>
         </div>
       </div>
     </main>
+
+    <script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 
