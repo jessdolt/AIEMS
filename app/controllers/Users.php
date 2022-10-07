@@ -311,6 +311,14 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['alumni_id'] = $newUser->a_id;
                 $_SESSION['user_type'] = $newUser->user_control;
                 $_SESSION['image'] = $newUser->image;
+            } if($check->user_control == "Advertiser") {
+                $newUser = $this->userModel->forSessionAdvertiser($user);
+                $_SESSION['id'] = $newUser->user_id;
+                $_SESSION['advertiser_id'] = $newUser->advertiser_id;
+                $_SESSION['email'] = $newUser->email;
+                $_SESSION['name'] = $newUser->name;
+                $_SESSION['user_type'] = $newUser->user_control;
+                $_SESSION['image'] = $newUser->image;
             } else {
                 $newUser = $this->userModel->forSessionAdmin($user);
                 $_SESSION['id'] = $newUser->user_id;
@@ -321,22 +329,12 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['image'] = $newUser->image;
             }
 
-            if($check->user_control == "Advertiser") {
-                $newUser = $this->userModel->forSessionAdvertiser($user);
-                $_SESSION['id'] = $newUser->user_id;
-                $_SESSION['advertiser_id'] = $newUser->advertiser_id;
-                $_SESSION['email'] = $newUser->email;
-                $_SESSION['name'] = $newUser->name;
-                $_SESSION['user_type'] = $newUser->user_control;
-                $_SESSION['image'] = $newUser->image;
-            }
-
             if ($_SESSION['user_type'] == "Admin" || $_SESSION['user_type'] == "Super Admin") {
                 redirect('admin/dashboard');
             } elseif ($_SESSION['user_type'] == "Content Creator") {
                 redirect('admin/news');
-            // } elseif ($_SESSION['user_type'] == "Advertiser") {
-            //     redirect('advertiser');
+            } elseif ($_SESSION['user_type'] == "Advertiser") {
+                redirect('advertiser');
             } else {
                 redirect('pages'); 
             }
