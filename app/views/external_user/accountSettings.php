@@ -16,14 +16,14 @@
 
                 <form action="" id="account-form">
                   <!-- ID PAL DITO  -->
-                  <input type="hidden" id="id">
+                  <input type="hidden" id="id" value="<?= $_SESSION['id']?>">
                   <div class="row">
                     <div class="col-md-7">
                       <div class="form-group">
                         <label for="name" class="form-label"
                           >Name of Advertiser</label
                         >
-                        <input type="text" class="form-control" id="name" />
+                        <input type="text" class="form-control" id="name" value="<?= $data->name?>" />
                       </div>
                     </div>
                     
@@ -34,7 +34,7 @@
                         <label for="email" class="form-label"
                           >Email</label
                         >
-                        <input type="text" class="form-control" id="email" />
+                        <input type="text" class="form-control" id="email" value="<?= $data->email?>" />
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -46,6 +46,7 @@
                             type="text"
                             class="form-control"
                             id="mobileNumber"
+                            value="<?= $data->contact_no?>"
                           />
                         </div>
                       </div>
@@ -55,7 +56,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" />
+                        <input type="text" class="form-control" id="address" value="<?= $data->address?>"/>
                       </div>
                     </div>
                   </div>
@@ -65,7 +66,7 @@
                     <div class="d-flex justify-content-center">
                       <div class="form-group">
                         <img
-                          src=" "
+                          src="<?php echo URLROOT?>/uploads/<?php echo($data->image); ?>"
                           class="img-thumbnail rounded"
                           style="width: 200px; height: 200px"
                           id="logo_container"
@@ -75,7 +76,7 @@
                             >Upload Logo</label
                           >
                         </button>
-                        <input type="file" class="d-none" id="logo_img" />
+                        <input type="file" class="d-none" id="logo_img" value="<?php echo($data->image); ?>"/>
                       </div>
                     </div>
                     </div>

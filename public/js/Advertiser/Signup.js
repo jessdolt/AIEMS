@@ -110,7 +110,7 @@ const validateData = () => {
       buttons: ["Cancel", "Update"],
       dangerMode: true,
     }).then((isConfirm) => {
-      isConfirm && addNewData(newFData, id);
+      isConfirm && addNewData(newFData);
     });
   }
   // resetForm();
@@ -120,7 +120,7 @@ const addNewData = (data) => {
   //URL NALANG DITO NIEL
   $.ajax({
     type: "POST",
-    url: `/aiems/advertiser/HAKDOG`,
+    url: `/aiems/advertiser/addAdvertiser`,
     data: data,
     cache: false,
     contentType: false,

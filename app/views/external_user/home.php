@@ -6,6 +6,7 @@
     >
       <div class="col-md-12 h-100">
         <!-- IF ELSE FOR RENDERING HOME -->
+        <?php if(empty($data)) {?>
         <div
           class="h-100 d-flex flex-column justify-content-center align-items-center"
         >
@@ -21,15 +22,23 @@
           </h1>
           <a class="btn btn-secondary btn-lg mt-5" href="<?= URLROOT.'/advertiser/create'?>">Add Promos</a>
         </div>
-        <!--  
+
+        <?php 
+        } 
+          if (!empty($data)) {
+        ?>
+
           <h3>Your Promos and Advertisement</h3>
         <hr />
+        
         <div
           class="d-flex flex-column justify-content-between"
           style="height: 100%"
-        >
-        START NG FOREACH
+          >
+          <!-- START NG FOREACH -->
+          <?php foreach($data as $yourAdvertisement) : ?>
           <div class="row">
+            
             <div class="col-md-4 mt-2 mb-2">
               <div
                 class="card rounded"
@@ -37,7 +46,7 @@
               >
                 <img
                   class="rounded"
-                  src="./images/voucher.jpg"
+                  src="<?php echo URLROOT?>/uploads/<?php echo($yourAdvertisement->image); ?>"
                   alt=""
                   style="max-width: 100%; height: 150px"
                 />
@@ -45,7 +54,7 @@
                   <div
                     class="d-flex justify-content-between align-items-center"
                   >
-                    <h5 class="mt-2">Reward No. 1</h5>
+                    <h5 class="mt-2"><?php echo($yourAdvertisement->title); ?></h5>
                     <button class="btn rounded-pill btn-secondary">View</button>
                   </div>
                   <div class="d-flex justify-content-center align-items-center">
@@ -56,11 +65,15 @@
                       Remaining Time Left: 24:03:01
                     </p>
                   </div>
+                  
                 </div>
+                
               </div>
+              
             </div>
+            
           </div>
-
+          <?php endforeach; ?>
           <div class="row">
             <nav
               aria-label="Page navigation example"
@@ -79,7 +92,8 @@
               </ul>
             </nav>
           </div>
-        </div> -->
+        </div>
+        <?php } ?>
       </div>
     </main>
 

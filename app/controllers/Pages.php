@@ -104,6 +104,12 @@ class Pages extends Controller{
                 }
             }
         }
+
+        if(userType() == "Advertiser") {
+            redirect('advertiser');
+        }
+    
+        
     }
 
   

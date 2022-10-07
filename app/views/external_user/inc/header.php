@@ -102,7 +102,7 @@
             class="d-flex align-items-center justify-content-between"
             style="gap: 20px"
           >
-            <h6>Welcome, Jess</h6>
+            <h6>Welcome, <?php echo $_SESSION['name'];?></h6>
 
             <div class="dropdown show">
               <img
@@ -111,7 +111,7 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                src="<?php echo URLROOT; ?>/uploads/<?php echo $_SESSION['image']; ?>"
                 class="rounded-circle"
                 style="width: 45px; height: 45px; margin-right: 20px"
                 alt="Avatar"
@@ -122,8 +122,8 @@
                 aria-labelledby="dropdownMenuLink"
                 style="margin-left: -120px"
               >
-                <a class="dropdown-item" href="<?= URLROOT.'/advertiser/accountSettings'?>">Account Settings</a>
-                <a class="dropdown-item" href="<?= URLROOT.'/advertiser/changePassword'?>">Change Password</a>
+                <a class="dropdown-item" href="<?= URLROOT.'/advertiser/accountSettings/'.$_SESSION['id'];?>">Account Settings</a>
+                <a class="dropdown-item" href="<?= URLROOT.'/advertiser/changePassword/'.$_SESSION['id'];?>">Change Password</a>
                 <a class="dropdown-item" href="<?= URLROOT.'/advertiser/logout'?>">Logout</a>
               </div>
             </div>

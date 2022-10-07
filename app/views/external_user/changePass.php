@@ -21,7 +21,7 @@
                       class="d-flex flex-column justify-content-center align-items-center"
                     >
                     <!-- lagay value sa user_id ng id ng user pri -->
-                      <input type="hidden" id="user_id" value='1'>
+                      <input type="hidden" id="user_id" value="<?= $_SESSION['id']?>">
                       <div class="col-md-7 mt-3">
                         <div class="form-group">
                           <label for="currentPassword" class="form-label"
