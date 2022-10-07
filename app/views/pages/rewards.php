@@ -62,8 +62,8 @@
                       <div class="p-2">
                         <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
                         <div class="d-flex justify-content-end align-items-center">
-                            <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
-                            <button id="btnRedeem" class="btn rounded-pill text-white" data-id="<?php echo $allAvailablePromos->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/redeemReward">Redeem</button>
+                            <p style="margin: 0; margin-right: 10px" class="text-white"><?= $allAvailablePromos->ac_amount?> AC</p>
+                            <button id="btnRedeem" class="btn rounded-pill text-white" data-ac="<?= $allAvailablePromos->ac_amount?>" data-id="<?php echo $allAvailablePromos->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/redeemReward">Redeem</button>
                         </div>
                       </div>
                     </div>

@@ -3,8 +3,11 @@
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASS', '12345');
-    define('DB_NAME', 'AIEMS');
+    define('DB_NAME', 'aiems');
 
+    define('AC_HIGHEST', 12);
+    define('AC_LOWEST', 4);
+    define('AC_AVERAGE', 8);
     //REMOTE DB (LIVE) 
     // define('DB_HOST', 'us-cdbr-east-04.cleardb.com');
     // define('DB_USER', 'bf4e22d91874f8');
