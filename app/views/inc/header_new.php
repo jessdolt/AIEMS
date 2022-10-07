@@ -210,6 +210,10 @@
                     <img src="<?php echo URLROOT;?>/uploads/<?php echo ($_SESSION['image']) ?>">
                 <?php endif; ?>
             </div>
+            <?php if($_SESSION['user_type'] === 'Alumni'): ?>
+                <span style="font-weight: bold;">Alumni Coins:</span>
+                 <p style="text-align: center; border-bottom: 0; padding: 1px 0; margin-top: 2px; margin-bottom: -8px;" id="ALUMNI_COINS"><?php echo $_SESSION['alumniCoins'] ?> AC</p>       
+            <?php endif;?>
             <a href="<?php echo URLROOT; ?>/profile/viewProfile/<?php echo $_SESSION['alumni_id'] ?>" class="profile">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C12 20 20 20 20 18C20 15.6 16.1 13 12 13C7.9 13 4 15.6 4 18C4 20 12 20 12 20Z" fill="black" fill-opacity="0.87"/>

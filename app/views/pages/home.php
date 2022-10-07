@@ -47,6 +47,7 @@
                     <ellipse cx="18.7325" cy="58.1027" rx="0.317502" ry="0.317499" fill="#FFDC41"/>
                     </svg>
                     <h2>Welcome Alumni!</h2>
+              
                     <p>
                         Alumni Information and Event Management System
                         is website created for alumni from <?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?>, 

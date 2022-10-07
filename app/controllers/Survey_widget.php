@@ -75,6 +75,7 @@
                 }
        
             if(isset($save)){
+                // $_SESSION['alumni_id'] += AC_HIGHEST;
                 echo 1;
             }
         }

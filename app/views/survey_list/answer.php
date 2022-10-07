@@ -9,6 +9,8 @@
                 <form action="" class="form" id="manage-survey" method="POST">
                     <input type="hidden" name="survey_id" value="<?php echo $data['survey']->id?>">
                     <input type="hidden" name="user_id"   value="<?php echo $_SESSION['id']?>" >
+                    <input type="hidden" name="alumni_id"   value="<?php echo $_SESSION['alumni_id']?>" >
+                 
                     <h2>PUP-Institute of Technology Survey</h2>
                     <?php 
                     $i = 0;
@@ -52,33 +54,14 @@
                    
                    
                    
-                    <button type="submit">Submit Response</button>
+                    <button type="submit" >Submit Response</button>
+
+                    <input type="hidden" id="ac_amount" value="<?= $data['survey']->ac_amount?>">
                 </form>
             </div>
         </section>
     </main>
 
-    <script>
+    <script src="<?= URLROOT?>/js/Survey/Answer.js"></script>
 
-    $('#manage-survey').submit(function(e){
-        e.preventDefault();
-        // console.log($(this).attr('data-id'));
-        // console.log(php echo $data['id']?>);
-        console.log($(this).serialize());
-        $.ajax({ 
-                url:'<?php echo URLROOT;?>/survey_widget/answer',
-                data: $(this).serialize(), 
-                method: 'POST',
-                success:function(res){
-                    if(res == 1){
-                        location.replace('<?php echo URLROOT;?>/survey_widget');
-                    }
-                }, 
-                error: function(er){
-                    console.log(er);
-                }
-        })
-    })
-
-    </script>
 <?php require APPROOT . '/views/inc/footer_u.php'; ?>

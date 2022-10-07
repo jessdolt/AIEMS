@@ -311,7 +311,8 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['alumni_id'] = $newUser->a_id;
                 $_SESSION['user_type'] = $newUser->user_control;
                 $_SESSION['image'] = $newUser->image;
-            } if($check->user_control == "Advertiser") {
+                $_SESSION['alumniCoins'] = $newUser->alumniCoins;
+            } else if($check->user_control == "Advertiser") {
                 $newUser = $this->userModel->forSessionAdvertiser($user);
                 $_SESSION['id'] = $newUser->user_id;
                 $_SESSION['advertiser_id'] = $newUser->advertiser_id;
@@ -337,6 +338,7 @@ use PHPMailer\PHPMailer\Exception;
                 redirect('advertiser');
             } else {
                 redirect('pages'); 
+
             }
         }
 
