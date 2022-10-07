@@ -538,8 +538,13 @@ class Pages extends Controller{
         } else {
             $data = [];
         }
-        
+       
+
         $this->view('pages/rewards', $data);
     }
 
+
+    public function getLatestAc($id){
+        
+    }
 }
