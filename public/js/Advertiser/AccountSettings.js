@@ -1,6 +1,6 @@
 window.onload = () => {
   init();
-  alert("qwe");
+  // alert("qwe");
 };
 
 const init = () => {
@@ -38,7 +38,7 @@ const fileUploadHandler = () => {
 };
 
 const validateData = () => {
-  const id = document.getElementById("id");
+  const id = document.getElementById("id").value;
   const logo_img = document.getElementById("logo_img");
   const name = document.getElementById("name").value;
   const logoImage = logo_img.getAttribute("value")
@@ -85,7 +85,7 @@ const updateData = (data, id) => {
   //URL NALANG DITO NIEL
   $.ajax({
     type: "POST",
-    url: `/aiems/advertiser/HAKDOG/${id}`,
+    url: `/aiems/advertiser/editProfile/${id}`,
     data: data,
     cache: false,
     contentType: false,
@@ -94,9 +94,9 @@ const updateData = (data, id) => {
     success: function (data) {
       const response = JSON.parse(data);
       if (response.isSuccess) {
-        swal("SignUp Successfully", `${response.message}`, "success").then(
+        swal("Updated Successfully", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/advertiser/home`);
+            window.location.replace(`/aiems/advertiser/accountSettings`);
           }
         );
       } else {

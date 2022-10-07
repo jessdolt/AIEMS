@@ -10,9 +10,9 @@ const init = () => {
   referenceHandler();
   durationHandler();
 
-  $(document).ready(function () {
-    alert("qwe");
-  });
+  // $(document).ready(function () {
+  //   alert("qwe");
+  // });
 };
 
 const checkValidQty = () => {
@@ -113,7 +113,6 @@ const referenceHandler = () => {
 };
 
 const initBtnDelete = (randomNumber) => {
-  console.log("qwe");
   const btnDelete = document
     .querySelector(`.btn-delete-reference-${randomNumber}`)
     .addEventListener("click", function () {
@@ -187,7 +186,7 @@ const getReferenceCodes = () => {
 const addNewData = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/promos_advertisement/addPromosAdvertisement`,
+    url: `/aiems/advertiser/addPromosAdvertisement`,
     data: data,
     cache: false,
     contentType: false,
@@ -198,7 +197,7 @@ const addNewData = (data) => {
       if (response.isSuccess) {
         swal("Updated Successfully", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/pages/promos`);
+            window.location.replace(`/aiems/advertiser/home`);
           }
         );
       } else {

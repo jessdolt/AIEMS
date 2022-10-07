@@ -260,14 +260,15 @@ use PHPMailer\PHPMailer\Exception;
                     $date = date('Y-m-j');
                     $checker = $this->userModel->checkLoginDate($date);
                     $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                    // IF NOT YET APPROVED ADVERTISER GIT OUT
+                    
                     if($checker->login_date == $date){
                         if ($loggedInUser) {
                             $this->createUserSession($loggedInUser);
                             if(userType() == 'Alumni'){
                                 $this->userModel->loginCount($date);
                             }
-                        }
-                        else {
+                        } else {
                             $data['passwordError'] = 'Password or email is incorrect.';
                         }
                 } else {

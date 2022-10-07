@@ -91,6 +91,8 @@
             return 'Alumni';
         } elseif ($_SESSION['user_type'] == "Content Creator") {
             return 'Content Creator';
+        } elseif ($_SESSION['user_type'] == "Advertiser") {
+            return 'Advertiser';
         }
     }
 

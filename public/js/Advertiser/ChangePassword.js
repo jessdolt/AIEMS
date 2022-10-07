@@ -58,27 +58,29 @@ const eventHandlers = () => {
 };
 
 const validateData = () => {
-  const newPassword = document.getElementById("confirmPassword");
-  const user_id = document.getElementById("user_id");
+  const currentPassword = document.getElementById("currentPassword").value;
+  const newPassword = document.getElementById("confirmPassword").value;
+  const user_id = document.getElementById("user_id").value;
   const data = {
+    currentPassword,
     newPassword,
     id: user_id,
   };
-  console.log(data);
+  // console.log(data);
   updatePassword(data);
 };
 const updatePassword = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/updatePassword/${data.id}`,
-    data: data,
+    url: `/aiems/advertiser/updatePassword/${data.id}`,
+    data: JSON.stringify(data),
     method: "POST",
     success: function (data) {
       const response = JSON.parse(data);
       if (response.isSuccess) {
         swal("Updated Successfully", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/pages/promos`);
+            window.location.replace(`/aiems/advertiser/changePassword`);
           }
         );
       } else {
