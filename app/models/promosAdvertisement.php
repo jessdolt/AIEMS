@@ -7,7 +7,7 @@ class promosAdvertisement {
     }
 
     public function allPromosAdvertisement() {
-        $this->db->query('SELECT a.*, b.name FROM promos_advertisement AS a LEFT JOIN users AS b ON a.posted_by = b.a_id');
+        $this->db->query('SELECT a.*, b.name FROM promos_advertisement AS a LEFT JOIN users AS b ON a.posted_by = b.user_id');
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
             return $row;
@@ -48,10 +48,10 @@ class promosAdvertisement {
         }
     }
 
-    public function updateReferenceCode($id, $alumni_id) {
-        $this->db->query('UPDATE reference_code SET used_quantity = (used_quantity + 1), redeemed_by = :alumni_id WHERE id = :id');
+    public function updateReferenceCode($id, $user_id) {
+        $this->db->query('UPDATE reference_code SET used_quantity = (used_quantity + 1), redeemed_by = :user_id WHERE id = :id');
         $this->db->bind(':id', $id);
-        $this->db->bind(':alumni_id', $alumni_id);
+        $this->db->bind(':user_id', $user_id);
 
         if($this->db->execute()){
             return true;
@@ -168,7 +168,7 @@ class promosAdvertisement {
         FROM reference_code AS a
         LEFT JOIN promos_advertisement AS b
         ON a.promoid = b.promoid
-        WHERE a.redeemed_by=:id;');
+        WHERE a.redeemed_by = :id;');
         $this->db->bind(':id', $id);
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -177,7 +177,7 @@ class promosAdvertisement {
     }
 
     public function yourAdvertisement($id) {
-        $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by=:id;');
+        $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by = :id;');
         $this->db->bind(':id', $id);
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -216,6 +216,29 @@ class promosAdvertisement {
         
         $this->db->bind(':promoid', $lastPromoId);
         $this->db->bind(':code', $data->referenceCode);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getAlumniCoin($id) {
+        $this->db->query('SELECT alumniCoins FROM alumni WHERE alumni_id = :alumni_id');
+        $this->db->bind(':alumni_id', $id);
+
+        $row = $this->db->single();
+        if(empty($row)) {
+            return false;
+        }
+        return $row;
+    }
+
+    public function updateAlumniCoins($ac, $id) {
+        $this->db->query('UPDATE alumni SET alumniCoins = :alumniCoins WHERE alumni_id = :alumni_id');
+        $this->db->bind(':alumniCoins', $ac);
+        $this->db->bind(':alumni_id', $id);
 
         if($this->db->execute()){
             return true;

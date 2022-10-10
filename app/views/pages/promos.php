@@ -173,8 +173,8 @@
 
 
                     <div class="d-flex justify-content-end align-items-center">
-                      <p style="margin: 0; margin-right: 10px" class="text-white">10.00 AC</p>
-                      <button class="btn rounded-pill text-white" button id="btnRedeem" data-id="<?php echo $unclaimedRewards->promoid ?>">Redeem</button>
+                      <p style="margin: 0; margin-right: 10px" class="text-white" ><?php echo number_format((float)$unclaimedRewards->ac_amount, 2, '.', '') ?> AC</p>
+                      <button class="btn rounded-pill text-white" id="btnRedeem" data-ac="<?php echo $unclaimedRewards->ac_amount ?>" data-id="<?php echo $unclaimedRewards->promoid ?>">Redeem</button>
                     </div>
                   </div>
                 </div>

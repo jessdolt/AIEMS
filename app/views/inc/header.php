@@ -158,7 +158,7 @@
 
             <?php if($_SESSION['user_type'] === 'Alumni'): ?>
                 <span style="font-weight: bold;">Alumni Coins:</span>
-                 <p style="text-align: center; border-bottom: 0; padding: 1px 0; margin-top: 2px; margin-bottom: -8px;"><?php echo $_SESSION['alumniCoins'] ?> AC</p>       
+                 <p style="text-align: center; border-bottom: 0; padding: 1px 0; margin-top: 2px; margin-bottom: -8px;" id="ALUMNI_COINS"><?php echo $_SESSION['alumniCoins'] ?> AC</p>       
             <?php endif;?>
             <a href="<?php echo URLROOT; ?>/profile/viewProfile/<?php echo $_SESSION['alumni_id'] ?>" class="profile">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

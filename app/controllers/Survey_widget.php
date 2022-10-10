@@ -75,7 +75,14 @@
                 }
        
             if(isset($save)){
+                $promosAdvertismentModel = $this->model('promosadvertisement');
                 // $_SESSION['alumni_id'] += AC_HIGHEST;
+                    // this is alumniCoins - ac_amount in table
+                    $updatedAlumniCoin = $_SESSION['alumniCoins'] + AC_HIGHEST;
+                    $isACUpdated = $promosAdvertismentModel->updateAlumniCoins($updatedAlumniCoin, $_SESSION['alumni_id']);
+                    if($isACUpdated) {
+                        $_SESSION['alumniCoins'] = $updatedAlumniCoin;
+                    }
                 echo 1;
             }
         }
