@@ -3,7 +3,9 @@
 class Pages extends Controller{
     public function __construct(){
         $this->siteConfigModel = $this->model('siteconfig');
-
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -192,16 +194,25 @@ class Pages extends Controller{
         $this->eventModel = $this->model('event');
         $this->jobModel = $this->model('job_portal');
         $this->forumModel = $this->model('new_forum');
+        $promosAdvertismentModel = $this->model('promosadvertisement');
 
         $news = $this->postModel->showNewsHome();
         $events = $this->eventModel->showEventHome();
         $job_portal = $this->jobModel->showJobsHome();
         $forum = $this->forumModel->forumIndex();
+        
+        if ($_SESSION['user_type'] == "Alumni") {
+            $voucher = $promosAdvertismentModel->unclaimedRewards($_SESSION['id']);
+        } else {
+            $voucher = $promosAdvertismentModel->getAllAvailablePromosAdmin();
+        }
+        
         $data = [
             'news' => $news,
             'events' => $events,
             'job_portals' => $job_portal,
-            'forum' => $forum
+            'forum' => $forum,
+            'voucher' => $voucher,
         ];
 
          $this->view('pages/home', $data);
@@ -509,9 +520,9 @@ class Pages extends Controller{
 
     public function promos() {
         $promosAdvertisementModel = $this->model('promosadvertisement');
-        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['alumni_id']);
-        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['alumni_id']);
-        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['alumni_id']);
+        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['id']);
+        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['id']);
+        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['id']);
 
         $data = [
             'redeemedRewards' =>  $redeemedRewards,
@@ -525,7 +536,7 @@ class Pages extends Controller{
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
         if (userType() == "Alumni") {
-            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['alumni_id']);
+            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['id']);
         } else {
             $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromosAdmin();
         }
@@ -545,6 +556,8 @@ class Pages extends Controller{
 
 
     public function getLatestAc($id){
-        
+        $userModel = $this->model('user');
+        $getAc = $userModel->getAlumniCoin($id);
+        return $getAc;
     }
 }

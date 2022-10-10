@@ -12,13 +12,13 @@ $("#manage-survey").submit(function (e) {
   }).then((isConfirm) => {
     isConfirm &&
       $.ajax({
-        url: "<?php echo URLROOT;?>/survey_widget/answer",
+        url: "/aiems/survey_widget/answer",
         data: $(this).serialize(),
         method: "POST",
         success: function (res) {
           if (res == 1) {
             swal("Answered Successfully", ``, "success").then(() => {
-              location.replace("<?php echo URLROOT;?>/survey_widget");
+              location.replace("/aiems/survey_widget");
             });
           }
         },

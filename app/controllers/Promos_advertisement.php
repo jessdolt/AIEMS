@@ -40,26 +40,30 @@
 
         public function redeemReward($promoid){
             $promosAdvertismentModel = $this->model('promosadvertisement');
-            //UPDATE TO
-            //Pag may nag reredeem 
-            //Update yung reference code 1, Update din yung sa promos +1; 
-            //To know what will the alumni will redeem  
-            // SELECT * FROM `promos_advertisement` AS a LEFT JOIN `reference_code` AS b ON a.promoid = b.promoid WHERE b.quantity <> b.used_quantity AND a.date AND a.promoid = :promoid
+        
             $hasReferenceCode = $promosAdvertismentModel->checkHasReferenceCode($promoid);
-            
+
             if(!empty($hasReferenceCode)){
                 $redeemableReward = $hasReferenceCode[0];
 
                 // UPDATE reference_code SET used_qty = (used_qty + 1) where promoid
-                $isReferenceUpdated = $promosAdvertismentModel->updateReferenceCode($redeemableReward->id, $_SESSION['alumni_id']);
+                $isReferenceUpdated = $promosAdvertismentModel->updateReferenceCode($redeemableReward->id, $_SESSION['id']);
 
                 if($isReferenceUpdated){
                     // UPDATE promo_advertisement SET used_qty = (used_qty + 1) where promoid
                      $isPromosUpdated = $promosAdvertismentModel->updatePromosAdvertisement($redeemableReward->promoid);
                 }
 
-                if($isPromosUpdated){
+                if($isPromosUpdated) {
+                    // $alumniCoins = $promosAdvertismentModel->getAlumniCoin($_SESSION['alumni_id']);
+                    $amountSubtracted = $redeemableReward->ac_amount;
+                    // this is alumniCoins - ac_amount in table
+                    $updatedAlumniCoin = $_SESSION['alumniCoins'] - intval($amountSubtracted);
+                    $isACUpdated = $promosAdvertismentModel->updateAlumniCoins($updatedAlumniCoin, $_SESSION['alumni_id']);
+                }
 
+                if($isACUpdated){
+                    $_SESSION['alumniCoins'] = $updatedAlumniCoin;
                     $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
     
                 }
@@ -157,7 +161,7 @@
                 'payment' => $_POST['payment'],
                 'gCashRefNumber' => $_POST['gCashRefNumber'],
                 'user_type' => $_SESSION['user_type'],
-                'posted_by' => $_SESSION['alumni_id']
+                'posted_by' => $_SESSION['id']
             ];
 
             $jsonPromo = json_decode(json_encode($data));

@@ -56,7 +56,6 @@
                    
                     <button type="submit" >Submit Response</button>
 
-                    <input type="hidden" id="ac_amount" value="<?= $data['survey']->ac_amount?>">
                 </form>
             </div>
         </section>

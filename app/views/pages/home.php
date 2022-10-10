@@ -13,7 +13,6 @@
     </style>
 <main class="alumni home">
     <?php require APPROOT . '/views/inc/heroContainer.php'; ?>
-
         <section class="welcomeBox">
             <div class="container">
                 <svg viewBox="0 0 127 127" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,19 +119,19 @@
                     Vouchers
                 </h2>
 
-                <?php foreach($data['events'] as $events): ?>
+                <?php foreach($data['voucher'] as $voucher): ?>
                 <article class="card events" style="background-color: grey">
-                    <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($events->image); ?>" alt="">
+                    <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($voucher->image); ?>" alt="">
                     <div class="card-body" style="background-color: grey">
-                        <h3><?php echo($events->title); ?></h3>
+                        <h3><?php echo($voucher->title); ?></h3>
                         <div class="caption">
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center">
                         <div class="reward-amount">
-                        <span>10.00</span> AC
+                        <span><?php echo number_format((float)$voucher->ac_amount, 2, '.', '') ?></span> AC
                         </div>
                       
-                        <button class="btn-redeem" type="button">Redeem</button>
+                        <button class="btn-redeem" id="btnRedeem" type="button" data-ac="<?= $voucher->ac_amount?>" data-id="<?php echo $voucher->promoid ?>">Redeem</button>
                         </div>
                         
                     </div>
@@ -231,5 +230,5 @@
             </div>
         </section>
     </main>
-
+<script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
 <?php require APPROOT . '/views/inc/footer_u.php'; ?>
