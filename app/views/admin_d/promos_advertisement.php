@@ -115,7 +115,7 @@
     </div>
 
 <?php flash('promo_delete_success')?>
-
+<?php flash('promo_approve_success')?>
 <?php flash('job_portal_add_success')?>
 <?php flash('job_portal_edit_success')?>
 

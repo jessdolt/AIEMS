@@ -264,6 +264,52 @@ class Advertiser extends Controller {
       }
    }
 
+      public function approveRow($id){
+         $advertiserModel = $this->model('advertiser_model');
+         $isAdvertiserUpdated = $advertiserModel->approveAdvertiser($id);
+
+         if($isAdvertiserUpdated){
+             flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
+             $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+         } else {
+             $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+         }
+
+         echo json_encode($response);
+     }
+
+         // FOR DELETING INLINE //
+         public function deleteRow($id) {
+         $advertiserModel = $this->model('advertiser_model');
+         $isAdvertiserDeleted = $advertiserModel->deleteAdvertiser($id);
+
+         if ($isAdvertiserDeleted){
+               flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
+               redirect('admin/advertiser');
+         }
+         else {
+               die("There's an error deleting this record");
+         }
+      }
+
+      // FOR DELETING CHECKBOX
+      public function delete() {
+         $advertiserModel = $this->model('advertiser_model');
+
+         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+               $todelete = $_POST['checkbox'];
+               foreach ($todelete as $id) {
+                  if ($advertiserModel->deleteAdvertiser($id)){
+                     flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
+                     redirect('admin/promos_advertisement');
+                  }
+                  else {
+                     die("There's an error deleting this record");
+                  }
+               }
+         }
+      }
+
 
 
 

@@ -387,6 +387,13 @@
             $this->view('admin_d/promos_advertisement', $data);
         }
 
+        public function advertiser() {
+            $advertiserModel = $this->model('advertiser_model');
+            $data = $advertiserModel->allAdvertiser();
+
+            $this->view('admin_d/advertiser', $data);
+        }
+
         public function survey_list() {
             $this->surveyModel = $this->model('survey');
             extract($_POST);
