@@ -127,59 +127,6 @@
 
                   <div id="reference-add"></div>
 
-                  <div class="row mt-3">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="duration" class="form-label"
-                          >Duration of Advertisement
-                        </label>
-                        <select
-                          type="input"
-                          class="form-control"
-                          id="duration"
-                        >
-                          <option value=""></option>
-                          <option value="1 Day">1 Day</option>
-                          <option value="2 Days">2 Days</option>
-                          <option value="3 Days">3 Days</option>
-                          <option value="5 Days">5 Days</option>
-                          <option value="1 Week">1 Week</option>
-                          <option value="2 Weeks">2 Weeks</option>
-                          <option value="1 Month">1 Month</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="payment" class="form-label"
-                          >Payment of Advertisement
-                        </label>
-                        <input
-                          type="input"
-                          class="form-control"
-                          id="payment"
-                          disabled
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mt-3">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="gCashRefNumber" class="form-label"
-                          >G-Cash Reference Number: (payment to
-                          <span id="gcashNumber">09794823420</span>)
-                        </label>
-                        <input
-                          type="input"
-                          class="form-control"
-                          id="gCashRefNumber"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
                   <div class="row">
                     <div class="col-md-12 mt-5">
                       <div class="btn-con d-flex justify-content-center">

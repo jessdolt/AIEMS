@@ -12,7 +12,8 @@
             $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
   
             if($isPromosUpdated){
-                $response = ['message' => 'Promo is successfully approve', 'isSuccess' => 1];
+                flash('promo_approve_success', 'Promo successfully approved', 'successAlert');
+                $response = ['message' => 'Promo is successfully approved', 'isSuccess' => 1];
             }
             else{
                 $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];

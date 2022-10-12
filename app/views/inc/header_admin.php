@@ -103,8 +103,13 @@
                                 <a href="<?php echo URLROOT;?>/admin/alumni" style="color:<?php echo $_SESSION['sitecolor_light']?> ">Alumni</a>
                             </div>
                         </li>
+                        <li class="mainCategory <?php echo ($url[1] == 'advertiser' || $url[0] == 'advertiser') ? 'open' : ' '?>" tabindex="0" >
+                            <div class="categoryContainer">
+                                <a href="<?php echo URLROOT;?>/admin/advertiser" style="color:<?php echo $_SESSION['sitecolor_light']?> ">Advertiser</a>
+                            </div>
+                        </li>
                         <li class="mainCategory 
-                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal') ? 'open' : ' '?>" tabindex="0" >
+                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal' || $url[1] == 'promos_advertisement') ? 'open' : ' '?>" tabindex="0" >
                             <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
                                 <span>Contents</span>
                                 <span class="icon dropArrow">

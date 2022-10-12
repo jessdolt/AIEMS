@@ -254,35 +254,55 @@ use PHPMailer\PHPMailer\Exception;
                     $data['passwordError'] = 'Please enter a password.';
                 } 
                 
-    
                 //Check if all errors are empty
                 if (empty($data['emailError']) && empty($data['passwordError'])) {
                     $date = date('Y-m-j');
                     $checker = $this->userModel->checkLoginDate($date);
                     $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
                     // IF NOT YET APPROVED ADVERTISER GIT OUT
-                    
+                    if ($loggedInUser) {
+                        if($loggedInUser->user_type == 6) {
+                            $getAdvertiserRow = $this->userModel->checkAdvertiser($loggedInUser->user_id);
+                            
+                            if ($getAdvertiserRow->is_approved != 1) {
+                                $data['passwordError'] = 'Advertiser is not yet approved.';
+                                $this->view('users/login', $data);
+                            }
+                        }
+                    } else {
+                        $data['passwordError'] = 'Password or email is incorrect.';
+                    }
+
+
                     if($checker->login_date == $date){
+
                         if ($loggedInUser) {
                             $this->createUserSession($loggedInUser);
+
                             if(userType() == 'Alumni'){
                                 $this->userModel->loginCount($date);
                             }
+
                         } else {
                             $data['passwordError'] = 'Password or email is incorrect.';
                         }
-                } else {
-                    $this->userModel->addLoginDate($date);
-                    if ($loggedInUser) {
-                        $this->createUserSession($loggedInUser);
-                        if(userType() == 'Alumni'){
-                        $this->userModel->loginCount($date);
+
+                    } else {
+
+                        $this->userModel->addLoginDate($date);
+
+                        if ($loggedInUser) {
+                            $this->createUserSession($loggedInUser);
+
+                            if (userType() == 'Alumni') {
+                                $this->userModel->loginCount($date);
+                            }
+
+                        } else {
+                            $data['passwordError'] = 'Password or email is incorrect.';
                         }
                     }
-                    else {
-                        $data['passwordError'] = 'Password or email is incorrect.';
-                    }
-                }
                     
                 }
     
