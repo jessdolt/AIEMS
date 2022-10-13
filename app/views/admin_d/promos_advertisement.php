@@ -57,14 +57,7 @@
                                     <span class="optionSpan icon">&#8942</span>
                                     <div class="optionModal">
                                         <a href="<?php echo URLROOT; ?>/promos_advertisement/viewPromo/<?php echo $promoAd->promoid?>">View</a>
-                                        <?php if($promoAd->is_approved == '0') {?>
-                                        <button type="button" data-id="<?php echo $promoAd->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/approveRow" class="btnApproval">
-                                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                                                <path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <?php }?>
+
                                         <button type="button" data-id="<?php echo $promoAd->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/deleteRow" class="btnDeleteInline">
                                             <svg viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M15.75 1.875H2.25C1.62868 1.875 1.125 2.43464 1.125 3.125V3.75C1.125 4.44036 1.62868 5 2.25 5H15.75C16.3713 5 16.875 4.44036 16.875 3.75V3.125C16.875 2.43464 16.3713 1.875 15.75 1.875Z"/>
@@ -115,7 +108,6 @@
     </div>
 
 <?php flash('promo_delete_success')?>
-<?php flash('promo_approve_success')?>
 <?php flash('job_portal_add_success')?>
 <?php flash('job_portal_edit_success')?>
 

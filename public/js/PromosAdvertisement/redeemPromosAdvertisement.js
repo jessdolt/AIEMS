@@ -1,5 +1,26 @@
 window.onload = () => {
   btnRedeemHandler();
+  btnDeleteHandler();
+};
+
+const btnDeleteHandler = () => {
+  const btnDelete = document.querySelectorAll("#btnDelete");
+
+  btnDelete.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+
+      swal({
+        title: "Delete",
+        text: "Do you wish to delete this promo?",
+        icon: "warning",
+        buttons: ["Cancel", "Confirm"],
+        dangerMode: true,
+      }).then((isConfirm) => {
+        isConfirm && deleteData(id);
+      });
+    });
+  });
 };
 
 const btnRedeemHandler = () => {
@@ -47,6 +68,29 @@ const updateData = (id) => {
       const response = JSON.parse(data);
       if (response.isSuccess) {
         swal("Redeemed Successfully", `${response.message}`, "success").then(
+          () => {
+            window.location.replace(`/aiems/pages/promos`);
+          }
+        );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+};
+
+const deleteData = (id) => {
+  $.ajax({
+    type: "POST",
+    url: `/aiems/promos_advertisement/userDeletePromo/${id}`,
+    method: "POST",
+    success: function (data) {
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Deleted Successfully", `${response.message}`, "success").then(
           () => {
             window.location.replace(`/aiems/pages/promos`);
           }

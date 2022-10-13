@@ -178,7 +178,7 @@
 
 
         public function singleAdvertiserProfile($id){
-            $this->db->query('SELECT * FROM advertiser WHERE advertiser_id = :id');
+            $this->db->query('SELECT * FROM advertiser WHERE user_id = :id');
             $this->db->bind(':id', $id);
             $row = $this->db->single();
             if($this->db->rowCount() > 0){

@@ -108,9 +108,9 @@ const validateData = () => {
   const description = document.getElementById("description").value;
   const date = document.getElementById("dateOfAds").value;
   const quantity = document.getElementById("quantity").value;
-  const duration = document.getElementById("duration").value;
-  const payment = document.getElementById("payment").value;
-  const gCashRefNumber = document.getElementById("gCashRefNumber").value;
+  // const duration = document.getElementById("duration").value;
+  // const payment = document.getElementById("payment").value;
+  // const gCashRefNumber = document.getElementById("gCashRefNumber").value;
 
   const data = {
     type,
@@ -120,9 +120,9 @@ const validateData = () => {
     quantity,
     voucherImage,
     referenceCode: getReferenceCodes(),
-    duration,
-    payment,
-    gCashRefNumber,
+    // duration,
+    // payment,
+    // gCashRefNumber,
   };
 
   console.log(data);
@@ -134,9 +134,9 @@ const validateData = () => {
   newFData.append("date", data.date);
   newFData.append("quantity", data.quantity);
   newFData.append("referenceCode", data.referenceCode);
-  newFData.append("duration", data.duration);
-  newFData.append("payment", data.payment);
-  newFData.append("gCashRefNumber", data.gCashRefNumber);
+  // newFData.append("duration", data.duration);
+  // newFData.append("payment", data.payment);
+  // newFData.append("gCashRefNumber", data.gCashRefNumber);
   newFData.append("voucherImage", data.voucherImage);
 
   swal({
