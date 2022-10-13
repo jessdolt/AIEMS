@@ -117,6 +117,7 @@
                           type="input"
                           class="form-control"
                           id="duration"
+                          disabled
                         >
                           <option value=""></option>
                           <option value="1 Day">1 Day</option>
@@ -155,6 +156,7 @@
                           type="input"
                           class="form-control"
                           id="gCashRefNumber"
+                          readonly
                         />
                       </div>
                     </div>
