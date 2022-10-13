@@ -12,7 +12,7 @@
             $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
   
             if($isPromosUpdated){
-                flash('promo_approve_success', 'Promo successfully approved', 'successAlert');
+
                 $response = ['message' => 'Promo is successfully approved', 'isSuccess' => 1];
             }
             else{
@@ -75,6 +75,19 @@
     
                 echo json_encode($response);
             }
+        }
+
+        public function userDeletePromo($id) {
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
+
+            if($isPromoDeleted){
+                $response = ['message' => 'Promo is successfully deleted', 'isSuccess' => 1];
+
+            } else {
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+            echo json_encode($response);
         }
 
         // FOR DELETING INLINE //
@@ -158,9 +171,9 @@
                 'date' => $_POST['date'],
                 'quantity' => $_POST['quantity'],
                 'voucherImage' => $fileNameNew,
-                'duration' => $_POST['duration'],
-                'payment' => $_POST['payment'],
-                'gCashRefNumber' => $_POST['gCashRefNumber'],
+                // 'duration' => $_POST['duration'],
+                // 'payment' => $_POST['payment'],
+                // 'gCashRefNumber' => $_POST['gCashRefNumber'],
                 'user_type' => $_SESSION['user_type'],
                 'posted_by' => $_SESSION['id']
             ];

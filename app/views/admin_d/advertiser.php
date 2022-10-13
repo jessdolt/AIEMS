@@ -97,7 +97,7 @@
                 const id = this.getAttribute('data-id');
                 swal({
                     title: "Approval",
-                    text: "Do you wish to approve this promo?",
+                    text: "Do you wish to approve this advertiser?",
                     icon: "info",
                     buttons: ["Cancel", "Approve"],
                     dangerMode: true,

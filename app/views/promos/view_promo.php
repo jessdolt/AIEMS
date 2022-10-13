@@ -120,13 +120,13 @@
                           disabled
                         >
                           <option value=""></option>
-                          <option value="1 Day">1 Day</option>
-                          <option value="2 Days">2 Days</option>
-                          <option value="3 Days">3 Days</option>
-                          <option value="5 Days">5 Days</option>
-                          <option value="1 Week">1 Week</option>
-                          <option value="2 Weeks">2 Weeks</option>
-                          <option value="1 Month">1 Month</option>
+                          <option value="1 Day" <?php echo ($data->duration == 1) ? 'selected' : ''?>>1 Day</option>
+                          <option value="2 Days" <?php echo ($data->duration == 2) ? 'selected' : ''?>>2 Days</option>
+                          <option value="3 Days" <?php echo ($data->duration == 3) ? 'selected' : ''?>>3 Days</option>
+                          <option value="5 Days" <?php echo ($data->duration == 5) ? 'selected' : ''?>>5 Days</option>
+                          <option value="1 Week" <?php echo ($data->duration == 7) ? 'selected' : ''?>>1 Week</option>
+                          <option value="2 Weeks" <?php echo ($data->duration == 14) ? 'selected' : ''?>>2 Weeks</option>
+                          <option value="1 Month" <?php echo ($data->duration == 30) ? 'selected' : ''?>>1 Month</option>
                         </select>
                       </div>
                     </div>

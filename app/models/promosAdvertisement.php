@@ -128,7 +128,6 @@ class promosAdvertisement {
                 return false;
             }
         }
-
     }
 
     // AND is_approved = 1
@@ -188,8 +187,8 @@ class promosAdvertisement {
 
     public function addPromosAdvertisement($data) {
      
-        $this->db->query('INSERT INTO promos_advertisement (type, title, description, date, image, quantity, duration, payment, gCashRefNumber, user_type, posted_by, created_on) 
-        VALUES (:type, :title, :description, :date, :image, :quantity, :duration, :payment, :gCashRefNumber, :user_type, :posted_by, :created_on)');
+        $this->db->query('INSERT INTO promos_advertisement (type, title, description, date, image, quantity, user_type, posted_by, created_on) 
+        VALUES (:type, :title, :description, :date, :image, :quantity, :user_type, :posted_by, :created_on)');
 
         $this->db->bind(':type', $data->type);
         $this->db->bind(':title', $data->title);
@@ -197,9 +196,6 @@ class promosAdvertisement {
         $this->db->bind(':date', $data->date);
         $this->db->bind(':image', $data->voucherImage);
         $this->db->bind(':quantity', $data->quantity);
-        $this->db->bind(':duration', $data->duration);
-        $this->db->bind(':payment', $data->payment);
-        $this->db->bind(':gCashRefNumber', $data->gCashRefNumber);
         $this->db->bind(':user_type', $data->user_type);
         $this->db->bind(':posted_by', $data->posted_by);
         $this->db->bind(':created_on', date("Y-m-d H:i:s"));

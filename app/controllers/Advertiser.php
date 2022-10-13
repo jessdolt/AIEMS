@@ -9,7 +9,7 @@ class Advertiser extends Controller {
 
    public function index(){
       $advertiserModel = $this->model('advertiser_model');
-         $data = $advertiserModel->indexRewards($_SESSION['advertiser_id']);
+         $data = $advertiserModel->indexRewards($_SESSION['id']);
       if (empty($data)) {
          $data =[];
       }
@@ -19,7 +19,7 @@ class Advertiser extends Controller {
 
    public function accountSettings(){
       $advertiserModel = $this->model('advertiser_model');
-      $data = $advertiserModel->singleAdvertiserProfile($_SESSION['advertiser_id']);
+      $data = $advertiserModel->singleAdvertiserProfile($_SESSION['id']);
 
       $this->view('external_user/accountSettings', $data);
    }
@@ -131,6 +131,30 @@ class Advertiser extends Controller {
             }
       }
 
+      switch ($_POST['duration']) {
+         case "1 Day":
+            $duration = 1;
+            break;
+         case "2 Days":
+            $duration = 2;
+            break;
+         case "3 Days":
+            $duration = 3;
+            break;
+         case "5 Days":
+            $duration = 5;
+            break;
+         case "1 Week":
+            $duration = 7;
+            break;
+         case "2 Weeks":
+            $duration = 14;
+            break;
+         case "1 Month":
+            $duration = 30;
+            break;
+      }
+
       $data = [
             'type' => $_POST['type'],
             'title' => $_POST['title'],
@@ -138,11 +162,11 @@ class Advertiser extends Controller {
             'date' => $_POST['date'],
             'quantity' => $_POST['quantity'],
             'voucherImage' => $fileNameNew,
-            'duration' => $_POST['duration'],
+            'duration' => $duration,
             'payment' => $_POST['payment'],
             'gCashRefNumber' => $_POST['gCashRefNumber'],
             'user_type' => $_SESSION['user_type'],
-            'posted_by' => $_SESSION['advertiser_id']
+            'posted_by' => $_SESSION['id']
       ];
 
       $jsonPromo = json_decode(json_encode($data));
