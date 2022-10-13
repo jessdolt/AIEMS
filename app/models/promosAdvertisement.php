@@ -83,9 +83,10 @@ class promosAdvertisement {
     }
 
     public function promoApproveReject($data) {
-        $this->db->query('UPDATE promos_advertisement SET is_approved = :status WHERE promoid = :id');
+        $this->db->query('UPDATE promos_advertisement SET is_approved = :status,  ac_amount = :amount WHERE promoid = :id');
         $this->db->bind(':id', $data->id);
         $this->db->bind(':status', $data->status);
+        $this->db->bind(':amount', $data->acAmount);
 
         if($this->db->execute()){
             return true;

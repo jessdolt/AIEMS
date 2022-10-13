@@ -9,12 +9,15 @@ const init = () => {
 const validateData = () => {
   const id = document.getElementById("promoId").value;
   const status = document.getElementById("status").value;
+  const acAmount = document.getElementById("ac_amount").value;
 
   const data = {
     id: id,
     status: status,
+    acAmount,
   };
 
+  console.log(data);
   if (data.status == "1") {
     swal({
       title: "Approval",

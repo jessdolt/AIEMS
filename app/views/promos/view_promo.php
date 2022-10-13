@@ -161,24 +161,43 @@
                       </div>
                     </div>
 
+                  </div>
+
+
+                  <div class="row mt-3">
                     <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="status" class="form-label"
-                          >Action
-                        </label>
-                        <select
+                        <div class="form-group">
+                          <label for="status" class="form-label"
+                            >Action
+                          </label>
+                          <select
+                            type="input"
+                            class="form-control"
+                            id="status"
+                            required
+                          >
+                            <option value=""></option>
+                            <option value="1" <?php echo ($data->is_approved == 1) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Approve' : 'Approved'?></option> 
+                            <option value="2" <?php echo ($data->is_approved == 2) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Reject' : 'Rejected'?></option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="ac_amount" class="form-label"
+                            >Alumni Coins Amount
+                          </label>
+                          <input
                           type="input"
                           class="form-control"
-                          id="status"
+                          id="ac_amount"
+                          value='12'
                           required
-                        >
-                          <option value=""></option>
-                          <option value="1" <?php echo ($data->is_approved == 1) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Approve' : 'Approved'?></option> 
-                          <option value="2" <?php echo ($data->is_approved == 2) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Reject' : 'Rejected'?></option>
-                        </select>
-                      </div>
-
+                        />
+                        </div>
+                    </div>
                   </div>
+
 
                   <div class="row">
                     <div class="col-md-12 mt-5">
