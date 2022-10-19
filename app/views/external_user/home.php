@@ -25,7 +25,7 @@
 
         <?php 
         } 
-          if (!empty($data)) {
+          if (!empty($data)) :
         ?>
 
           <h3>Your Promos and Advertisement</h3>
@@ -55,15 +55,25 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <h5 class="mt-2"><?php echo($yourAdvertisement->title); ?></h5>
-                    <button class="btn rounded-pill btn-secondary">View</button>
+                    <button class="btn rounded-pill btn-secondary">Delete</button>
                   </div>
                   <div class="d-flex justify-content-center align-items-center">
                     <p
                       class="m-0 mt-2 text-sm"
                       style="font-size: 16px; font-weight: 350"
                     >
-                      Remaining Time Left: 24:03:01
+                      <?php if($yourAdvertisement->is_approved == 1 && $yourAdvertisement->expiry_time >= date("Y/m/d")): ?>
+                      Remaining Time Left: <?= $yourAdvertisement->remainingTime?>
+                      <?php elseif($yourAdvertisement->is_approved == 2): ?>
+                      Your promo has been rejected by the Admin.
+                      <?php elseif($yourAdvertisement->is_approved == 0): ?>
+                      Your promo is not yet approved by the Admin.
+                      <?php elseif ($yourAdvertisement->expiry_time <= date("Y/m/d")) : ?>
+                      Your promo has passed its duration.
+                      <?php endif;?>
                     </p>
+                    
+
                   </div>
                   
                 </div>
@@ -93,8 +103,56 @@
             </nav>
           </div>
         </div>
-        <?php } ?>
+        <?php endif; ?>
       </div>
     </main>
+<script>
+  window.onload = () => {
+  btnDeleteHandler();
+};
+// <button class="btn rounded-pill text-white" data-id="" id="btnDelete">D</button>
+const btnDeleteHandler = () => {
+  const btnDelete = document.querySelectorAll("#btnDelete");
 
+  btnDelete.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+
+      swal({
+        title: "Delete",
+        text: "Do you want to delete this promo?",
+        icon: "warning",
+        buttons: ["Cancel", "Confirm"],
+        dangerMode: true,
+      }).then((isConfirm) => {
+        isConfirm && deleteData(id);
+      });
+    });
+  });
+};
+
+const deleteData = (id) => {
+  $.ajax({
+    type: "POST",
+    url: `/aiems/promos_advertisement/userDeletePromo/${id}`,
+    method: "POST",
+    success: function (data) {
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Deleted Successfully", `${response.message}`, "success").then(
+          () => {
+            window.location.replace(`/aiems/pages/promos`);
+          }
+        );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+};
+
+</script>
 <?php require APPROOT . '/views/external_user/inc/footer.php';?>

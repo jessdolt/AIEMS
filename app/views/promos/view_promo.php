@@ -108,6 +108,7 @@
                   </div>
 
                   <div class="row mt-3">
+                  <?php if (!empty($data->duration)): ?>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="duration" class="form-label"
@@ -120,16 +121,19 @@
                           disabled
                         >
                           <option value=""></option>
-                          <option value="1 Day" <?php echo ($data->duration == 1) ? 'selected' : ''?>>1 Day</option>
-                          <option value="2 Days" <?php echo ($data->duration == 2) ? 'selected' : ''?>>2 Days</option>
-                          <option value="3 Days" <?php echo ($data->duration == 3) ? 'selected' : ''?>>3 Days</option>
-                          <option value="5 Days" <?php echo ($data->duration == 5) ? 'selected' : ''?>>5 Days</option>
-                          <option value="1 Week" <?php echo ($data->duration == 7) ? 'selected' : ''?>>1 Week</option>
-                          <option value="2 Weeks" <?php echo ($data->duration == 14) ? 'selected' : ''?>>2 Weeks</option>
-                          <option value="1 Month" <?php echo ($data->duration == 30) ? 'selected' : ''?>>1 Month</option>
+                          <option value="1 Day" <?= ($data->duration == "1 Day") ? 'selected' : ''?>>1 Day</option>
+                          <option value="2 Days" <?= ($data->duration == "2 Days") ? 'selected' : ''?>>2 Days</option>
+                          <option value="3 Days" <?= ($data->duration == "3 Days") ? 'selected' : ''?>>3 Days</option>
+                          <option value="5 Days" <?= ($data->duration == "5 Days") ? 'selected' : ''?>>5 Days</option>
+                          <option value="1 Week" <?= ($data->duration == "1 Week") ? 'selected' : ''?>>1 Week</option>
+                          <option value="2 Weeks" <?= ($data->duration == "2 Week") ? 'selected' : ''?>>2 Weeks</option>
+                          <option value="1 Month" <?= ($data->duration == "1 Month") ? 'selected' : ''?>>1 Month</option>
                         </select>
                       </div>
                     </div>
+                    <?php endif ?>
+
+                    <?php if (!empty($data->payment)): ?>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="payment" class="form-label"
@@ -139,12 +143,15 @@
                           type="input"
                           class="form-control"
                           id="payment"
+                          value="PHP <?php echo $data->payment; ?>"
                           disabled
                         />
                       </div>
                     </div>
                   </div>
+                  <?php endif ?>
 
+                  <?php if (!empty($data->gCashRefNumber)): ?>
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -156,12 +163,13 @@
                           type="input"
                           class="form-control"
                           id="gCashRefNumber"
+                          value="<?php echo $data->gCashRefNumber; ?>"
                           readonly
                         />
                       </div>
                     </div>
-
                   </div>
+                  <?php endif?>
 
 
                   <div class="row mt-3">

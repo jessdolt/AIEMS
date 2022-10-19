@@ -535,21 +535,12 @@ class Pages extends Controller{
 
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
+
         if (userType() == "Alumni") {
-            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['id']);
+            $data = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['id']);
         } else {
-            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromosAdmin();
+            $data = $promosAdvertismentModel->getAllAvailablePromosAdmin();
         }
-        
-        
-        if(!empty($allAvailablePromos)){
-            $data = [
-                'allAvailablePromos' =>  $allAvailablePromos
-            ];
-        } else {
-            $data = [];
-        }
-       
 
         $this->view('pages/rewards', $data);
     }
