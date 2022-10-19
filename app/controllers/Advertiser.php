@@ -10,8 +10,19 @@ class Advertiser extends Controller {
    public function index(){
       $advertiserModel = $this->model('advertiser_model');
          $data = $advertiserModel->indexRewards($_SESSION['id']);
+
       if (empty($data)) {
-         $data =[];
+         $data =[
+
+         ];
+      } else {
+         foreach ($data as $yourAdvertisement) {
+            $expiry_time = new DateTime($yourAdvertisement->expiry_date);
+            $current_date = new DateTime();
+            $diff = $current_date->diff($expiry_time);
+            $yourAdvertisement->remainingTime = $diff->format('%a day(s)'.' %H:%I:%S');
+            $yourAdvertisement->expiry_time = $expiry_time->format('Y/m/d');
+         }
       }
       
       $this->view('external_user/home', $data);
@@ -131,30 +142,6 @@ class Advertiser extends Controller {
             }
       }
 
-      switch ($_POST['duration']) {
-         case "1 Day":
-            $duration = 1;
-            break;
-         case "2 Days":
-            $duration = 2;
-            break;
-         case "3 Days":
-            $duration = 3;
-            break;
-         case "5 Days":
-            $duration = 5;
-            break;
-         case "1 Week":
-            $duration = 7;
-            break;
-         case "2 Weeks":
-            $duration = 14;
-            break;
-         case "1 Month":
-            $duration = 30;
-            break;
-      }
-
       $data = [
             'type' => $_POST['type'],
             'title' => $_POST['title'],
@@ -162,7 +149,7 @@ class Advertiser extends Controller {
             'date' => $_POST['date'],
             'quantity' => $_POST['quantity'],
             'voucherImage' => $fileNameNew,
-            'duration' => $duration,
+            'duration' => $_POST['duration'],
             'payment' => $_POST['payment'],
             'gCashRefNumber' => $_POST['gCashRefNumber'],
             'user_type' => $_SESSION['user_type'],
@@ -288,54 +275,64 @@ class Advertiser extends Controller {
       }
    }
 
-      public function approveRow($id){
-         $advertiserModel = $this->model('advertiser_model');
-         $isAdvertiserUpdated = $advertiserModel->approveAdvertiser($id);
+   public function approveRow($id){
+      $advertiserModel = $this->model('advertiser_model');
+      $isAdvertiserUpdated = $advertiserModel->approveAdvertiser($id);
 
-         if($isAdvertiserUpdated){
-             flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
-             $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
-         } else {
-             $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-         }
+      if($isAdvertiserUpdated){
+            flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
+            $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+      } else {
+            $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+      }
 
-         echo json_encode($response);
-     }
+      echo json_encode($response);
+   }
 
-         // FOR DELETING INLINE //
-         public function deleteRow($id) {
-         $advertiserModel = $this->model('advertiser_model');
-         $isAdvertiserDeleted = $advertiserModel->deleteAdvertiser($id);
+   // FOR DELETING INLINE //
+   public function deleteRow($id) {
+   $advertiserModel = $this->model('advertiser_model');
+   $isAdvertiserDeleted = $advertiserModel->deleteAdvertiser($id);
 
-         if ($isAdvertiserDeleted){
+      if ($isAdvertiserDeleted){
+            flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
+            redirect('admin/advertiser');
+      }
+      else {
+            die("There's an error deleting this record");
+      }
+   }
+
+   // FOR DELETING CHECKBOX
+   public function delete() {
+      $advertiserModel = $this->model('advertiser_model');
+
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+         $todelete = $_POST['checkbox'];
+         foreach ($todelete as $id) {
+            if ($advertiserModel->deleteAdvertiser($id)){
                flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
-               redirect('admin/advertiser');
-         }
-         else {
+               redirect('admin/promos_advertisement');
+            }
+            else {
                die("There's an error deleting this record");
+            }
          }
       }
+   }
 
-      // FOR DELETING CHECKBOX
-      public function delete() {
-         $advertiserModel = $this->model('advertiser_model');
+   public function userDeletePromo($id) {
+      $advertiserModel = $this->model('advertiser_model');
+      $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
 
-         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-               $todelete = $_POST['checkbox'];
-               foreach ($todelete as $id) {
-                  if ($advertiserModel->deleteAdvertiser($id)){
-                     flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
-                     redirect('admin/promos_advertisement');
-                  }
-                  else {
-                     die("There's an error deleting this record");
-                  }
-               }
-         }
+      if($isPromoDeleted){
+          $response = ['message' => 'Promo is successfully deleted', 'isSuccess' => 1];
+
+      } else {
+          $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
       }
-
-
-
+      echo json_encode($response);
+  }
 
 }
 ?>

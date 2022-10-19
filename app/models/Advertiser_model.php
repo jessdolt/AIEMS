@@ -87,6 +87,7 @@
 
         public function indexRewards($id) {
             $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by=:id;');
+            
             $this->db->bind(':id', $id);
             $row = $this->db->resultSet();
             if($this->db->rowCount() > 0){
@@ -282,6 +283,31 @@
                 }
             }
     
+        }
+
+        public function deletePromo($id){
+            $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+    
+            if($this->db->rowCount() > 0 ){
+               $img = $row->image;
+            }
+            else{
+                return false;
+            }
+    
+            if(unlink(IMAGEROOT.$img)) {
+                $this->db->query('DELETE FROM promos_advertisement WHERE promoid = :id');
+                $this->db->bind(':id', $id);
+    
+                if($this->db->execute()){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
         }
 
         

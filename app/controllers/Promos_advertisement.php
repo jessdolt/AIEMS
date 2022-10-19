@@ -7,27 +7,55 @@
 
         }
 
-        public function approveRow($promoid){
-            $promosAdvertismentModel = $this->model('promosadvertisement');
-            $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
+        // public function approveRow($promoid){
+        //     $promosAdvertismentModel = $this->model('promosadvertisement');
+        //     $getUser = $promosAdvertismentModel->singlePromo($promoid);
+
+        //     if($getUser->user_type == "Advertiser") {
+        //         $duration = $getUser->duration;
+        //         $currentDate = date('Y-m-d');
+        //         $expiry_date = strtotime($currentDate.'+ '.$duration);
+        //         // $isPromosUpdated = $promosAdvertismentModel->approvePromoAdvertiser($promoid, $expiry_date);
+        //     } else {
+        //         // $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
+        //     }
   
-            if($isPromosUpdated){
+        
+        //     if($isPromosUpdated){
 
-                $response = ['message' => 'Promo is successfully approved', 'isSuccess' => 1];
-            }
-            else{
-                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-            }
+        //         $response = ['message' => 'Promo is successfully approved', 'isSuccess' => 1];
+        //     }
+        //     else{
+        //         $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+        //     }
 
-            echo json_encode($response);
-        }
+        //     echo json_encode($response);
+        // }
 
         public function actionViewPromo(){
             $promosAdvertismentModel = $this->model('promosadvertisement');
 
             // $json = json_decode(json_encode($data));
             $json = json_decode(file_get_contents('php://input'));
-            $isPromosUpdated = $promosAdvertismentModel->promoApproveReject($json);
+            $getUser = $promosAdvertismentModel->singlePromo($json->id);
+
+            if($getUser->user_type == "Advertiser") {
+                $currentDate = date('Y-m-d');
+                $duration = $getUser->duration;
+                
+                if ($getUser->date < $currentDate) {
+                    // Lagpas na sa date of advertisement
+                    $expiry_date = date('Y-m-d', strtotime($currentDate . " + ".$duration));
+                } else {
+                    // Hindi pa lagpas
+                    $dateOfAd = $getUser->date;
+                    $expiry_date = date('Y-m-d', strtotime($dateOfAd. " + ".$duration));
+                }
+
+                $isPromosUpdated = $promosAdvertismentModel->promoApproveRejectAdvertiser($json, $expiry_date);
+            } else {
+                $isPromosUpdated = $promosAdvertismentModel->promoApproveReject($json);
+            }
   
             if($isPromosUpdated){
                 $response = ['message' => 'Updated Successfully', 'isSuccess' => 1];

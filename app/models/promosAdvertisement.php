@@ -30,7 +30,7 @@ class promosAdvertisement {
         }
     }
     
-    // AND is_approved = 1
+    // AND is_approved = 1 PENDING LALAGYAN KO PABA NG NULL EXPIRY DATE
     public function checkHasReferenceCode($id) {
         $this->db->query('SELECT * 
         FROM `promos_advertisement` AS a 
@@ -95,6 +95,20 @@ class promosAdvertisement {
         }
     }
 
+    public function promoApproveRejectAdvertiser($data, $expiry_date) {
+        $this->db->query('UPDATE promos_advertisement SET is_approved = :status,  ac_amount = :amount, expiry_date = :expiry_date WHERE promoid = :id');
+        $this->db->bind(':id', $data->id);
+        $this->db->bind(':status', $data->status);
+        $this->db->bind(':amount', $data->acAmount);
+        $this->db->bind(':expiry_date', $expiry_date);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function singlePromo($id) {
         $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
         $this->db->bind(':id', $id);
@@ -132,18 +146,31 @@ class promosAdvertisement {
 
     // AND is_approved = 1
     public function getAllAvailablePromos($id) {
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by AND is_approved = 1 ORDER BY date DESC');
+        $this->db->query(
+        'SELECT * FROM `promos_advertisement` 
+        WHERE expiry_date >= CURDATE() AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 AND :id != posted_by
+        UNION ALL 
+        SELECT * FROM `promos_advertisement` 
+        WHERE expiry_date IS NULL AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 AND :id != posted_by
+        ORDER BY date DESC');
         $this->db->bind(':id', $id);
 
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
             return $row;
         }
+
     }
 
     // AND is_approved = 1
     public function getAllAvailablePromosAdmin() {
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 ORDER BY date DESC');
+        $this->db->query(
+        'SELECT * FROM `promos_advertisement` 
+        WHERE expiry_date >= CURDATE() AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1
+        UNION ALL 
+        SELECT * FROM `promos_advertisement` 
+        WHERE expiry_date IS NULL AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1
+        ORDER BY date DESC');
 
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -154,7 +181,13 @@ class promosAdvertisement {
     // AND is_approved = 1
     public function unclaimedRewards($id) {
     
-        $this->db->query('SELECT * FROM `promos_advertisement` WHERE quantity <> used_quantity AND date <= CURDATE() AND :id != posted_by AND is_approved = 1 ORDER BY date DESC LIMIT 3 ');
+        $this->db->query(
+            'SELECT * FROM `promos_advertisement` 
+            WHERE expiry_date >= CURDATE() AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 AND :id != posted_by
+            UNION ALL 
+            SELECT * FROM `promos_advertisement` 
+            WHERE expiry_date IS NULL AND quantity <> used_quantity AND date <= CURDATE() AND is_approved = 1 AND :id != posted_by
+            ORDER BY date DESC LIMIT 3');
         $this->db->bind(':id', $id);
 
         $row = $this->db->resultSet();

@@ -48,8 +48,8 @@
                 <!-- Start of card voucher -->
                     <!-- DITO START NG FOREACH -->
                     <?php 
-                    if (!empty($data['allAvailablePromos'])) {
-                    foreach ($data['allAvailablePromos'] as $allAvailablePromos): 
+                    if (!empty($data)) {
+                    foreach ($data as $allAvailablePromos): 
                     ?>
                   <div class="col-md-4 mt-2 mb-2">
                     <div class="card rounded shadow-lg"  style="background-color: grey; padding: 0; border:none;">
