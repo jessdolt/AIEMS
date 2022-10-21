@@ -35,7 +35,8 @@
                 'type' => $_POST['type'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
-                'date' => $_POST['date'],
+                'start_date' => $_POST['start_date'],
+                'end_date' => $_POST['end_date'],
                 'image' => $fileNameNew,
                 'participants' => $_POST['participants'],
                 'posted_by' => $_SESSION['id']

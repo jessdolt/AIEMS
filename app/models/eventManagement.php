@@ -20,15 +20,17 @@ class eventManagement {
 
     public function addEvent($data) {
      
-        $this->db->query('INSERT INTO event_management (type, title, description, date, image, participants, posted_by) VALUES (:type, :title, :description, :date, :image, :participants, :posted_by)');
+        $this->db->query('INSERT INTO event_management (type, title, description, start_date, end_date, image, participants, posted_by, created_on) VALUES (:type, :title, :description, :start_date, :end_date, :image, :participants, :posted_by, :created_on)');
 
         $this->db->bind(':type', $data->type);
         $this->db->bind(':title', $data->title);
         $this->db->bind(':description', $data->description);
-        $this->db->bind(':date', $data->date);
+        $this->db->bind(':start_date', $data->start_date);
+        $this->db->bind(':end_date', $data->end_date);
         $this->db->bind(':image', $data->image);
         $this->db->bind(':participants', $data->participants);
         $this->db->bind(':posted_by', $data->posted_by);
+        $this->db->bind(':created_on', date("Y-m-d H:i:s"));
         
         if($this->db->execute()){
             return true;
