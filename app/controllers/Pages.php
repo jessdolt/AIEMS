@@ -533,6 +533,13 @@ class Pages extends Controller{
         $this->view('pages/promos', $data);
     }
 
+    public function alumniEvent() {
+      
+            $data = [];
+            $this->view('pages/alumniEvent');
+   
+    }
+
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
 
