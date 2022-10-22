@@ -5,6 +5,11 @@
             
         }
 
+        public function add(){
+            $data = [];
+            $this->view('event_management/add');
+        }
+
         public function addEvent() {
             $eventManagementModel = $this->model('eventmanagement');
             // $json = json_decode(file_get_contents('php://input'));
