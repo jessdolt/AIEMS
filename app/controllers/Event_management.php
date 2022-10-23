@@ -46,8 +46,8 @@
                 'type' => $_POST['type'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
-                'start_date' => date('Y-m-d H:i:s', strtotime($date[0])),
-                'end_date' => date('Y-m-d H:i:s', strtotime($date[1])),
+                'start' => date('Y-m-d H:i:s', strtotime($date[0])),
+                'end' => date('Y-m-d H:i:s', strtotime($date[1])),
                 'image' => $fileNameNew,
                 // 'participants' => $_POST['participants'],
                 'posted_by' => $_SESSION['id']

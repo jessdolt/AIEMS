@@ -535,16 +535,14 @@ class Pages extends Controller{
 
     public function alumniEvent() {
         $eventManagementModel = $this->model('eventmanagement');
-
-        // if (userType() == "Alumni") {
-        //     $data = $eventManagementModel->getAllAvailablePromos($_SESSION['id']);
-        // } else {
-        //     $data = $eventManagementModel->getAllAvailablePromosAdmin();
-        // }
-
-        // $data = $eventManagementModel->getAllEvent($_SESSION['id']);
-        $data = [];
-            $this->view('pages/alumniEvent');
+        $yourEvents = $eventManagementModel->yourEvents($_SESSION['id']);
+        $upcomingEvent = $eventManagementModel->upcomingEvents($_SESSION['id']);
+        $data = [
+            'yourEvents' => $yourEvents,
+            'participatedEvents' => '',
+            'upcomingEvents' => $upcomingEvent,
+        ];
+            $this->view('pages/alumniEvent', $data);
    
     }
 
