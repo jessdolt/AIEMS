@@ -17,10 +17,19 @@ class eventManagement {
         }
     }
 
+    public function getAllEvents() {
+        $this->db->query('SELECT * FROM event_management');
+
+        $row = $this->db->resultSet();
+        if($row > 0){
+            return $row;
+        }
+    }
+
 
     public function addEvent($data) {
      
-        $this->db->query('INSERT INTO event_management (type, title, description, start_date, end_date, image, participants, posted_by, created_on) VALUES (:type, :title, :description, :start_date, :end_date, :image, :participants, :posted_by, :created_on)');
+        $this->db->query('INSERT INTO event_management (type, title, description, start_date, end_date, image, posted_by, created_on) VALUES (:type, :title, :description, :start_date, :end_date, :image, :posted_by, :created_on)');
 
         $this->db->bind(':type', $data->type);
         $this->db->bind(':title', $data->title);
@@ -28,7 +37,6 @@ class eventManagement {
         $this->db->bind(':start_date', $data->start_date);
         $this->db->bind(':end_date', $data->end_date);
         $this->db->bind(':image', $data->image);
-        $this->db->bind(':participants', $data->participants);
         $this->db->bind(':posted_by', $data->posted_by);
         $this->db->bind(':created_on', date("Y-m-d H:i:s"));
         

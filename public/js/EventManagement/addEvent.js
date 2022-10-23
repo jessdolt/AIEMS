@@ -68,7 +68,7 @@ const validateData = () => {
 const addNewData = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/event_manage/addPromosAdvertisement`,
+    url: `/aiems/event_management/addEvent`,
     data: data,
     cache: false,
     contentType: false,
@@ -77,9 +77,9 @@ const addNewData = (data) => {
     success: function (data) {
       const response = JSON.parse(data);
       if (response.isSuccess) {
-        swal("Updated Successfully", `${response.message}`, "success").then(
+        swal("Submitted Successfully", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/pages/promos`);
+            window.location.replace(`/aiems/pages/alumniEvent`);
           }
         );
       } else {
