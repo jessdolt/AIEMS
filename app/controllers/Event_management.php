@@ -46,8 +46,8 @@
                 'type' => $_POST['type'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
-                'start_date' => date('Y-m-d H:i:s', strtotime($date[0])),
-                'end_date' => date('Y-m-d H:i:s', strtotime($date[1])),
+                'start' => date('Y-m-d H:i:s', strtotime($date[0])),
+                'end' => date('Y-m-d H:i:s', strtotime($date[1])),
                 'image' => $fileNameNew,
                 // 'participants' => $_POST['participants'],
                 'posted_by' => $_SESSION['id']
@@ -68,6 +68,39 @@
 
             echo json_encode($response);
             
+        }
+
+        // FOR DELETING INLINE //
+        public function deleteRow($id) {
+            $eventManagementModel = $this->model('eventmanagement');
+            $isEventDeleted = $eventManagementModel->deleteEvent($id);
+
+            if ($isEventDeleted){
+                flash('event_delete_success', 'Event successfully deleted', 'successAlert');
+                redirect('admin/event_management');
+            }
+            else {
+                die("There's an error deleting this record");
+            }
+        }
+
+
+        // FOR DELETING CHECKBOX
+        public function delete() {
+             $eventManagementModel = $this->model('eventmanagement');
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $todelete = $_POST['checkbox'];
+                foreach ($todelete as $id) {
+                    if ($eventManagementModel->deletePromo($id)){
+                        flash('promo_delete_success', 'Event successfully deleted', 'successAlert');
+                        redirect('admin/event_management');
+                    }
+                    else {
+                        die("There's an error deleting this record");
+                    }
+                }
+            }
         }
         
 

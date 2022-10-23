@@ -48,7 +48,7 @@
                       <label for="eventType" class="form-label"
                         >Type of Event</label
                       >
-                      <select type="input" class="form-control" id="eventType">
+                      <select type="input" class="form-control" id="eventType" required>
                         <option value=""></option>
                         <option value="1">Community</option>
                         <option value="2">Homecoming</option>
@@ -59,7 +59,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title" class="form-label">Title</label>
-                      <input type="text" class="form-control" id="title" />
+                      <input type="text" class="form-control" id="title" required/>
                     </div>
                   </div>
                 </div>
@@ -69,7 +69,7 @@
                       <label for="description" class="form-label"
                         >Description</label
                       >
-                      <input class="form-control" id="description" />
+                      <input class="form-control" id="description" required/>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -82,6 +82,7 @@
                         id="dateOfEvent"
                         name="datetimes"
                         class="form-control"
+                        required
                       />
                     </div>
                   </div>

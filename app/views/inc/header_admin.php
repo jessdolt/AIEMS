@@ -109,7 +109,7 @@
                             </div>
                         </li>
                         <li class="mainCategory 
-                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal' || $url[1] == 'promos_advertisement') ? 'open' : ' '?>" tabindex="0" >
+                        <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal' || $url[1] == 'promos_advertisement' || $url[1] == 'event_management') ? 'open' : ' '?>" tabindex="0" >
                             <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
                                 <span>Contents</span>
                                 <span class="icon dropArrow">
@@ -123,6 +123,7 @@
                                 <li><a href="<?php echo URLROOT;?>/admin/events">Events</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/gallery">Gallery</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/job_portal">Job Portal</a></li>
+                                <li><a href="<?php echo URLROOT;?>/admin/event_management">Event Management</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/promos_advertisement">Promos / Advertisement</a></li>
                             </ul>
                         </li>
