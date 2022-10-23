@@ -548,6 +548,11 @@ class Pages extends Controller{
    
     }
 
+    public function calendar(){
+        $data = [];
+        $this->view('pages/calendar');
+    }
+
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
 
