@@ -10,11 +10,17 @@
             $this->view('event_management/add');
         }
 
+        public function viewAllEvents() {
+            $eventManagementModel = $this->model('eventmanagement');
+            $getEvent = $eventManagementModel->getAllEvents();
+            echo json_encode($getEvent);
+        }
+
         public function addEvent() {
             $eventManagementModel = $this->model('eventmanagement');
             // $json = json_decode(file_get_contents('php://input'));
 
-            $file = $_FILES['voucherImage'];
+            $file = $_FILES['eventImage'];
             $filename = $file['name'];
             $fileTmpName = $file['tmp_name'];
             $fileSize = $file['size'];
@@ -35,18 +41,18 @@
                     }
                 }
             }
-
+            $date = explode(',', $_POST['date']);
             $data = [
                 'type' => $_POST['type'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
-                'start_date' => $_POST['start_date'],
-                'end_date' => $_POST['end_date'],
+                'start_date' => date('Y-m-d H:i:s', strtotime($date[0])),
+                'end_date' => date('Y-m-d H:i:s', strtotime($date[1])),
                 'image' => $fileNameNew,
-                'participants' => $_POST['participants'],
+                // 'participants' => $_POST['participants'],
                 'posted_by' => $_SESSION['id']
             ];
-
+            
             $json = json_decode(json_encode($data));
 
             $isEventSaved = $eventManagementModel->addEvent($json);    
