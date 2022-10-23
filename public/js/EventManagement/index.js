@@ -1,4 +1,28 @@
+const DATA = {
+  Events: [],
+};
+
+const requestData = () => {
+  $.ajax({
+    type: "GET",
+    url: `/aiems/event_management/viewAllEvents`,
+    dataType: "JSON",
+    success: function (data) {
+      DATA.Events = [...data];
+      calendarInit();
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr);
+      // document.getElementById("error-part").classList.remove("d-none");
+    },
+  });
+};
+
+requestData();
+
 const calendarInit = () => {
+  console.log("qwe");
+  console.log(DATA.Events);
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
     eventMaxStack: true,
@@ -11,7 +35,7 @@ const calendarInit = () => {
     eventSources: [
       // your event source
       {
-        events: [],
+        events: DATA.Events,
         color: "salmon", // an option!
         textColor: "black", // an option!
       },
@@ -24,26 +48,13 @@ const calendarInit = () => {
       // {description: "Lecture", department: "BioChemistry"}
     },
     eventClick: function (info) {
-      console.log(info);
+      console.log(info.event);
     },
   });
   calendar.render();
 };
 
 // const id = 7;
-$.ajax({
-  type: "GET",
-  url: `/aiems/event_management/viewAllEvents`,
-  dataType: "JSON",
-  success: function (data) {
-    console.log(data.message);
-    console.log(data.data);
-  },
-  error: function (xhr, status, error) {
-    console.log(xhr);
-    // document.getElementById("error-part").classList.remove("d-none");
-  },
-});
 
 // [
 //     {
