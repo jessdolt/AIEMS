@@ -155,14 +155,15 @@
             year: "numeric",
             month: "numeric",
             day: "numeric",
+            hour: 'numeric',
+            minute: 'numeric',
         });
-
-
-   
+        
         const next7Days = date.toLocaleDateString("en-US", {
             year: "numeric",
             month: "numeric",
             day: "numeric",
+        
         });
 
         $('input[name="datetimes"]').daterangepicker({
@@ -170,7 +171,7 @@
             startDate: startDate,
             endDate: startDate,
             locale: {
-            format: "MM/DD/YY hh:mm A",
+            format: "MM/DD/Y hh:mm A",
             },
             isInvalidDate: function (date) {
             if (
