@@ -18,14 +18,12 @@ class eventManagement {
     }
 
     public function getAllEvents() {
-        $this->db->query('SELECT * FROM event_management');
-
+        $this->db->query('SELECT a.*, b.name FROM event_management AS a LEFT JOIN users AS b ON a.posted_by = b.user_id');
         $row = $this->db->resultSet();
-        if($row > 0){
+        if($this->db->rowCount() > 0){
             return $row;
         }
     }
-
 
     public function addEvent($data) {
      
@@ -44,6 +42,31 @@ class eventManagement {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function deleteEvent($id){
+        $this->db->query('SELECT * FROM event_management WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+
+        if($this->db->rowCount() > 0 ){
+           $img = $row->image;
+        }
+        else{
+            return false;
+        }
+
+        if(unlink(IMAGEROOT.$img)) {
+            $this->db->query('DELETE FROM event_management WHERE id = :id');
+            $this->db->bind(':id', $id);
+
+            if($this->db->execute()){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 }

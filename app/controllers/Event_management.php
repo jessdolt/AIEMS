@@ -69,6 +69,39 @@
             echo json_encode($response);
             
         }
+
+        // FOR DELETING INLINE //
+        public function deleteRow($id) {
+            $eventManagementModel = $this->model('eventmanagement');
+            $isEventDeleted = $eventManagementModel->deleteEvent($id);
+
+            if ($isEventDeleted){
+                flash('event_delete_success', 'Event successfully deleted', 'successAlert');
+                redirect('admin/event_management');
+            }
+            else {
+                die("There's an error deleting this record");
+            }
+        }
+
+
+        // FOR DELETING CHECKBOX
+        public function delete() {
+             $eventManagementModel = $this->model('eventmanagement');
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $todelete = $_POST['checkbox'];
+                foreach ($todelete as $id) {
+                    if ($eventManagementModel->deletePromo($id)){
+                        flash('promo_delete_success', 'Event successfully deleted', 'successAlert');
+                        redirect('admin/event_management');
+                    }
+                    else {
+                        die("There's an error deleting this record");
+                    }
+                }
+            }
+        }
         
 
     }

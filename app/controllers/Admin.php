@@ -394,6 +394,13 @@
             $this->view('admin_d/advertiser', $data);
         }
 
+        public function event_management() {
+            $eventManagementModel = $this->model('eventmanagement');
+            $data = $eventManagementModel->getAllEvents();
+            
+            $this->view('admin_d/event_management', $data);
+        }
+
         public function survey_list() {
             $this->surveyModel = $this->model('survey');
             extract($_POST);
