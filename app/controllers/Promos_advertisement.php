@@ -235,5 +235,48 @@
             echo json_encode($response);
             
         }
+
+        public function sendReferenceCode($email){
+            $referenceNo = rand(10000,99999);
+    
+            $mail = new PHPMailer();
+            $mail->SMTPDebug = 0;
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
+            $mail->Host = 'smtp.gmail.com';
+            
+            $mail->Username = 'universitymailtest@gmail.com';
+            $mail->Password = 'universitymailtest123';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = '587';
+    
+            $mail->isHTML();
+            
+            $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+    
+            $mail->addAddress($email);
+            $mail->Subject = 'AIEMS Voucher Ref. Code';
+    
+            $website = URLROOT;
+            
+            $msg = '
+                    <p> You are now officially registed to PUPIAIS </p>
+                    <p> You can now access to our website:<strong>'. $website.'</strong></p>
+                    ';
+                    
+            $mail->Body = $msg;
+    
+            $mail->Priority = 1;
+            $mail->addCustomHeader("X-MSMail-Priority: High");
+            $mail->addCustomHeader("Importance: High");
+            
+            if($mail->Send()){
+                return true;
+            }
+            else{
+                echo $mail->ErrorInfo;
+            }
+        }
+
     }
 ?>

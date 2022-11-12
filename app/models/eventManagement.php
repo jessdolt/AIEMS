@@ -65,6 +65,30 @@ class eventManagement {
         }
     }
 
+    public function approveEvent($id) {
+        $this->db->query('UPDATE event_management SET isApproved = 1 WHERE id = :id');
+        $this->db->bind(':id', $id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function participateEvent($data) {
+        $this->db->query('INSERT INTO participants (event_id, user_id) VALUES (:event_id, :user_id)');
+
+        $this->db->bind(':user_id', $data->user_id);
+        $this->db->bind(':event_id', $data->user_id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function deleteEvent($id){
         $this->db->query('SELECT * FROM event_management WHERE id = :id');
         $this->db->bind(':id', $id);
