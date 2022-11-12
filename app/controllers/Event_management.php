@@ -70,6 +70,20 @@
             
         }
 
+        public function approveRow($id){
+            $eventManagementModel = $this->model('eventmanagement');
+            $isEventUpdated = $eventManagementModel->approveEvent($id);
+      
+            if($isAdvertiserUpdated){
+                  flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
+                  $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+            } else {
+                  $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+      
+            echo json_encode($response);
+         }
+
         // FOR DELETING INLINE //
         public function deleteRow($id) {
             $eventManagementModel = $this->model('eventmanagement');

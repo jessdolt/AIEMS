@@ -65,6 +65,17 @@ class eventManagement {
         }
     }
 
+    public function approveEvent($id) {
+        $this->db->query('UPDATE event_management SET isApproved = 1 WHERE id = :id');
+        $this->db->bind(':id', $id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function deleteEvent($id){
         $this->db->query('SELECT * FROM event_management WHERE id = :id');
         $this->db->bind(':id', $id);
