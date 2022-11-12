@@ -70,6 +70,32 @@
             
         }
 
+        public function addParticipant() {
+            $eventManagementModel = $this->model('eventmanagement');
+            // $json = json_decode(file_get_contents('php://input'));
+
+            $data = [
+                'event_id' => $_POST['event_id'],
+                'user_id' => $_POST['user_id'],
+            ];
+            
+            $json = json_decode(json_encode($data));
+
+            $isParticipated = $eventManagementModel->participateEvent($json);    
+
+            if($isEventSaved){
+
+                $response = ['message' => 'You have successfuly participated', 'isSuccess' => 1];
+
+            } else {
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+
+            }
+
+            echo json_encode($response);
+            
+        }
+
         public function approveRow($id){
             $eventManagementModel = $this->model('eventmanagement');
             $isEventUpdated = $eventManagementModel->approveEvent($id);

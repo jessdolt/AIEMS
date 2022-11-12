@@ -236,7 +236,7 @@
             
         }
 
-        public function sendConfirmation($email){
+        public function sendReferenceCode($email){
             $referenceNo = rand(10000,99999);
     
             $mail = new PHPMailer();
@@ -245,17 +245,17 @@
             $mail->SMTPAuth = true;
             $mail->Host = 'smtp.gmail.com';
             
-            $mail->Username = 'itechpup1@gmail.com';
-            $mail->Password = 'PUPtest123';
+            $mail->Username = 'universitymailtest@gmail.com';
+            $mail->Password = 'universitymailtest123';
             $mail->SMTPSecure = 'tls';
             $mail->Port = '587';
     
             $mail->isHTML();
             
-            $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+            $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
     
             $mail->addAddress($email);
-            $mail->Subject = 'PUPIAIS Account Validated';
+            $mail->Subject = 'AIEMS Voucher Ref. Code';
     
             $website = URLROOT;
             
