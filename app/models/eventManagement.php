@@ -78,13 +78,25 @@ class eventManagement {
 
     public function participateEvent($data) {
         $this->db->query('INSERT INTO participants (event_id, user_id) VALUES (:event_id, :user_id)');
-
+        $this->db->bind(':event_id', $data->event_id);
         $this->db->bind(':user_id', $data->user_id);
-        $this->db->bind(':event_id', $data->user_id);
 
         if($this->db->execute()){
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public function isParticipated($data) {
+        $this->db->query('SELECT * FROM participants WHERE event_id = :event_id AND user_id = :user_id');
+        $this->db->bind(':event_id', $data->event_id);
+        $this->db->bind(':user_id', $data->user_id);
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+        else{
             return false;
         }
     }
