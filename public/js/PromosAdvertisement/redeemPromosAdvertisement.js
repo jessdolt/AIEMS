@@ -1,6 +1,7 @@
 window.onload = () => {
   btnRedeemHandler();
   btnDeleteHandler();
+  btnSendEmailHandler();
 };
 
 const btnDeleteHandler = () => {
@@ -18,6 +19,26 @@ const btnDeleteHandler = () => {
         dangerMode: true,
       }).then((isConfirm) => {
         isConfirm && deleteData(id);
+      });
+    });
+  });
+};
+
+const btnSendEmailHandler = () => {
+  const btnDelete = document.querySelectorAll("#btnSendEmail");
+
+  btnDelete.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+
+      swal({
+        title: "Send",
+        text: "Do you want to claim the reference code?",
+        icon: "warning",
+        buttons: ["Cancel", "Confirm"],
+        dangerMode: true,
+      }).then((isConfirm) => {
+        isConfirm && sendEmail(id);
       });
     });
   });
@@ -95,6 +116,27 @@ const deleteData = (id) => {
             window.location.replace(`/aiems/pages/promos`);
           }
         );
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+};
+
+const sendEmail = (id) => {
+  $.ajax({
+    type: "POST",
+    url: `/aiems/promos_advertisement/sendReferenceCode/${id}`,
+    method: "POST",
+    success: function (data) {
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal("Claimed", `${response.message}`, "success").then(() => {
+          window.location.replace(`/aiems/pages/promos`);
+        });
       } else {
         swal("Error", `${response.message}`, "error");
       }

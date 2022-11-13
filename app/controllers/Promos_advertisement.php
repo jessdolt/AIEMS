@@ -1,4 +1,9 @@
 <?php 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
     Class Promos_advertisement extends Controller {
 
         public function __construct(){
@@ -236,47 +241,91 @@
             
         }
 
-        public function sendReferenceCode($email){
-            $referenceNo = rand(10000,99999);
-    
-            $mail = new PHPMailer();
-            $mail->SMTPDebug = 0;
-            $mail->isSMTP();
-            $mail->SMTPAuth = true;
-            $mail->Host = 'smtp.gmail.com';
+        // public function sendReferenceCode($id){
+        //     $promosAdvertismentModel = $this->model('promosadvertisement');
+        //     $data = $promosAdvertismentModel->getReferenceCode($id);
             
-            $mail->Username = 'universitymailtest@gmail.com';
-            $mail->Password = 'universitymailtest123';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = '587';
+        //     $mail = new PHPMailer();
+        //     $mail->SMTPDebug = 0;
+        //     $mail->isSMTP();
+        //     $mail->SMTPAuth = true;
+        //     $mail->Host = "smtp.gmail.com"; 
+        //     $mail->Username = 'universitymailtest@gmail.com';
+        //     $mail->Password = 'buiesfznxbpjznhp';
+        //     $mail->SMTPSecure = 'tls';
+        //     $mail->Port = '587';
     
-            $mail->isHTML();
+        //     $mail->isHTML();
             
-            $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+        //     $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
     
-            $mail->addAddress($email);
-            $mail->Subject = 'AIEMS Voucher Ref. Code';
-    
-            $website = URLROOT;
-            
-            $msg = '
-                    <p> You are now officially registed to PUPIAIS </p>
-                    <p> You can now access to our website:<strong>'. $website.'</strong></p>
-                    ';
+        //     $mail->addAddress($_SESSION['email']);
+        //     $mail->Subject = 'AIEMS Voucher Ref. Code';
+
+        //     $msg = '
+        //             <p> Your reference code is <strong>'.$data->code.'</strong></p>
+        //             ';
                     
-            $mail->Body = $msg;
+        //     $mail->Body = $msg;
     
-            $mail->Priority = 1;
-            $mail->addCustomHeader("X-MSMail-Priority: High");
-            $mail->addCustomHeader("Importance: High");
+        //     $mail->Priority = 1;
+        //     $mail->addCustomHeader("X-MSMail-Priority: High");
+        //     $mail->addCustomHeader("Importance: High");
             
-            if($mail->Send()){
-                return true;
-            }
-            else{
-                echo $mail->ErrorInfo;
-            }
+        //     if($mail->Send()){
+        //         return true;
+        //     }
+        //     else{
+        //         echo $mail->ErrorInfo;
+        //     }
+        // }
+
+        public function sendReferenceCode($id){
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $data = $promosAdvertismentModel->getReferenceCode($id);
+            
+            $mail = new PHPMailer(true);
+
+                //Server settings
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            
+                //Recipients
+                $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                $mail->addAddress($_SESSION['email'], $_SESSION['name']);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                // $mail->addReplyTo('info@example.com', 'Information');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+            
+                //Attachments
+                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'AIEMS Voucher Ref. Code';
+                $mail->Body    = 'Your reference code is <b>'.$data->code.'</b>';
+
+                $mail->Priority = 1;
+                $mail->addCustomHeader("X-MSMail-Priority: High");
+                $mail->addCustomHeader("Importance: High");
+
+                if($mail->Send()){
+                    $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
+                } else {
+                    $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                }
+                echo json_encode($response);
         }
+
 
     }
 ?>

@@ -72,7 +72,7 @@
 
                           <h2 class="mt-2 text-white"><?php echo($redeemed->title); ?></h2>
 
-                          <button class="btn rounded-pill ">Send Email</button>
+                          <button class="btn rounded-pill" id="btnSendEmail" data-id="<?php echo($redeemed->promoid); ?>">Send Email</button>
                         </div>
                         <div
                           class="d-flex justify-content-end align-items-center"
