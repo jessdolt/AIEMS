@@ -21,8 +21,6 @@ const requestData = () => {
 requestData();
 
 const calendarInit = () => {
-  console.log("qwe");
-  console.log(DATA.Events);
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
     eventMaxStack: true,
@@ -36,23 +34,161 @@ const calendarInit = () => {
       // your event source
       {
         events: DATA.Events,
-        color: "salmon", // an option!
+        color: "#fac9aa", // an option!
         textColor: "black", // an option!
       },
 
       // any other event sources...
     ],
-    eventDidMount: function (info) {
-      console.log(info.event.display);
-      // console.log(info.event.extendedProps);
-      // {description: "Lecture", department: "BioChemistry"}
-    },
-    eventClick: function (info) {
-      console.log(info.event);
+    eventDidMount: function (info) {},
+    eventClick: async function (info) {
+      const btnAdd = document.getElementById("btn-participate");
+      const baseURL = document.getElementById("baseUrl").value;
+      const imageContainer = document.getElementById("event-image");
+      const { image, description, name } = info.event.extendedProps;
+      const title = info.event.title;
+      const event_id = info.event.id;
+      const start = converDateTimeStr(info.event.startStr);
+      const end = converDateTimeStr(info.event.endStr);
+
+      imageContainer.src = `${baseURL}/uploads/${image}`;
+      document.getElementById("title").textContent = title;
+      document.getElementById("description").textContent = description;
+      document.getElementById("name").textContent = name;
+      document.getElementById("start-date").textContent = start;
+      document.getElementById("end-date").textContent = end;
+      document.getElementById("event_id").value = event_id;
+      $("#structureModal").modal("show");
+
+      const { isParticipated } = JSON.parse(await checkIfParticipated());
+      if (isParticipated) {
+        btnAdd.textContent = "Participated";
+        btnAdd.disabled = true;
+      } else {
+        btnAdd.textContent = "Participate";
+        btnAdd.disabled = false;
+      }
     },
   });
   calendar.render();
 };
+
+$(".btn-close").on("click", () => {
+  $("#structureModal").modal("toggle");
+});
+
+const checkIfParticipated = () => {
+  const eventId = document.getElementById("event_id").value;
+  const userId = document.getElementById("user_id").value;
+  const data = {
+    userId,
+    eventId,
+  };
+
+  const newFData = new FormData();
+  newFData.append("user_id", data.userId);
+  newFData.append("event_id", data.eventId);
+
+  return $.ajax({
+    type: "POST",
+    url: `/aiems/event_management/isParticipated`,
+    data: newFData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: "POST",
+    success: function (data) {
+      const response = JSON.parse(data);
+      // if (response.isParticipated) {
+      //   return true;
+      // } else {
+      //   return false;
+      // }
+      // if (response.isSuccess) {
+      //   swal(
+      //     "Participated Successfully",
+      //     `${response.message}`,
+      //     "success"
+      //   ).then(() => {
+      //     window.location.replace(`/aiems/pages/calendar`);
+      //   });
+      // } else {
+      //   swal("Error", `${response.message}`, "error");
+      // }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+};
+
+const converDateTimeStr = (dateStr) => {
+  const d = new Date(dateStr);
+  const date = d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const time = d.toLocaleTimeString("en-US");
+
+  return `${date} ${time}`;
+};
+
+const handleAddParticipant = () => {
+  const btnAdd = document.getElementById("btn-participate");
+
+  btnAdd.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const eventId = document.getElementById("event_id").value;
+    const userId = document.getElementById("user_id").value;
+    const data = {
+      userId,
+      eventId,
+    };
+
+    const newFData = new FormData();
+    newFData.append("user_id", data.userId);
+    newFData.append("event_id", data.eventId);
+
+    addParticipant(newFData);
+  });
+};
+
+const addParticipant = (data) => {
+  $.ajax({
+    type: "POST",
+    url: `/aiems/event_management/addParticipant`,
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: "POST",
+    success: function (data) {
+      const response = JSON.parse(data);
+      if (response.isSuccess) {
+        swal(
+          "Participated Successfully",
+          `${response.message}`,
+          "success"
+        ).then(() => {
+          window.location.replace(`/aiems/pages/calendar`);
+        });
+      } else {
+        swal("Error", `${response.message}`, "error");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+};
+
+handleAddParticipant();
+
+// SHOW MODAL, SEND API, SAVE TO PARTICIPANTS TABLE WITH EVENT ID AND USER ID,
+// IF ALREADY PARTICIPATE CHANGE BUTTON TO PARTICIPATED
+// MEYN GOAL: EMAIL
 
 // const id = 7;
 
