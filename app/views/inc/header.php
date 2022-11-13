@@ -41,6 +41,17 @@
         .tint .container {
             border-left: 0.6rem solid <?php echo $_SESSION['sitecolor_secondary']?> !important;
         }
+
+        .newsCon .card-body a {
+            background-color: transparent !important;
+            color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
+        .newsCon .card-body a svg {
+    
+            fill: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
     </style>
 </head>
 
