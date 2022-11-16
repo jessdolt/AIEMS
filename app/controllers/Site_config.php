@@ -1,18 +1,14 @@
 <?php 
 
-
-
 Class Site_config extends Controller {
 
     public function __construct(){
-
-    
 
     }
     
     public function isSetUp() {
         $siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
+        $siteConfig = $siteConfigModel->showSiteConfig();
 
         if (!$siteConfig) {
         
@@ -192,15 +188,6 @@ Class Site_config extends Controller {
     }
 
     public function addAdmin() {
-        $isSetUp = $this->isSetUp();
-        // SETTING UP SITE IF NO RESULT
-        // REDIRECT TO SETTING UP SITE
-        
-        if (!$isSetUp) {
-            redirect('pages/systemPrompt');
-            return;
-        }
-
         $siteConfigModel = $this->model('siteconfig');
         $json  =  json_decode(file_get_contents('php://input'));
         

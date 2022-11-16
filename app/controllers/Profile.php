@@ -290,7 +290,7 @@
                                         $data['status'] = "Unemployed";
                                     }
                                     if($this->userModel->updateEmployment($data)) {
-                                    redirect('profile/viewProfile/'.$_SESSION['alumni_id']);
+                                    redirect('pages');
                                     } else {
                                         die("Something went wrong");
                                     }

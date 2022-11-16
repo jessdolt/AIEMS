@@ -1,5 +1,4 @@
 <?php require APPROOT . '/views/inc/header_login.php'; ?>
-
 <main class="admin managePage" style="height: 100vh; max-height: 100vh;">
     <section class="card-con" style="margin-top: 18rem">
         <div class="header-con">

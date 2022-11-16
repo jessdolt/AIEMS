@@ -1,6 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
     <main class="alumni forum">
-        <section class="heroBox">
+        <section class="heroBox" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['heroimage']?>); background-color: transparent !important">
             <div class="tint">
                 <div class="container">
                     <h1 class="heroBoxText">Forum</h1>

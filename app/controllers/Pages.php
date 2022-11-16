@@ -2,10 +2,10 @@
 
 class Pages extends Controller{
     public function __construct(){
-        $this->siteConfigModel = $this->model('siteconfig');
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
+
+        // if (!isLoggedIn()) {
+        //     redirect('users/login');
+        // }
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -23,48 +23,9 @@ class Pages extends Controller{
         
     }
 
-    public function siteSession() {
-        // $this->siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->singleSiteConfig();
-
-        if ($siteConfig) {
-            return $siteConfig;
-        } else {
-            
-        }
-
-    }
-
-    public function systemPrompt() {
-        $isSetUp = $this->isSetUp();
-        // SETTING UP SITE IF NO RESULT
-        // REDIRECT TO SETTING UP SITE
-        
-        if (!$isSetUp) {
-            redirect('pages/systemPrompt');
-            return;
-        }
-
-        
-        $this->view('pages/systemPrompt');
-   }
-
-    public function firstAdmin() {
-        $isSetUp = $this->isSetUp();
-        // SETTING UP SITE IF NO RESULT
-        // REDIRECT TO SETTING UP SITE
-        
-        if (!$isSetUp) {
-            redirect('pages/systemPrompt');
-            return;
-        }
-        
-        $this->view('pages/firstAdmin');
-    }
-
     public function isSetUp() {
-        
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $siteConfigModel->showSiteConfig();
 
         if (!$siteConfig) {
         
@@ -74,23 +35,75 @@ class Pages extends Controller{
         return true;
     }
 
-    public function index(){
+    public function isFirstAdminSetup() {
+        $adminModel = $this->model('admin_model');
+        $isFirstAdminSet = $adminModel->firstAdminCheck();
+
+        if (!$isFirstAdminSet) {
+            return false;
+        }
+        return true;
+    }
+
+    public function siteSession() {
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $siteConfigModel->singleSiteConfig();
+
+        if ($siteConfig) {
+            return $siteConfig;
+        }
+
+    }
+    
+    // First function to go through
+    public function systemPrompt() {
         $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        if (!$isSetUp) {
+            $this->view('pages/systemPrompt');
+        }
+   }
+
+    public function firstAdmin() {
+        $isSetUp = $this->isSetUp();
+        $isFirstAdminSetup = $this->isFirstAdminSetup();
         // SETTING UP SITE IF NO RESULT
         // REDIRECT TO SETTING UP SITE
         
         if (!$isSetUp) {
             redirect('pages/systemPrompt');
+        }
+        if (!$isFirstAdminSetup) {
+            $this->view('pages/firstAdmin');
+        }
+    }
+
+    public function index(){
+        $isSetUp = $this->isSetUp();
+        $isFirstAdminSetup = $this->isFirstAdminSetup();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+
+        if (!$isFirstAdminSetup) {
+            redirect('pages/firstAdmin');
             return;
         }
     
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
-
         if(isLoggedIn()) {
             /* $this->checkSurvey(); */
             redirect('pages/home');
+        } else {
+            redirect('users/login');
+        }
+
+        if (!isLoggedIn()) {
+            redirect('users/login');
         }
 
         if(userType() == "Alumni") {
@@ -101,7 +114,7 @@ class Pages extends Controller{
                 if($this->isEmployed()) {
                     redirect('profile/profileAdditionalAdd/'.$_SESSION['alumni_id']);
                 } 
-                 if($this->checkSurvey()){
+                if($this->checkSurvey()){
                     redirect('survey_widget');
                 }
             }
@@ -110,8 +123,6 @@ class Pages extends Controller{
         if(userType() == "Advertiser") {
             redirect('advertiser');
         }
-    
-        
     }
 
   
@@ -499,6 +510,7 @@ class Pages extends Controller{
 
 
     public function login(){
+
         $data = [];
         $this->view('users/login', $data);
     }

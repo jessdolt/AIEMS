@@ -8,7 +8,7 @@
             <div class="container">
                
                 <div class="form">
-                    <h1>PUP-Institute of Technology Survey</h1>
+                    <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?> Survey</h1>
                     <p>Before you continue, we need you to partake in the following survey/s</p>
                     <?php $count = 0;?>
                     <?php foreach($data['surveyList'] as $survey):?>
