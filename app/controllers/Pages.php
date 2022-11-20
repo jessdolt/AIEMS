@@ -581,4 +581,20 @@ class Pages extends Controller{
         $getAc = $userModel->getAlumniCoin($id);
         return $getAc;
     }
+
+
+    public function viewPromoAlumni($id) {
+        $promosAdvertismentModel = $this->model('promosadvertisement');
+        $references = $promosAdvertismentModel->getReferenceCodes($id);
+            
+        $promo = $promosAdvertismentModel->singlePromo($id);
+
+        $data =[ 
+            'promo'=> $promo,
+            'codes' => $references
+        ];
+
+
+        $this->view('promos/view_promo_alumni', $data);
+    }
 }

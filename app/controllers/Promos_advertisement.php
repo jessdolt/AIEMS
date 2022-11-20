@@ -162,6 +162,8 @@ use PHPMailer\PHPMailer\Exception;
 
             $this->view('promos/view_promo', $data);
         }
+
+        
         
         public function addPromos() {
 

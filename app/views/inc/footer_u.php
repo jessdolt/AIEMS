@@ -1,4 +1,12 @@
-<footer class="mainFooter">
+<style>
+    .mainFooter h1::before{
+        background-image:none !important
+    }
+    .mainFooter h1{
+        margin-top: 0;
+    }
+    </style>
+<footer class="mainFooter" style="background-image:none !important">
         <h1>
             <?= empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?>
             <br>

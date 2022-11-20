@@ -28,29 +28,29 @@
       referrerpolicy="no-referrer"
     />
     <style>
-        /* .mainLogo{
-            background-color: <?php// echo $_SESSION['sitecolor']?> !important;
+        .mainLogo{
+            background-color: <?php echo $_SESSION['sitecolor']?> !important;
         }
         .newsCon a, 
         .newDis button,
         .moreContent{
-            background-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
+            background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
 
         }
 
         .tint .container {
-            border-left: 0.6rem solid <?php// echo $_SESSION['sitecolor_secondary']?> !important;
+            border-left: 0.6rem solid <?php echo $_SESSION['sitecolor_secondary']?> !important;
         }
 
         .newsCon .card-body a {
             background-color: transparent !important;
-            color: <?php// echo $_SESSION['sitecolor_light']?> !important;
+            color: <?php echo $_SESSION['sitecolor_light']?> !important;
         }
 
         .newsCon .card-body a svg {
     
-            fill: <?php// echo $_SESSION['sitecolor_light']?> !important;
-        } */
+            fill: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
 
     </style>
 </head>
