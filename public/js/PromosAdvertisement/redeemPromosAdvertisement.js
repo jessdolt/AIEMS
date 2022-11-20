@@ -125,12 +125,26 @@ const deleteData = (id) => {
     },
   });
 };
-
+var showLoading = function () {
+  swal({
+    title: "Please Wait..",
+    text: "Sending e-mail.", // add html attribute if you want or remove
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    button: false,
+    onBeforeOpen: () => {
+      swal.showLoading();
+    },
+  });
+};
 const sendEmail = (id) => {
   $.ajax({
     type: "POST",
     url: `/aiems/promos_advertisement/sendReferenceCode/${id}`,
     method: "POST",
+    beforeSend: function () {
+      showLoading();
+    },
     success: function (data) {
       const response = JSON.parse(data);
       if (response.isSuccess) {

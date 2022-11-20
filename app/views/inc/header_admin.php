@@ -26,32 +26,32 @@
    
         /* Navbar and sideNav*/
 
-        .adminHeader a,
+        /* .adminHeader a,
         .adminNav .accountNameContainer,
         .adminNav .mainCategoryList .open .categoryContainer {
-         background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+         background-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
         }
 
         .adminNav .mainCategoryList .open .categoryContainer{
-            border-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+            border-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
         }
 
         .open div a,
         .open div span{
             color: #ffffff !important;
-        }
+        } */
 
         /* Hero Container background for admin dashboard*/
-        .admin .pageSpecificHeader,
+        /* .admin .pageSpecificHeader,
         .admin .pageSpecificHeader::before{
-          background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
-        }
+          background-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
+        } */
 
         /* Thead table Alumni Page*/
-        .admin .mainContent .data-table thead{
-          background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        /* .admin .mainContent .data-table thead{
+          background-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
 
-        }
+        } */
        
     </style>
 </head>
@@ -95,22 +95,22 @@
                         <?php if(userType() == "Admin" || userType() == "Super Admin") : ?>
                         <li class="mainCategory <?php echo ($url[1] == 'dashboard') ? 'open' : ' '?>" >
                             <div class="categoryContainer">
-                                <a href="<?php echo URLROOT;?>/admin/dashboard" style="color:<?php echo $_SESSION['sitecolor_light']?>">Dashboard</a>
+                                <a href="<?php echo URLROOT;?>/admin/dashboard" style="color:<?php// echo $_SESSION['sitecolor_light']?>">Dashboard</a>
                             </div>
                         </li>
                         <li class="mainCategory <?php echo ($url[1] == 'alumni' || $url[0] == 'alumni') ? 'open' : ' '?>" tabindex="0" >
                             <div class="categoryContainer">
-                                <a href="<?php echo URLROOT;?>/admin/alumni" style="color:<?php echo $_SESSION['sitecolor_light']?> ">Alumni</a>
+                                <a href="<?php echo URLROOT;?>/admin/alumni" style="color:<?php// echo $_SESSION['sitecolor_light']?> ">Alumni</a>
                             </div>
                         </li>
                         <li class="mainCategory <?php echo ($url[1] == 'advertiser' || $url[0] == 'advertiser') ? 'open' : ' '?>" tabindex="0" >
                             <div class="categoryContainer">
-                                <a href="<?php echo URLROOT;?>/admin/advertiser" style="color:<?php echo $_SESSION['sitecolor_light']?> ">Advertiser</a>
+                                <a href="<?php echo URLROOT;?>/admin/advertiser" style="color:<?php// echo $_SESSION['sitecolor_light']?> ">Advertiser</a>
                             </div>
                         </li>
                         <li class="mainCategory 
                         <?php echo ($url[1] == 'gallery' || $url[1] == 'events' || $url[1] == 'news' || $url[1] == 'job_portal' || $url[0] == 'events' || $url[0] == 'news' || $url[0] =='job_portal' || $url[1] == 'promos_advertisement' || $url[1] == 'event_management') ? 'open' : ' '?>" tabindex="0" >
-                            <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
+                            <div class="categoryContainer" style="color:<?php// echo $_SESSION['sitecolor_light']?>">
                                 <span>Contents</span>
                                 <span class="icon dropArrow">
                                     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +128,7 @@
                             </ul>
                         </li>
                         <li class="mainCategory <?php echo ($url[1] == 'alumni_report' || $url[0] == 'alumni_report'  || $url[1] == 'survey_list' || $url[1] == 'survey_report' || $url[1] == 'employment' || $url[0] == 'surveys' ) ? 'open' : ' '?>" tabindex="0">
-                            <div class="categoryContainer" style="color:<?php echo $_SESSION['sitecolor_light']?>">
+                            <div class="categoryContainer" style="color:<?php// echo $_SESSION['sitecolor_light']?>">
                                 <span>Survey</span>
                                 <span class="icon dropArrow">
                                     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -18,7 +18,7 @@ class eventManagement {
     }
 
     public function getAllEvents() {
-        $this->db->query('SELECT a.*, b.name FROM event_management AS a LEFT JOIN users AS b ON a.posted_by = b.user_id');
+        $this->db->query('SELECT a.*, b.name FROM event_management AS a LEFT JOIN users AS b ON a.posted_by = b.user_id WHERE a.isApproved = 1');
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
             return $row;
