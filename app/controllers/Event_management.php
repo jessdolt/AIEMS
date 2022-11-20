@@ -125,9 +125,8 @@
             $eventManagementModel = $this->model('eventmanagement');
             $isEventUpdated = $eventManagementModel->approveEvent($id);
       
-            if($isAdvertiserUpdated){
-                  flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
-                  $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+            if($isEventUpdated){
+                  $response = ['message' => 'Event is successfully approved', 'isSuccess' => 1];
             } else {
                   $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
             }

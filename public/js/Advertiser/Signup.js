@@ -105,9 +105,9 @@ const validateData = () => {
   if (data) {
     swal({
       title: "Are you sure?",
-      text: "",
+      text: "Kindly wait for the admin's approval of your account.",
       icon: "warning",
-      buttons: ["Cancel", "Update"],
+      buttons: ["Cancel", "Confirm"],
       dangerMode: true,
     }).then((isConfirm) => {
       isConfirm && addNewData(newFData);
@@ -129,9 +129,9 @@ const addNewData = (data) => {
     success: function (data) {
       const response = JSON.parse(data);
       if (response.isSuccess) {
-        swal("SignUp Successfully", `${response.message}`, "success").then(
+        swal("Signup Successfully.", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/advertiser/home`);
+            window.location.replace(`/aiems/users/login`);
           }
         );
       } else {

@@ -49,9 +49,15 @@
                             </p></td>
                             <td><div class="option" tabindex="0">
                                     <span class="optionSpan icon">&#8942</span>
-                                    <div class="optionModal">
-                                        <a href="<?php echo URLROOT; ?>/event_management/viewEvent/<?php echo $eventManagement->id?>">View</a>
+                                    <div class="optionModal">                    
+                                        <button type="button" data-id="<?php echo $eventManagement->id ?>" data-url="<?php echo URLROOT; ?>/event_management/approveRow" class="btnApproval">
 
+                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                        <polygon style="fill:#0BA4E0;" points="202.624,478.016 0,291.36 70.512,214.8 191.968,326.656 431.44,33.984 512,99.904 "/>
+                                        </svg>
+
+                                        </button>
                                         <button type="button" data-id="<?php echo $eventManagement->id ?>" data-url="<?php echo URLROOT; ?>/event_management/deleteRow" class="btnDeleteInline">
                                             <svg viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M15.75 1.875H2.25C1.62868 1.875 1.125 2.43464 1.125 3.125V3.75C1.125 4.44036 1.62868 5 2.25 5H15.75C16.3713 5 16.875 4.44036 16.875 3.75V3.125C16.875 2.43464 16.3713 1.875 15.75 1.875Z"/>
@@ -96,7 +102,7 @@
                 const id = this.getAttribute('data-id');
                 swal({
                     title: "Approval",
-                    text: "Do you wish to approve this promo?",
+                    text: "Do you wish to approve this event?",
                     icon: "info",
                     buttons: ["Cancel", "Approve"],
                     dangerMode: true,
@@ -107,19 +113,18 @@
         })
     }
 
-
         const updateData = (id) => {
         // console.log("zxc");
         $.ajax({
             type: "POST",
-            url: `/aiems/promos_advertisement/approveRow/${id}`,
+            url: `/aiems/event_management/approveRow/${id}`,
             method: "POST",
             success: function (data) {
             const response = JSON.parse(data);
             if (response.isSuccess) {
                 swal("Updated Successfully", `${response.message}`, "success").then(
                 () => {
-                    window.location.replace(`/aiems/admin/promos_advertisement`);
+                    window.location.replace(`/aiems/admin/event_management`);
                 }
                 );
             } else {

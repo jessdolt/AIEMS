@@ -5,6 +5,16 @@
             $this->db = new Database;
         }
 
+        public function firstAdminCheck() {
+            $this->db->query('SELECT * FROM admin');
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
         public function single($id) {
             $this->db->query('SELECT * FROM admin WHERE user_id = :user_id');
             $this->db->bind(':user_id', $id);

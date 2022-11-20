@@ -55,7 +55,7 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <h5 class="mt-2"><?php echo($yourAdvertisement->title); ?></h5>
-                    <button class="btn rounded-pill btn-secondary">Delete</button>
+                    <button class="btn rounded-pill btn-secondary" id="btnDelete" data-id="<?= $yourAdvertisement->promoid ?>">Delete</button>
                   </div>
                   <div class="d-flex justify-content-center align-items-center">
                     <p
@@ -141,7 +141,7 @@ const deleteData = (id) => {
       if (response.isSuccess) {
         swal("Deleted Successfully", `${response.message}`, "success").then(
           () => {
-            window.location.replace(`/aiems/pages/promos`);
+            window.location.replace(`/aiems/advertiser`);
           }
         );
       } else {

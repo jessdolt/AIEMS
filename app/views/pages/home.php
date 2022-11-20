@@ -131,7 +131,6 @@
                         <div class="reward-amount">
                         <span><?php echo number_format((float)$voucher->ac_amount, 2, '.', '') ?></span> AC
                         </div>
-                      
                         <button class="btn-redeem" id="btnRedeem" type="button" data-ac="<?= $voucher->ac_amount?>" data-id="<?php echo $voucher->promoid ?>">Redeem</button>
                         </div>
                         

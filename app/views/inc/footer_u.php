@@ -1,13 +1,12 @@
 <footer class="mainFooter">
         <h1>
-            Polytechnic University of the Philippines
+            <?= empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?>
             <br>
-            <span>Institute of Technology</span>
+            <span>Alumni Information and Event Management System</span>
         </h1>
         <hr>
-        <p class="tagline">iskolar ng bayan</p>
         <ul class="links">
-            <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/home">PUP</a></li>
+            <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/home">Home</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/news">News</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/events">Events</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/job_portals">Jobs</a></li>

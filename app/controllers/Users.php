@@ -51,17 +51,17 @@ use PHPMailer\PHPMailer\Exception;
             $this->view('users/index', $data);
         }
 
-    public function isSetUp() {
-        $this->siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
+        public function isSetUp() {
+            $this->siteConfigModel = $this->model('siteconfig');
+            $siteConfig = $this->siteConfigModel->showSiteConfig();
 
-        if (!$siteConfig) {
-        
-            return false;
+            if (!$siteConfig) {
+            
+                return false;
+            }
+
+            return true;
         }
-
-        return true;
-    }
         public function signup(){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -256,7 +256,7 @@ use PHPMailer\PHPMailer\Exception;
                 
                 //Check if all errors are empty
                 if (empty($data['emailError']) && empty($data['passwordError'])) {
-                    $date = date('Y-m-j');
+                    $date = date('Y-m-d');
                     $checker = $this->userModel->checkLoginDate($date);
                     $loggedInUser = $this->userModel->login($data['email'], $data['password']);
 
@@ -273,11 +273,12 @@ use PHPMailer\PHPMailer\Exception;
                     } else {
                         $data['passwordError'] = 'Password or email is incorrect.';
                     }
-
-
-                    if($checker->login_date == $date){
+                    
+                        
+                    if (@$checker->login_date == $date){
 
                         if ($loggedInUser) {
+                            
                             $this->createUserSession($loggedInUser);
 
                             if(userType() == 'Alumni'){

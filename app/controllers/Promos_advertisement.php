@@ -283,9 +283,10 @@ use PHPMailer\PHPMailer\Exception;
         public function sendReferenceCode($id){
             $promosAdvertismentModel = $this->model('promosadvertisement');
             $data = $promosAdvertismentModel->getReferenceCode($id);
-            
-            $mail = new PHPMailer(true);
+            $getPromo = $promosAdvertismentModel->singlePromo($id);
 
+            $mail = new PHPMailer(true);
+            
                 //Server settings
                 // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
                 $mail->SMTPDebug = 0;
@@ -312,12 +313,22 @@ use PHPMailer\PHPMailer\Exception;
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = 'AIEMS Voucher Ref. Code';
-                $mail->Body    = 'Your reference code is <b>'.$data->code.'</b>';
+                $mail->Body    = 'Your reference code is <b>'.$data->code.'</b>'
+                                . '<img src="cid:voucherImage" 
+                                style="display: block;
+                                width: 50%;">';
+                $path = URLROOT.'/public/uploads/'.$getPromo->image;
+                $name = $getPromo->image;
+                $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
 
+
+                // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                $mail->AddEmbeddedImage("$path2", "voucherImage", "$name");
                 $mail->Priority = 1;
                 $mail->addCustomHeader("X-MSMail-Priority: High");
                 $mail->addCustomHeader("Importance: High");
 
+                // print_r($path2);
                 if($mail->Send()){
                     $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
                 } else {

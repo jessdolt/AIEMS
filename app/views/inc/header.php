@@ -28,29 +28,29 @@
       referrerpolicy="no-referrer"
     />
     <style>
-        .mainLogo{
-            background-color: <?php echo $_SESSION['sitecolor']?> !important;
+        /* .mainLogo{
+            background-color: <?php// echo $_SESSION['sitecolor']?> !important;
         }
         .newsCon a, 
         .newDis button,
         .moreContent{
-            background-color: <?php echo $_SESSION['sitecolor_light']?> !important;
+            background-color: <?php// echo $_SESSION['sitecolor_light']?> !important;
 
         }
 
         .tint .container {
-            border-left: 0.6rem solid <?php echo $_SESSION['sitecolor_secondary']?> !important;
+            border-left: 0.6rem solid <?php// echo $_SESSION['sitecolor_secondary']?> !important;
         }
 
         .newsCon .card-body a {
             background-color: transparent !important;
-            color: <?php echo $_SESSION['sitecolor_light']?> !important;
+            color: <?php// echo $_SESSION['sitecolor_light']?> !important;
         }
 
         .newsCon .card-body a svg {
     
-            fill: <?php echo $_SESSION['sitecolor_light']?> !important;
-        }
+            fill: <?php// echo $_SESSION['sitecolor_light']?> !important;
+        } */
 
     </style>
 </head>
@@ -59,13 +59,13 @@
     $url= rtrim($_GET['url'],'/');
     $url= explode('/', $url);
 ?>
-
+<!-- style="background-color: <?//php echo $_SESSION['sitecolor']?> -->
 <body id="<?php echo ($_SESSION['user_type'] == "Alumni") ? 'Alumni' : 'Admin' ?>">
     <header class="mainHeader <?php 
                                 echo ($url[0] == 'survey_widget') ? 'userSurvey': ''; ?> <?php
                                 echo ($url[1] == 'editProfile' && $data['accInfo']->verify != "YES") ? 'userSurvey firstEdit' : ''; ?><?php 
                                 echo ($url[1] == 'profileAdditionalAdd') ? ' userSurvey' : '';
-                                ?> " style="background-color: <?php echo $_SESSION['sitecolor']?>">
+                                ?> ">
         <a href="<?php echo URLROOT?>/pages/home" class="mainLogo" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>); "></a>
         <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></h1>
         <svg class="icon hamburgerIcon" tabindex="0" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -140,7 +140,7 @@
 
             <li>
                 
-                <a href="<?php echo URLROOT;?>/pages/calendar" <?php if($url[1] == "calendar" || $url[1] == 'singleGallery') { echo 'class="active"'; }?>>
+                <a href="<?php echo URLROOT;?>/pages/calendar" <?php if($url[1] == "calendar" || $url[1] == 'calendar') { echo 'class="active"'; }?>>
                     <svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4.27778 19H16.7222C17.1937 19 17.6459 18.8127 17.9793 18.4793C18.3127 18.1459 18.5 17.6937 18.5 17.2222V4.77778C18.5 4.30628 18.3127 3.8541 17.9793 3.5207C17.6459 3.1873 17.1937 3 16.7222 3H4.27778C3.80628 3 3.3541 3.1873 3.0207 3.5207C2.6873 3.8541 2.5 4.30628 2.5 4.77778V17.2222C2.5 17.6937 2.6873 18.1459 3.0207 18.4793C3.3541 18.8127 3.80628 19 4.27778 19ZM6.94444 12.7778L9.04489 14.8782L12.2778 10.1111L16.7222 16.3333H4.27778L6.94444 12.7778Z"/>
                     </svg>

@@ -186,7 +186,7 @@ const getReferenceCodes = () => {
 const addNewData = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/event_management/addPromosAdvertisement`,
+    url: `/aiems/advertiser/addPromosAdvertisement`,
     data: data,
     cache: false,
     contentType: false,
