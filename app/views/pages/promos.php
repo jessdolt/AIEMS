@@ -120,7 +120,7 @@
                         >
 
                           <h2 class="mt-2 text-white"><?php echo($yourAdvertisement->title); ?></h2>
-                          <button class="btn rounded-pill text-white" data-id="<?php echo $yourAdvertisement->promoid ?>" id="btnDelete">D</button>
+                          <a href="<?php echo URLROOT; ?>/pages/viewPromoAlumni/<?php echo $yourAdvertisement->promoid?>" class="btn rounded-pill text-white" data-id="<?php echo $yourAdvertisement->promoid ?>" id="btnView">View</a>
 
                         </div>
                         <div

@@ -288,5 +288,14 @@ class promosAdvertisement {
     }
 
 
+
+    public function getReferenceCodes($id) {
+        $this->db->query('SELECT * FROM reference_code WHERE promoid = :id;');
+        $this->db->bind(':id', $id);
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
 }
 ?>

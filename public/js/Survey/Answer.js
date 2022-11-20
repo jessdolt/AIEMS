@@ -16,9 +16,16 @@ $("#manage-survey").submit(function (e) {
         data: $(this).serialize(),
         method: "POST",
         success: function (res) {
+          console.log(res);
           if (res == 1) {
             swal("Answered Successfully", ``, "success").then(() => {
-              location.replace("/aiems/survey_widget");
+              swal(
+                "Collected Alumni Coins",
+                `You earned 12 Alumni Coins`,
+                "success"
+              ).then(() => {
+                location.replace("/aiems/survey_widget");
+              });
             });
           }
         },

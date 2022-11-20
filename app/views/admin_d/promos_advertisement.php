@@ -41,13 +41,13 @@
                             foreach($data as $promoAd) : ?>
                             <tr>
                             <td><input type="checkbox" name="checkbox[]" value="<?php echo $promoAd->promoid; ?>"></td>
-                            <td><p class="jobTitle"><?php echo $promoAd->title; ?></p></td>
-                            <td><p class="description"><?php echo $promoAd->description; ?></p></td>
+                            <td><p class="jobTitle" style="max-width:80px; word-wrap: break-word; "><?php echo $promoAd->title; ?></p></td>
+                            <td><p class="description"  style="max-width:80px; word-wrap: break-word; "><?php echo $promoAd->description; ?></p></td>
                             <td><p class="company"><?php echo $promoAd->quantity; ?></p></td>
                             <td><p class="company"><?php echo $promoAd->used_quantity; ?></p></td>
                             <td><time datetime="0000-09-02"><?php echo $promoAd->date; ?></time></td>
                             <td><p class="jobTitle"><?php echo $promoAd->name; ?></p></td>
-                            <td><p class="workType <?php echo ($promoAd->is_approved == '1') ? 'fullTime' : 'partTime' ?>">
+                            <td><p class="workType <?php echo ($promoAd->is_approved == '1') ? 'fullTime' : 'partTime' ?>" style="padding:8px">
                             <?php echo ($promoAd->is_approved == '0' ? "For Approval" :
                                         ($promoAd->is_approved == '1' ? "Approved" :
                                         ($promoAd->is_approved == '2' ? "Rejected" : "")));?>
