@@ -5,7 +5,7 @@ const DATA = {
 const requestData = () => {
   $.ajax({
     type: "GET",
-    url: `/aiems/event_management/viewAllEvents`,
+    url: `/aiems/event_management/viewAllEventsAvailable`,
     dataType: "JSON",
     success: function (data) {
       DATA.Events = [...data];

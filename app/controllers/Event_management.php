@@ -16,6 +16,12 @@
             echo json_encode($getEvent);
         }
 
+        public function viewAllEventsAvailable() {
+            $eventManagementModel = $this->model('eventmanagement');
+            $getEvent = $eventManagementModel->getAllEventsAvailable();
+            echo json_encode($getEvent);
+        }
+
         public function addEvent() {
             $eventManagementModel = $this->model('eventmanagement');
             // $json = json_decode(file_get_contents('php://input'));

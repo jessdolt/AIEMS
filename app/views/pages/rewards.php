@@ -62,8 +62,10 @@
                       <div class="p-2">
                         <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
                         <div class="d-flex justify-content-end align-items-center">
-                            <p style="margin: 0; margin-right: 10px" class="text-white"><?php echo number_format((float)$allAvailablePromos->ac_amount, 2, '.', '') ?> AC</p>
+                            <p style="margin: 0; margin-right: 10px" class="text-white"><?php echo $allAvailablePromos->ac_amount.'.00' ?> AC</p>
+                            <?php if($_SESSION['user_type'] == "Alumni") {?>
                             <button id="btnRedeem" class="btn rounded-pill text-white" data-ac="<?= $allAvailablePromos->ac_amount?>" data-id="<?php echo $allAvailablePromos->promoid ?>">Redeem</button>
+                            <?php } ?>
                         </div>
                       </div>
                     </div>
