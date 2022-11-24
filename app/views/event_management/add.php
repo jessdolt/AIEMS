@@ -89,6 +89,15 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="location" class="form-label">Location / Venue</label>
+                      <input type="text" class="form-control" id="location" required/>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
                   <div class="col-md-12 mt-5">
                     <div class="form-group d-flex justify-content-center">
                       <!-- <img src="..." alt="Responsive image" /> -->
