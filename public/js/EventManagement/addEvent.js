@@ -33,6 +33,7 @@ const validateData = () => {
   const type = document.getElementById("eventType").value;
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
+  const location = document.getElementById("location").value;
   const date = document.getElementById("dateOfEvent").value;
 
   const newDate = date.split("-").map((d) => d.trim());
@@ -42,6 +43,7 @@ const validateData = () => {
     title,
     description,
     date: newDate,
+    location,
     voucherImage,
   };
 
@@ -52,6 +54,7 @@ const validateData = () => {
   newFData.append("title", data.title);
   newFData.append("description", data.description);
   newFData.append("date", data.date);
+  newFData.append("location", data.location);
   newFData.append("eventImage", data.voucherImage);
 
   swal({

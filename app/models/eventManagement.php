@@ -55,11 +55,12 @@ class eventManagement {
 
     public function addEvent($data) {
      
-        $this->db->query('INSERT INTO event_management (type, title, description, start, end, image, posted_by, created_on) VALUES (:type, :title, :description, :start, :end, :image, :posted_by, :created_on)');
+        $this->db->query('INSERT INTO event_management (type, title, description, location, start, end, image, posted_by, created_on) VALUES (:type, :title, :description, :location, :start, :end, :image, :posted_by, :created_on)');
 
         $this->db->bind(':type', $data->type);
         $this->db->bind(':title', $data->title);
         $this->db->bind(':description', $data->description);
+        $this->db->bind(':location', $data->location);
         $this->db->bind(':start', $data->start);
         $this->db->bind(':end', $data->end);
         $this->db->bind(':image', $data->image);
