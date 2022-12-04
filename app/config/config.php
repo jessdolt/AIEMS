@@ -27,7 +27,7 @@
 
 
     // HOSTING 
-    define('URLROOT', 'http://aiems.online'); 
+    define('URLROOT', 'https://aiems-online.preview-domain.com/'); 
     define('DB_HOST', 'localhost');
     define('DB_USER', 'u693528914_sa');
     define('DB_PASS', 'Pup@1928');
