@@ -13,7 +13,6 @@
     </style>
 <main class="alumni home">
     <?php require APPROOT . '/views/inc/heroContainer.php'; ?>
-
         <section class="welcomeBox">
             <div class="container">
                 <svg viewBox="0 0 127 127" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,26 +119,28 @@
                     Vouchers
                 </h2>
 
-                <?php foreach($data['events'] as $events): ?>
+                <?php if(!empty($data['voucher'])) {
+                    foreach($data['voucher'] as $voucher): ?>
                 <article class="card events" style="background-color: grey">
-                    <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($events->image); ?>" alt="">
+                    <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($voucher->image); ?>" alt="">
                     <div class="card-body" style="background-color: grey">
-                        <h3><?php echo($events->title); ?></h3>
+                        <h3><?php echo($voucher->title); ?></h3>
                         <div class="caption">
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center">
                         <div class="reward-amount">
-                        <span>10.00</span> AC
+                        <span><?php echo number_format((float)$voucher->ac_amount, 2, '.', '') ?></span> AC
                         </div>
-                      
-                        <button class="btn-redeem" type="button">Redeem</button>
-                        </div>
+                        <?php if($_SESSION['user_type'] == "Alumni") {?>
+                        <button class="btn-redeem" id="btnRedeem" type="button" data-ac="<?= $voucher->ac_amount?>" data-id="<?php echo $voucher->promoid ?>">Redeem</button>
+                        <?php } ?>
+                    </div>
                         
                     </div>
                 </article>
-                <?php endforeach; ?>
+                <?php endforeach; } ?>
 
-                <a href="<?php echo URLROOT; ?>/pages/events">Show more 
+                <a href="<?php echo URLROOT; ?>/pages/rewards">Show more 
                     <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8.75008 17.1249C8.54563 17.1253 8.3475 17.0541 8.19008 16.9237C8.10147 16.8502 8.02823 16.76 7.97455 16.6582C7.92087 16.5564 7.8878 16.445 7.87723 16.3304C7.86666 16.2158 7.87881 16.1003 7.91297 15.9904C7.94714 15.8804 8.00265 15.7784 8.07632 15.6899L11.9963 10.9999L8.21633 6.3012C8.14364 6.2117 8.08937 6.10871 8.05661 5.99817C8.02386 5.88762 8.01328 5.77169 8.02547 5.65704C8.03767 5.54239 8.07241 5.43128 8.12768 5.3301C8.18296 5.22892 8.25769 5.13966 8.34758 5.06745C8.43811 4.98779 8.54413 4.92771 8.65898 4.89097C8.77384 4.85423 8.89505 4.84162 9.015 4.85395C9.13496 4.86627 9.25107 4.90326 9.35606 4.96258C9.46104 5.02191 9.55263 5.1023 9.62508 5.1987L13.8513 10.4487C13.98 10.6053 14.0504 10.8017 14.0504 11.0043C14.0504 11.207 13.98 11.4034 13.8513 11.5599L9.47633 16.8099C9.38855 16.9158 9.27704 16.9995 9.15086 17.0543C9.02468 17.109 8.88737 17.1332 8.75008 17.1249Z"/>
                     </svg>
@@ -231,5 +232,5 @@
             </div>
         </section>
     </main>
-
+<script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
 <?php require APPROOT . '/views/inc/footer_u.php'; ?>

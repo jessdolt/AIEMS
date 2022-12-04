@@ -1,33 +1,40 @@
 <?php require APPROOT . '/views/inc/header_new.php'; ?>
 
+<?php 
+
+$codes = $data['codes'];
+$data = $data['promo'];
+
+?>
 <main class="alumni forum">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mt-5 mb-5">
             <form id="promos-form">
               <div class="card p-5">
-                <h2>Create your Advertisement</h2>
+                <h2>Your Advertisement</h2>
                 <hr />
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
+                        <input id="promoId" type="hidden" value="<?php echo $data->promoid?>"/>
                         <label for="adsType" class="form-label"
                           >Type of Advertisement</label
                         >
-                        <select type="input" class="form-control" id="adsType" required>
+                        <select type="input" class="form-control" id="adsType" disabled>
                           <option value=""></option>
-                          <option value="1">Promos</option>
-                          <option value="2">Discount/Voucher</option>
-                          <option value="3">Gift Certificates</option>
-                          <option value="4">Plain Advertisement</option>
+                          <option value="1" <?php echo ($data->type == 1) ? 'selected' : ''; ?>>Promos</option>
+                          <option value="2" <?php echo ($data->type == 2) ? 'selected' : ''; ?>>Discount/Voucher</option>
+                          <option value="3" <?php echo ($data->type == 3) ? 'selected' : ''; ?>>Gift Certificates</option>
+                          <option value="4" <?php echo ($data->type == 4) ? 'selected' : ''; ?>>Plain Advertisement</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" required/>
+                        <input type="text" class="form-control" id="title" value="<?php echo $data->title; ?>" readonly/>
                       </div>
                     </div>
                   </div>
@@ -38,7 +45,7 @@
                         <label for="description" class="form-label"
                           >Description</label
                         >
-                        <textarea class="form-control" rows="3" id="description"></textarea>
+                        <textarea class="form-control" rows="3" id="description" readonly><?php echo $data->title; ?></textarea>
                       </div>
                     </div>
                   </div>
@@ -50,7 +57,7 @@
                           class="imageInputContainer_site"
                           style="max-width: 100rem !important"
                         >
-                          <img id="myImg"/>
+                          <img id="myImg" src="<?php echo URLROOT?>/uploads/<?php echo $data->image?>"/>
                           <label for="voucher-image" class="fileUploadBtn">
                             Upload Reward Image
                             <svg
@@ -76,8 +83,7 @@
                             type="file"
                             name="newsImageInput"
                             id="voucher-image"
-                            accept=".jpg, .png"
-                            required
+                            accept=".jpg, .png" disabled
                           />
                         </div>
                       </div>
@@ -93,8 +99,7 @@
                         <input
                           type="date"
                           class="form-control"
-                          id="dateOfAds"
-                          required
+                          id="dateOfAds" value="<?php echo $data->date; ?>" readonly
                         />
                       </div>
                     </div>
@@ -103,40 +108,56 @@
                         <label for="quantity" class="form-label"
                           >Reedemable Quantity</label
                         >
-                        <input type="text" class="form-control" id="quantity" required/>
+                        <input type="text" class="form-control" id="quantity" value="<?php echo $data->quantity; ?>" readonly/>
                       </div>
                     </div>
                   </div>
+
+            
 
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="referenceCode" class="form-label"
                           >Reference Code
-                          <span id="btn-add-ref"
-                            ><i class="fa-solid fa-plus"></i></span
-                        ></label>
+                         </label>
+                         <?php foreach($codes as $code) :  ?>
+                          <?php 
+                            $isRedeemed = $code->quantity === $code->used_quantity;
+                           ?> 
+
                         <input
                           type="input"
-                          class="form-control references"
+                          class="form-control references <?php echo $isRedeemed ? 'border-success' : ''?> "
                           id="referenceCode" required
+                          value="<?= $code->code?>"
+                          style="margin-bottom: 10px"
+                         <?php 
+                          echo $isRedeemed ? "disabled = true" : 'readonly'
+                         ?>
+
                         />
+
+                        <?php endforeach;?>
                       </div>
                     </div>
                   </div>
 
-                  <div id="reference-add"></div>
+
+             
+
 
                   <div class="row">
                     <div class="col-md-12 mt-5">
                       <div class="btn-con d-flex justify-content-center">
                         <button
                           class="btn"
-                        
+                          id="btnDelete"
                           style="background-color: salmon"
-                          type="submit"
+                          type="button"
+                          data-id="<?php echo $data->promoid ?>"
                         >
-                          Save Changes
+                          Delete
                         </button>
                       </div>
                     </div>
@@ -148,7 +169,10 @@
         </div>
       </div>
     </main>
-    <script src="<?= URLROOT?>/js/PromosAdvertisement/PromosAdvertisement.js"></script>
+
+    
+    <script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
+
 
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 

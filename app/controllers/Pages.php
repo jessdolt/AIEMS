@@ -2,8 +2,10 @@
 
 class Pages extends Controller{
     public function __construct(){
-        $this->siteConfigModel = $this->model('siteconfig');
 
+        // if (!isLoggedIn()) {
+        //     redirect('users/login');
+        // }
         // $this->checkVerify();
         // $this->isEmployed();
         // CHECK IF PROFILE UPDATED (VERIFIED)
@@ -21,48 +23,9 @@ class Pages extends Controller{
         
     }
 
-    public function siteSession() {
-        // $this->siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->singleSiteConfig();
-
-        if ($siteConfig) {
-            return $siteConfig;
-        } else {
-            
-        }
-
-    }
-
-    public function systemPrompt() {
-        $isSetUp = $this->isSetUp();
-        // SETTING UP SITE IF NO RESULT
-        // REDIRECT TO SETTING UP SITE
-        
-        if (!$isSetUp) {
-            redirect('pages/systemPrompt');
-            return;
-        }
-
-        
-        $this->view('pages/systemPrompt');
-   }
-
-    public function firstAdmin() {
-        $isSetUp = $this->isSetUp();
-        // SETTING UP SITE IF NO RESULT
-        // REDIRECT TO SETTING UP SITE
-        
-        if (!$isSetUp) {
-            redirect('pages/systemPrompt');
-            return;
-        }
-        
-        $this->view('pages/firstAdmin');
-    }
-
     public function isSetUp() {
-        
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $siteConfigModel->showSiteConfig();
 
         if (!$siteConfig) {
         
@@ -72,23 +35,75 @@ class Pages extends Controller{
         return true;
     }
 
-    public function index(){
+    public function isFirstAdminSetup() {
+        $adminModel = $this->model('admin_model');
+        $isFirstAdminSet = $adminModel->firstAdminCheck();
+
+        if (!$isFirstAdminSet) {
+            return false;
+        }
+        return true;
+    }
+
+    public function siteSession() {
+        $siteConfigModel = $this->model('siteconfig');
+        $siteConfig = $siteConfigModel->singleSiteConfig();
+
+        if ($siteConfig) {
+            return $siteConfig;
+        }
+
+    }
+    
+    // First function to go through
+    public function systemPrompt() {
         $isSetUp = $this->isSetUp();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+        if (!$isSetUp) {
+            $this->view('pages/systemPrompt');
+        }
+   }
+
+    public function firstAdmin() {
+        $isSetUp = $this->isSetUp();
+        $isFirstAdminSetup = $this->isFirstAdminSetup();
         // SETTING UP SITE IF NO RESULT
         // REDIRECT TO SETTING UP SITE
         
         if (!$isSetUp) {
             redirect('pages/systemPrompt');
+        }
+        if (!$isFirstAdminSetup) {
+            $this->view('pages/firstAdmin');
+        }
+    }
+
+    public function index(){
+        $isSetUp = $this->isSetUp();
+        $isFirstAdminSetup = $this->isFirstAdminSetup();
+        // SETTING UP SITE IF NO RESULT
+        // REDIRECT TO SETTING UP SITE
+
+        if (!$isSetUp) {
+            redirect('pages/systemPrompt');
+            return;
+        }
+
+        if (!$isFirstAdminSetup) {
+            redirect('pages/firstAdmin');
             return;
         }
     
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
-
         if(isLoggedIn()) {
             /* $this->checkSurvey(); */
             redirect('pages/home');
+        } else {
+            redirect('users/login');
+        }
+
+        if (!isLoggedIn()) {
+            redirect('users/login');
         }
 
         if(userType() == "Alumni") {
@@ -99,7 +114,7 @@ class Pages extends Controller{
                 if($this->isEmployed()) {
                     redirect('profile/profileAdditionalAdd/'.$_SESSION['alumni_id']);
                 } 
-                 if($this->checkSurvey()){
+                if($this->checkSurvey()){
                     redirect('survey_widget');
                 }
             }
@@ -108,8 +123,6 @@ class Pages extends Controller{
         if(userType() == "Advertiser") {
             redirect('advertiser');
         }
-    
-        
     }
 
   
@@ -192,16 +205,25 @@ class Pages extends Controller{
         $this->eventModel = $this->model('event');
         $this->jobModel = $this->model('job_portal');
         $this->forumModel = $this->model('new_forum');
+        $promosAdvertismentModel = $this->model('promosadvertisement');
 
         $news = $this->postModel->showNewsHome();
         $events = $this->eventModel->showEventHome();
         $job_portal = $this->jobModel->showJobsHome();
         $forum = $this->forumModel->forumIndex();
+        
+        if ($_SESSION['user_type'] == "Alumni") {
+            $voucher = $promosAdvertismentModel->unclaimedRewards($_SESSION['id']);
+        } else {
+            $voucher = $promosAdvertismentModel->getAllAvailablePromosAdmin();
+        }
+        
         $data = [
             'news' => $news,
             'events' => $events,
             'job_portals' => $job_portal,
-            'forum' => $forum
+            'forum' => $forum,
+            'voucher' => $voucher,
         ];
 
          $this->view('pages/home', $data);
@@ -488,6 +510,7 @@ class Pages extends Controller{
 
 
     public function login(){
+
         $data = [];
         $this->view('users/login', $data);
     }
@@ -509,9 +532,9 @@ class Pages extends Controller{
 
     public function promos() {
         $promosAdvertisementModel = $this->model('promosadvertisement');
-        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['alumni_id']);
-        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['alumni_id']);
-        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['alumni_id']);
+        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['id']);
+        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['id']);
+        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['id']);
 
         $data = [
             'redeemedRewards' =>  $redeemedRewards,
@@ -522,29 +545,57 @@ class Pages extends Controller{
         $this->view('pages/promos', $data);
     }
 
+    public function alumniEvent() {
+        $eventManagementModel = $this->model('eventmanagement');
+        $yourEvents = $eventManagementModel->yourEvents($_SESSION['id']);
+        $participatedEvents = $eventManagementModel->participatedEvents($_SESSION['id']);
+        $upcomingEvent = $eventManagementModel->upcomingEvents($_SESSION['id']);
+        $data = [
+            'yourEvents' => $yourEvents,
+            'participatedEvents' => $participatedEvents,
+            'upcomingEvents' => $upcomingEvent,
+        ];
+            $this->view('pages/alumniEvent', $data);
+   
+    }
+
+    public function calendar(){
+        $data = [];
+        $this->view('pages/calendar');
+    }
+
     public function rewards() {
         $promosAdvertismentModel = $this->model('promosadvertisement');
+
         if (userType() == "Alumni") {
-            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['alumni_id']);
+            $data = $promosAdvertismentModel->getAllAvailablePromos($_SESSION['id']);
         } else {
-            $allAvailablePromos = $promosAdvertismentModel->getAllAvailablePromosAdmin();
+            $data = $promosAdvertismentModel->getAllAvailablePromosAdmin();
         }
-        
-        
-        if(!empty($allAvailablePromos)){
-            $data = [
-                'allAvailablePromos' =>  $allAvailablePromos
-            ];
-        } else {
-            $data = [];
-        }
-       
 
         $this->view('pages/rewards', $data);
     }
 
 
     public function getLatestAc($id){
-        
+        $userModel = $this->model('user');
+        $getAc = $userModel->getAlumniCoin($id);
+        return $getAc;
+    }
+
+
+    public function viewPromoAlumni($id) {
+        $promosAdvertismentModel = $this->model('promosadvertisement');
+        $references = $promosAdvertismentModel->getReferenceCodes($id);
+            
+        $promo = $promosAdvertismentModel->singlePromo($id);
+
+        $data =[ 
+            'promo'=> $promo,
+            'codes' => $references
+        ];
+
+
+        $this->view('promos/view_promo_alumni', $data);
     }
 }

@@ -1,4 +1,9 @@
 <?php 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
     Class Promos_advertisement extends Controller {
 
         public function __construct(){
@@ -7,29 +12,108 @@
 
         }
 
-        public function approveRow($promoid){
-            $promosAdvertismentModel = $this->model('promosadvertisement');
-            $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
-  
-            if($isPromosUpdated){
-                $response = ['message' => 'Promo is successfully approve', 'isSuccess' => 1];
-            }
-            else{
-                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-            }
-
-            echo json_encode($response);
-        }
-
         public function actionViewPromo(){
             $promosAdvertismentModel = $this->model('promosadvertisement');
 
             // $json = json_decode(json_encode($data));
             $json = json_decode(file_get_contents('php://input'));
-            $isPromosUpdated = $promosAdvertismentModel->promoApproveReject($json);
+            $getUser = $promosAdvertismentModel->singlePromo($json->id);
+
+            if($getUser->user_type == "Advertiser") {
+                $currentDate = date('Y-m-d');
+                $duration = $getUser->duration;
+                
+                if ($getUser->date < $currentDate) {
+                    // Lagpas na sa date of advertisement
+                    $expiry_date = date('Y-m-d', strtotime($currentDate . " + ".$duration));
+                } else {
+                    // Hindi pa lagpas
+                    $dateOfAd = $getUser->date;
+                    $expiry_date = date('Y-m-d', strtotime($dateOfAd. " + ".$duration));
+                }
+
+                $isPromosUpdated = $promosAdvertismentModel->promoApproveRejectAdvertiser($json, $expiry_date);
+            } else {
+                $isPromosUpdated = $promosAdvertismentModel->promoApproveReject($json);
+            }
   
             if($isPromosUpdated){
-                $response = ['message' => 'Updated Successfully', 'isSuccess' => 1];
+                $data = $promosAdvertismentModel->findOwner($json->id);
+                switch($data->type) {
+                    case 1:
+                        $type = "Promos";
+                        break;
+                    case 2:
+                        $type = "Discount/Voucher";
+                        break;
+                    case 3:
+                        $type = "Gift Certificates";
+                        break;
+                    case 4:
+                        $type = "Plain Advertisement";
+                        break;
+                }
+
+                switch($json->status) {
+                    case 1:
+                        $status = "Approved";
+                        break;
+                    case 2:
+                        $status = "Rejected";
+                        break;
+                }
+                
+            $mail = new PHPMailer(true);
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            
+                //Recipients
+                $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                $mail->addAddress($data->email, $data->name);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                // $mail->addReplyTo('info@example.com', 'Information');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+            
+                //Attachments
+                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'AIEMS Promo/Advertisement Approval';
+                $mail->Body    = 'Your Promo/Advertisement has been <b>'.strtoupper($status).'</b>.<br>'
+                                .'<br><b>Type:</b> '.$type
+                                .'<br><b>Title:</b> '.$data->title
+                                .'<br><b>Date of Advertisement:</b> '.$data->date
+                                .'<br><b>Redeemable Quantity:</b> '.$data->quantity
+                                .'<br><br>'.$data->description
+                                . '<br><br><img src="cid:promoImage" 
+                                style="display: block;
+                                width: 50%;">';
+                $path = URLROOT.'/public/uploads/'.$data->image;
+                $name = $data->image;
+                $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
+
+                // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                $mail->AddEmbeddedImage("$path2", "promoImage", "$name");
+                $mail->Priority = 1;
+                $mail->addCustomHeader("X-MSMail-Priority: High");
+                $mail->addCustomHeader("Importance: High");
+
+                // print_r($path2);
+                if($mail->Send()){
+                    $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
+                } else {
+                    $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                }
             }
             else{
                 $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
@@ -40,36 +124,51 @@
 
         public function redeemReward($promoid){
             $promosAdvertismentModel = $this->model('promosadvertisement');
-            //UPDATE TO
-            //Pag may nag reredeem 
-            //Update yung reference code 1, Update din yung sa promos +1; 
-            //To know what will the alumni will redeem  
-            // SELECT * FROM `promos_advertisement` AS a LEFT JOIN `reference_code` AS b ON a.promoid = b.promoid WHERE b.quantity <> b.used_quantity AND a.date AND a.promoid = :promoid
+        
             $hasReferenceCode = $promosAdvertismentModel->checkHasReferenceCode($promoid);
-            
+
             if(!empty($hasReferenceCode)){
                 $redeemableReward = $hasReferenceCode[0];
 
                 // UPDATE reference_code SET used_qty = (used_qty + 1) where promoid
-                $isReferenceUpdated = $promosAdvertismentModel->updateReferenceCode($redeemableReward->id, $_SESSION['alumni_id']);
+                $isReferenceUpdated = $promosAdvertismentModel->updateReferenceCode($redeemableReward->id, $_SESSION['id']);
 
                 if($isReferenceUpdated){
                     // UPDATE promo_advertisement SET used_qty = (used_qty + 1) where promoid
                      $isPromosUpdated = $promosAdvertismentModel->updatePromosAdvertisement($redeemableReward->promoid);
                 }
 
-                if($isPromosUpdated){
+                if($isPromosUpdated) {
+                    // $alumniCoins = $promosAdvertismentModel->getAlumniCoin($_SESSION['alumni_id']);
+                    $amountSubtracted = $redeemableReward->ac_amount;
+                    // this is alumniCoins - ac_amount in table
+                    $updatedAlumniCoin = $_SESSION['alumniCoins'] - intval($amountSubtracted);
+                    $isACUpdated = $promosAdvertismentModel->updateAlumniCoins($updatedAlumniCoin, $_SESSION['alumni_id']);
+                }
 
+                if($isACUpdated){
+                    $_SESSION['alumniCoins'] = $updatedAlumniCoin;
                     $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
-    
                 }
                 else{
                     $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-    
                 }
     
                 echo json_encode($response);
             }
+        }
+
+        public function userDeletePromo($id) {
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
+
+            if($isPromoDeleted){
+                $response = ['message' => 'Promo is successfully deleted', 'isSuccess' => 1];
+
+            } else {
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+            echo json_encode($response);
         }
 
         // FOR DELETING INLINE //
@@ -111,6 +210,8 @@
 
             $this->view('promos/view_promo', $data);
         }
+
+        
         
         public function addPromos() {
 
@@ -153,11 +254,11 @@
                 'date' => $_POST['date'],
                 'quantity' => $_POST['quantity'],
                 'voucherImage' => $fileNameNew,
-                'duration' => $_POST['duration'],
-                'payment' => $_POST['payment'],
-                'gCashRefNumber' => $_POST['gCashRefNumber'],
+                // 'duration' => $_POST['duration'],
+                // 'payment' => $_POST['payment'],
+                // 'gCashRefNumber' => $_POST['gCashRefNumber'],
                 'user_type' => $_SESSION['user_type'],
-                'posted_by' => $_SESSION['alumni_id']
+                'posted_by' => $_SESSION['id']
             ];
 
             $jsonPromo = json_decode(json_encode($data));
@@ -189,5 +290,103 @@
             echo json_encode($response);
             
         }
+
+        // public function sendReferenceCode($id){
+        //     $promosAdvertismentModel = $this->model('promosadvertisement');
+        //     $data = $promosAdvertismentModel->getReferenceCode($id);
+            
+        //     $mail = new PHPMailer();
+        //     $mail->SMTPDebug = 0;
+        //     $mail->isSMTP();
+        //     $mail->SMTPAuth = true;
+        //     $mail->Host = "smtp.gmail.com"; 
+        //     $mail->Username = 'universitymailtest@gmail.com';
+        //     $mail->Password = 'buiesfznxbpjznhp';
+        //     $mail->SMTPSecure = 'tls';
+        //     $mail->Port = '587';
+    
+        //     $mail->isHTML();
+            
+        //     $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+    
+        //     $mail->addAddress($_SESSION['email']);
+        //     $mail->Subject = 'AIEMS Voucher Ref. Code';
+
+        //     $msg = '
+        //             <p> Your reference code is <strong>'.$data->code.'</strong></p>
+        //             ';
+                    
+        //     $mail->Body = $msg;
+    
+        //     $mail->Priority = 1;
+        //     $mail->addCustomHeader("X-MSMail-Priority: High");
+        //     $mail->addCustomHeader("Importance: High");
+            
+        //     if($mail->Send()){
+        //         return true;
+        //     }
+        //     else{
+        //         echo $mail->ErrorInfo;
+        //     }
+        // }
+
+        public function sendReferenceCode($id){
+            $promosAdvertismentModel = $this->model('promosadvertisement');
+            $data = $promosAdvertismentModel->getReferenceCode($id);
+            $getPromo = $promosAdvertismentModel->singlePromo($id);
+
+            $mail = new PHPMailer(true);
+            
+                //Server settings
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            
+                //Recipients
+                $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                $mail->addAddress($_SESSION['email'], $_SESSION['name']);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                // $mail->addReplyTo('info@example.com', 'Information');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+            
+                //Attachments
+                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'AIEMS Voucher Ref. Code';
+                $mail->Body    = 'Your reference code is <b>'.$data->code.'</b>'
+                                . '<img src="cid:voucherImage" 
+                                style="display: block;
+                                width: 50%;">';
+                $path = URLROOT.'/public/uploads/'.$getPromo->image;
+                $name = $getPromo->image;
+                $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
+
+
+                // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                $mail->AddEmbeddedImage("$path2", "voucherImage", "$name");
+                $mail->Priority = 1;
+                $mail->addCustomHeader("X-MSMail-Priority: High");
+                $mail->addCustomHeader("Importance: High");
+
+                // print_r($path2);
+                if($mail->Send()){
+                    $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
+                } else {
+                    $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                }
+                echo json_encode($response);
+        }
+
+
     }
 ?>

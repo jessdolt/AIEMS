@@ -44,6 +44,23 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
     <style>
         .mainLogo{
             background-color: <?php echo $_SESSION['sitecolor']?> !important;
@@ -96,7 +113,29 @@
       .mainNav ul li a{
         text-decoration: none;
       }
+      .btn-file {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-file input[type="file"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+      }
 
+      #img-upload {
+        width: 100%;
+      }
     </style>
 </head>
 
@@ -182,6 +221,16 @@
                     Gallery
                 </a>
             </li>
+
+            <li>
+                
+                <a href="<?php echo URLROOT;?>/pages/calendar" <?php if($url[1] == "calendar" || $url[1] == 'singleGallery') { echo 'class="active"'; }?>>
+                    <svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.27778 19H16.7222C17.1937 19 17.6459 18.8127 17.9793 18.4793C18.3127 18.1459 18.5 17.6937 18.5 17.2222V4.77778C18.5 4.30628 18.3127 3.8541 17.9793 3.5207C17.6459 3.1873 17.1937 3 16.7222 3H4.27778C3.80628 3 3.3541 3.1873 3.0207 3.5207C2.6873 3.8541 2.5 4.30628 2.5 4.77778V17.2222C2.5 17.6937 2.6873 18.1459 3.0207 18.4793C3.3541 18.8127 3.80628 19 4.27778 19ZM6.94444 12.7778L9.04489 14.8782L12.2778 10.1111L16.7222 16.3333H4.27778L6.94444 12.7778Z"/>
+                    </svg>
+                    Calendar
+                </a>
+            </li>
             <li>
                 <a href="<?php echo URLROOT; ?>/pages/rewards" <?php if($url[1] == "rewards" || $url[0] == 'rewards') { echo 'class="active"'; }?>>
                     <svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,6 +268,12 @@
                 <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C12 20 20 20 20 18C20 15.6 16.1 13 12 13C7.9 13 4 15.6 4 18C4 20 12 20 12 20Z" fill="black" fill-opacity="0.87"/>
                 </svg>
                 Profile
+            </a>
+            <a href="<?php echo URLROOT; ?>/pages/alumniEvent" class="profile">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C12 20 20 20 20 18C20 15.6 16.1 13 12 13C7.9 13 4 15.6 4 18C4 20 12 20 12 20Z" fill="black" fill-opacity="0.87"/>
+                </svg>
+                Alumni Event
             </a>
             <a href="<?php echo URLROOT; ?>/pages/promos" class="profile">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -34,10 +34,10 @@ const validateData = () => {
       // addNewData(newFData);
       swal({
         title: "Are you sure?",
-        text: "",
+        text: "This account will have the highest administrative privileges.",
         icon: "warning",
-        buttons: ["Cancel", "Update"],
-        dangerMode: true,
+        buttons: ["Cancel", "Confirm"],
+        dangerMode: false,
       }).then((isConfirm) => {
         isConfirm && addNewData(data);
       });

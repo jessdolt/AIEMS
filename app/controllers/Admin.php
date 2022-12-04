@@ -387,6 +387,20 @@
             $this->view('admin_d/promos_advertisement', $data);
         }
 
+        public function advertiser() {
+            $advertiserModel = $this->model('advertiser_model');
+            $data = $advertiserModel->allAdvertiser();
+
+            $this->view('admin_d/advertiser', $data);
+        }
+
+        public function event_management() {
+            $eventManagementModel = $this->model('eventmanagement');
+            $data = $eventManagementModel->getAllEvents();
+            
+            $this->view('admin_d/event_management', $data);
+        }
+
         public function survey_list() {
             $this->surveyModel = $this->model('survey');
             extract($_POST);

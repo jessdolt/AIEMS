@@ -11,7 +11,7 @@
                     <input type="hidden" name="user_id"   value="<?php echo $_SESSION['id']?>" >
                     <input type="hidden" name="alumni_id"   value="<?php echo $_SESSION['alumni_id']?>" >
                  
-                    <h2>PUP-Institute of Technology Survey</h2>
+                    <h2><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?> Survey</h2>
                     <?php 
                     $i = 0;
                     foreach($data['questions'] as $row):
@@ -56,7 +56,6 @@
                    
                     <button type="submit" >Submit Response</button>
 
-                    <input type="hidden" id="ac_amount" value="<?= $data['survey']->ac_amount?>">
                 </form>
             </div>
         </section>

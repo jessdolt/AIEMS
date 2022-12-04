@@ -108,6 +108,7 @@
                   </div>
 
                   <div class="row mt-3">
+                  <?php if (!empty($data->duration)): ?>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="duration" class="form-label"
@@ -117,18 +118,22 @@
                           type="input"
                           class="form-control"
                           id="duration"
+                          disabled
                         >
                           <option value=""></option>
-                          <option value="1 Day">1 Day</option>
-                          <option value="2 Days">2 Days</option>
-                          <option value="3 Days">3 Days</option>
-                          <option value="5 Days">5 Days</option>
-                          <option value="1 Week">1 Week</option>
-                          <option value="2 Weeks">2 Weeks</option>
-                          <option value="1 Month">1 Month</option>
+                          <option value="1 Day" <?= ($data->duration == "1 Day") ? 'selected' : ''?>>1 Day</option>
+                          <option value="2 Days" <?= ($data->duration == "2 Days") ? 'selected' : ''?>>2 Days</option>
+                          <option value="3 Days" <?= ($data->duration == "3 Days") ? 'selected' : ''?>>3 Days</option>
+                          <option value="5 Days" <?= ($data->duration == "5 Days") ? 'selected' : ''?>>5 Days</option>
+                          <option value="1 Week" <?= ($data->duration == "1 Week") ? 'selected' : ''?>>1 Week</option>
+                          <option value="2 Weeks" <?= ($data->duration == "2 Week") ? 'selected' : ''?>>2 Weeks</option>
+                          <option value="1 Month" <?= ($data->duration == "1 Month") ? 'selected' : ''?>>1 Month</option>
                         </select>
                       </div>
                     </div>
+                    <?php endif ?>
+
+                    <?php if (!empty($data->payment)): ?>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="payment" class="form-label"
@@ -138,12 +143,15 @@
                           type="input"
                           class="form-control"
                           id="payment"
+                          value="PHP <?php echo $data->payment; ?>"
                           disabled
                         />
                       </div>
                     </div>
                   </div>
+                  <?php endif ?>
 
+                  <?php if (!empty($data->gCashRefNumber)): ?>
                   <div class="row mt-3">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -155,28 +163,49 @@
                           type="input"
                           class="form-control"
                           id="gCashRefNumber"
+                          value="<?php echo $data->gCashRefNumber; ?>"
+                          readonly
                         />
                       </div>
                     </div>
+                  </div>
+                  <?php endif?>
 
+
+                  <div class="row mt-3">
                     <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="status" class="form-label"
-                          >Action
-                        </label>
-                        <select
+                        <div class="form-group">
+                          <label for="status" class="form-label"
+                            >Action
+                          </label>
+                          <select
+                            type="input"
+                            class="form-control"
+                            id="status"
+                            required
+                          >
+                            <option value=""></option>
+                            <option value="1" <?php echo ($data->is_approved == 1) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Approve' : 'Approved'?></option> 
+                            <option value="2" <?php echo ($data->is_approved == 2) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Reject' : 'Rejected'?></option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="ac_amount" class="form-label"
+                            >Alumni Coins Amount
+                          </label>
+                          <input
                           type="input"
                           class="form-control"
-                          id="status"
+                          id="ac_amount"
+                          value='12'
                           required
-                        >
-                          <option value=""></option>
-                          <option value="1" <?php echo ($data->is_approved == 1) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Approve' : 'Approved'?></option> 
-                          <option value="2" <?php echo ($data->is_approved == 2) ? 'selected' : ''?>><?php echo ($data->is_approved == 0) ? 'Reject' : 'Rejected'?></option>
-                        </select>
-                      </div>
-
+                        />
+                        </div>
+                    </div>
                   </div>
+
 
                   <div class="row">
                     <div class="col-md-12 mt-5">

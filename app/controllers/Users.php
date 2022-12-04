@@ -51,17 +51,17 @@ use PHPMailer\PHPMailer\Exception;
             $this->view('users/index', $data);
         }
 
-    public function isSetUp() {
-        $this->siteConfigModel = $this->model('siteconfig');
-        $siteConfig = $this->siteConfigModel->showSiteConfig();
+        public function isSetUp() {
+            $this->siteConfigModel = $this->model('siteconfig');
+            $siteConfig = $this->siteConfigModel->showSiteConfig();
 
-        if (!$siteConfig) {
-        
-            return false;
+            if (!$siteConfig) {
+            
+                return false;
+            }
+
+            return true;
         }
-
-        return true;
-    }
         public function signup(){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -100,7 +100,7 @@ use PHPMailer\PHPMailer\Exception;
                 } elseif(strlen($data['password']) < 7){
                     $data['password_err'] = 'Password must be at least 8 characters';
                 } elseif (preg_match($passwordValidation, $data['password'])) {
-                    $data['password_err'] = 'Password must be have at least one numeric value.';
+                    $data['password_err'] = 'Password must have at least one numeric value.';
                 }
 
                  //Validate confirm password
@@ -188,23 +188,23 @@ use PHPMailer\PHPMailer\Exception;
             $mail->SMTPAuth = true;
             $mail->Host = 'smtp.gmail.com';
             
-            $mail->Username = 'itechpup1@gmail.com';
-            $mail->Password = 'PUPtest123';
+            $mail->Username = 'universitymailtest@gmail.com';
+            $mail->Password = 'buiesfznxbpjznhp';
             $mail->SMTPSecure = 'tls';
             $mail->Port = '587';
     
             $mail->isHTML();
             
-            $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+            $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
     
             $mail->addAddress($email);
-            $mail->Subject = 'PUPIAIS Account Validated';
+            $mail->Subject = 'AIEMS Account Validated';
     
             $website = URLROOT;
             
             $msg = '
-                    <p> You are now officially registed to PUPIAIS </p>
-                    <p> You can now access to our website:<strong>'. $website.'</strong></p>
+                    <p> You are now officially registed to AIEMS </p>
+                    <p> You can now access to our website: <strong>'. $website.'</strong></p>
                     ';
                     
             $mail->Body = $msg;
@@ -254,35 +254,56 @@ use PHPMailer\PHPMailer\Exception;
                     $data['passwordError'] = 'Please enter a password.';
                 } 
                 
-    
                 //Check if all errors are empty
                 if (empty($data['emailError']) && empty($data['passwordError'])) {
-                    $date = date('Y-m-j');
+                    $date = date('Y-m-d');
                     $checker = $this->userModel->checkLoginDate($date);
                     $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
                     // IF NOT YET APPROVED ADVERTISER GIT OUT
+                    if ($loggedInUser) {
+                        if($loggedInUser->user_type == 6) {
+                            $getAdvertiserRow = $this->userModel->checkAdvertiser($loggedInUser->user_id);
+                            
+                            if ($getAdvertiserRow->is_approved != 1) {
+                                $data['passwordError'] = 'Advertiser is not yet approved.';
+                                $this->view('users/login', $data);
+                            }
+                        }
+                    } else {
+                        $data['passwordError'] = 'Password or email is incorrect.';
+                    }
                     
-                    if($checker->login_date == $date){
+                        
+                    if (@$checker->login_date == $date){
+
                         if ($loggedInUser) {
+                            
                             $this->createUserSession($loggedInUser);
+
                             if(userType() == 'Alumni'){
                                 $this->userModel->loginCount($date);
                             }
+
                         } else {
                             $data['passwordError'] = 'Password or email is incorrect.';
                         }
-                } else {
-                    $this->userModel->addLoginDate($date);
-                    if ($loggedInUser) {
-                        $this->createUserSession($loggedInUser);
-                        if(userType() == 'Alumni'){
-                        $this->userModel->loginCount($date);
+
+                    } else {
+
+                        $this->userModel->addLoginDate($date);
+
+                        if ($loggedInUser) {
+                            $this->createUserSession($loggedInUser);
+
+                            if (userType() == 'Alumni') {
+                                $this->userModel->loginCount($date);
+                            }
+
+                        } else {
+                            $data['passwordError'] = 'Password or email is incorrect.';
                         }
                     }
-                    else {
-                        $data['passwordError'] = 'Password or email is incorrect.';
-                    }
-                }
                     
                 }
     

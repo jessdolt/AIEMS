@@ -48,8 +48,8 @@
                 <!-- Start of card voucher -->
                     <!-- DITO START NG FOREACH -->
                     <?php 
-                    if (!empty($data['allAvailablePromos'])) {
-                    foreach ($data['allAvailablePromos'] as $allAvailablePromos): 
+                    if (!empty($data)) {
+                    foreach ($data as $allAvailablePromos): 
                     ?>
                   <div class="col-md-4 mt-2 mb-2">
                     <div class="card rounded shadow-lg"  style="background-color: grey; padding: 0; border:none;">
@@ -62,8 +62,10 @@
                       <div class="p-2">
                         <h2 class="mt-2 text-white"><?php echo($allAvailablePromos->title); ?></h2>
                         <div class="d-flex justify-content-end align-items-center">
-                            <p style="margin: 0; margin-right: 10px" class="text-white"><?= $allAvailablePromos->ac_amount?> AC</p>
-                            <button id="btnRedeem" class="btn rounded-pill text-white" data-ac="<?= $allAvailablePromos->ac_amount?>" data-id="<?php echo $allAvailablePromos->promoid ?>" data-url="<?php echo URLROOT; ?>/promos_advertisement/redeemReward">Redeem</button>
+                            <p style="margin: 0; margin-right: 10px" class="text-white"><?php echo $allAvailablePromos->ac_amount.'.00' ?> AC</p>
+                            <?php if($_SESSION['user_type'] == "Alumni") {?>
+                            <button id="btnRedeem" class="btn rounded-pill text-white" data-ac="<?= $allAvailablePromos->ac_amount?>" data-id="<?php echo $allAvailablePromos->promoid ?>">Redeem</button>
+                            <?php } ?>
                         </div>
                       </div>
                     </div>

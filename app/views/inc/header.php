@@ -41,6 +41,17 @@
         .tint .container {
             border-left: 0.6rem solid <?php echo $_SESSION['sitecolor_secondary']?> !important;
         }
+
+        .newsCon .card-body a {
+            background-color: transparent !important;
+            color: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
+        .newsCon .card-body a svg {
+    
+            fill: <?php echo $_SESSION['sitecolor_light']?> !important;
+        }
+
     </style>
 </head>
 
@@ -48,13 +59,13 @@
     $url= rtrim($_GET['url'],'/');
     $url= explode('/', $url);
 ?>
-
+<!-- style="background-color: <?//php echo $_SESSION['sitecolor']?> -->
 <body id="<?php echo ($_SESSION['user_type'] == "Alumni") ? 'Alumni' : 'Admin' ?>">
     <header class="mainHeader <?php 
                                 echo ($url[0] == 'survey_widget') ? 'userSurvey': ''; ?> <?php
                                 echo ($url[1] == 'editProfile' && $data['accInfo']->verify != "YES") ? 'userSurvey firstEdit' : ''; ?><?php 
                                 echo ($url[1] == 'profileAdditionalAdd') ? ' userSurvey' : '';
-                                ?> " style="background-color: <?php echo $_SESSION['sitecolor']?>">
+                                ?> ">
         <a href="<?php echo URLROOT?>/pages/home" class="mainLogo" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>); "></a>
         <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></h1>
         <svg class="icon hamburgerIcon" tabindex="0" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,6 +139,16 @@
             </li>
 
             <li>
+                
+                <a href="<?php echo URLROOT;?>/pages/calendar" <?php if($url[1] == "calendar" || $url[1] == 'calendar') { echo 'class="active"'; }?>>
+                    <svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.27778 19H16.7222C17.1937 19 17.6459 18.8127 17.9793 18.4793C18.3127 18.1459 18.5 17.6937 18.5 17.2222V4.77778C18.5 4.30628 18.3127 3.8541 17.9793 3.5207C17.6459 3.1873 17.1937 3 16.7222 3H4.27778C3.80628 3 3.3541 3.1873 3.0207 3.5207C2.6873 3.8541 2.5 4.30628 2.5 4.77778V17.2222C2.5 17.6937 2.6873 18.1459 3.0207 18.4793C3.3541 18.8127 3.80628 19 4.27778 19ZM6.94444 12.7778L9.04489 14.8782L12.2778 10.1111L16.7222 16.3333H4.27778L6.94444 12.7778Z"/>
+                    </svg>
+                    Calendar
+                </a>
+            </li>
+
+            <li>
                 <a href="<?php echo URLROOT; ?>/pages/rewards" <?php if($url[1] == "rewards" || $url[0] == 'rewards') { echo 'class="active"'; }?>>
                     <svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7001 5.75029H10.5001V7.85029H14.7001V5.75029ZM14.7001 8.90029H10.5001V9.95029H14.7001V8.90029ZM9.4501 5.75029H6.3001V9.95029H9.4501V5.75029ZM9.4501 12.0503H14.7001V11.0003H9.4501V12.0503ZM12.6001 14.1503H14.7001V13.1003H12.6001V14.1503ZM14.7001 15.2003H6.3001V16.2503H14.7001V15.2003ZM11.5501 13.1003H6.3001V14.1503H11.5501V13.1003ZM8.4001 11.0003H6.3001V12.0503H8.4001V11.0003ZM17.8501 1.55029H3.1501C2.87162 1.55029 2.60455 1.66092 2.40764 1.85783C2.21072 2.05474 2.1001 2.32182 2.1001 2.60029V19.4003C2.1001 19.6788 2.21072 19.9458 2.40764 20.1428C2.60455 20.3397 2.87162 20.4503 3.1501 20.4503H17.8501C18.1286 20.4503 18.3956 20.3397 18.5926 20.1428C18.7895 19.9458 18.9001 19.6788 18.9001 19.4003V2.60029C18.9001 2.32182 18.7895 2.05474 18.5926 1.85783C18.3956 1.66092 18.1286 1.55029 17.8501 1.55029ZM16.8001 18.3503H4.2001V3.65029H16.8001V18.3503Z" fill="black" fill-opacity="0.87"/>
@@ -158,7 +179,7 @@
 
             <?php if($_SESSION['user_type'] === 'Alumni'): ?>
                 <span style="font-weight: bold;">Alumni Coins:</span>
-                 <p style="text-align: center; border-bottom: 0; padding: 1px 0; margin-top: 2px; margin-bottom: -8px;"><?php echo $_SESSION['alumniCoins'] ?> AC</p>       
+                 <p style="text-align: center; border-bottom: 0; padding: 1px 0; margin-top: 2px; margin-bottom: -8px;" id="ALUMNI_COINS"><?php echo $_SESSION['alumniCoins'] ?> AC</p>       
             <?php endif;?>
             <a href="<?php echo URLROOT; ?>/profile/viewProfile/<?php echo $_SESSION['alumni_id'] ?>" class="profile">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -167,6 +188,13 @@
                 Profile
             </a>
 
+            <a href="<?php echo URLROOT; ?>/pages/alumniEvent" class="profile">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C12 20 20 20 20 18C20 15.6 16.1 13 12 13C7.9 13 4 15.6 4 18C4 20 12 20 12 20Z" fill="black" fill-opacity="0.87"/>
+                </svg>
+                Alumni Event
+            </a>
+            
             <a href="<?php echo URLROOT; ?>/pages/promos"  class="profile">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C12 20 20 20 20 18C20 15.6 16.1 13 12 13C7.9 13 4 15.6 4 18C4 20 12 20 12 20Z" fill="black" fill-opacity="0.87"/>

@@ -29,5 +29,9 @@
         .loginMain a span{
             color: <?= $_SESSION['sitecolor_light'] ?>;
         }
+
+        .swal-modal .swal-text {
+            text-align: center;
+        }
     </style>
 </head>

@@ -25,6 +25,18 @@ class User {
         }
     }
 
+    public function checkAdvertiser($id){
+        $this->db->query('SELECT * FROM advertiser WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->single();
+        if($this->db->rowCount() > 0){
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
     public function validation($data){
         $this->db->query('SELECT * FROM alumni WHERE last_name = :last_name AND student_no = :student_no AND birth_date = :birth_date');
         $this->db->bind(':last_name', $data['last_name']);
@@ -509,4 +521,6 @@ class User {
                 return false;
             }
         }
+
+        
     }

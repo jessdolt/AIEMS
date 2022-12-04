@@ -9,9 +9,20 @@ class Advertiser extends Controller {
 
    public function index(){
       $advertiserModel = $this->model('advertiser_model');
-         $data = $advertiserModel->indexRewards($_SESSION['advertiser_id']);
+         $data = $advertiserModel->indexRewards($_SESSION['id']);
+
       if (empty($data)) {
-         $data =[];
+         $data =[
+
+         ];
+      } else {
+         foreach ($data as $yourAdvertisement) {
+            $expiry_time = new DateTime($yourAdvertisement->expiry_date);
+            $current_date = new DateTime();
+            $diff = $current_date->diff($expiry_time);
+            $yourAdvertisement->remainingTime = $diff->format('%a day(s)'.' %H:%I:%S');
+            $yourAdvertisement->expiry_time = $expiry_time->format('Y/m/d');
+         }
       }
       
       $this->view('external_user/home', $data);
@@ -19,7 +30,7 @@ class Advertiser extends Controller {
 
    public function accountSettings(){
       $advertiserModel = $this->model('advertiser_model');
-      $data = $advertiserModel->singleAdvertiserProfile($_SESSION['advertiser_id']);
+      $data = $advertiserModel->singleAdvertiserProfile($_SESSION['id']);
 
       $this->view('external_user/accountSettings', $data);
    }
@@ -142,7 +153,7 @@ class Advertiser extends Controller {
             'payment' => $_POST['payment'],
             'gCashRefNumber' => $_POST['gCashRefNumber'],
             'user_type' => $_SESSION['user_type'],
-            'posted_by' => $_SESSION['advertiser_id']
+            'posted_by' => $_SESSION['id']
       ];
 
       $jsonPromo = json_decode(json_encode($data));
@@ -264,8 +275,79 @@ class Advertiser extends Controller {
       }
    }
 
+   public function approveRow($id){
+      $advertiserModel = $this->model('advertiser_model');
+      $isAdvertiserUpdated = $advertiserModel->approveAdvertiser($id);
+
+      if($isAdvertiserUpdated){
+            flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
+            $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+      } else {
+            $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+      }
+
+      echo json_encode($response);
+   }
+
+   // FOR DELETING INLINE //
+   public function deleteRow($id) {
+   $advertiserModel = $this->model('advertiser_model');
+   $isAdvertiserDeleted = $advertiserModel->deleteAdvertiser($id);
+
+      if ($isAdvertiserDeleted){
+            flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
+            redirect('admin/advertiser');
+      }
+      else {
+            die("There's an error deleting this record");
+      }
+   }
+
+   // FOR DELETING CHECKBOX
+   public function delete() {
+      $advertiserModel = $this->model('advertiser_model');
+
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+         $todelete = $_POST['checkbox'];
+         foreach ($todelete as $id) {
+            if ($advertiserModel->deleteAdvertiser($id)){
+               flash('advertiser_delete_success', 'Advertiser successfully deleted', 'successAlert');
+               redirect('admin/promos_advertisement');
+            }
+            else {
+               die("There's an error deleting this record");
+            }
+         }
+      }
+   }
+
+   public function userDeletePromo($id) {
+      $advertiserModel = $this->model('advertiser_model');
+      $isPromoDeleted = $promosAdvertismentModel->deletePromo($id);
+
+      if($isPromoDeleted){
+          $response = ['message' => 'Promo is successfully deleted', 'isSuccess' => 1];
+
+      } else {
+          $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+      }
+      echo json_encode($response);
+  }
+
+   public function viewPromo($id) {
+      $promosAdvertismentModel = $this->model('promosadvertisement');
+      $references = $promosAdvertismentModel->getReferenceCodes($id);
+         
+      $promo = $promosAdvertismentModel->singlePromo($id);
+
+      $data =[ 
+         'promo'=> $promo,
+         'codes' => $references
+      ];
 
 
+      $this->view('external_user/viewPromo', $data);
+   }
 
 }
 ?>

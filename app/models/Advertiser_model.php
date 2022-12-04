@@ -5,6 +5,15 @@
             $this->db = new Database;
         }
 
+        public function allAdvertiser() {
+            $this->db->query('SELECT * FROM advertiser');
+
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
         public function addAdvertiser($data) {
             $this->db->query('INSERT INTO users (name, password, email, user_type) VALUES (:name, :password, :email, :user_type)');
             $this->db->bind(':name', $data->name);
@@ -78,6 +87,7 @@
 
         public function indexRewards($id) {
             $this->db->query('SELECT * FROM promos_advertisement WHERE posted_by=:id;');
+            
             $this->db->bind(':id', $id);
             $row = $this->db->resultSet();
             if($this->db->rowCount() > 0){
@@ -169,7 +179,7 @@
 
 
         public function singleAdvertiserProfile($id){
-            $this->db->query('SELECT * FROM advertiser WHERE advertiser_id = :id');
+            $this->db->query('SELECT * FROM advertiser WHERE user_id = :id');
             $this->db->bind(':id', $id);
             $row = $this->db->single();
             if($this->db->rowCount() > 0){
@@ -237,6 +247,70 @@
                 return false;
             }
         }
+
+        public function approveAdvertiser($id) {
+            $this->db->query('UPDATE advertiser SET is_approved = 1 WHERE user_id = :id');
+            $this->db->bind(':id', $id);
+    
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function deleteAdvertiser($id){
+            $this->db->query('SELECT * FROM advertiser WHERE user_id = :id');
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+    
+            if($this->db->rowCount() > 0 ){
+               $img = $row->image;
+            }
+            else{
+                return false;
+            }
+    
+            if(unlink(IMAGEROOT.$img)) {
+                $this->db->query('DELETE FROM advertiser WHERE user_id = :id');
+                $this->db->bind(':id', $id);
+    
+                if($this->db->execute()){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+    
+        }
+
+        public function deletePromo($id){
+            $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+    
+            if($this->db->rowCount() > 0 ){
+               $img = $row->image;
+            }
+            else{
+                return false;
+            }
+    
+            if(unlink(IMAGEROOT.$img)) {
+                $this->db->query('DELETE FROM promos_advertisement WHERE promoid = :id');
+                $this->db->bind(':id', $id);
+    
+                if($this->db->execute()){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+
+        
 
         
 
