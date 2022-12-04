@@ -26,7 +26,7 @@
     date_default_timezone_set('Asia/Manila');
 
 
-    HOSTING 
+    // HOSTING 
     define('URLROOT', 'http://aiems.online'); 
     define('DB_HOST', 'aiems.online');
     define('DB_USER', 'u693528914_sa');
