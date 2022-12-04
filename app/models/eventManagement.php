@@ -17,6 +17,17 @@ class eventManagement {
         }
     }
 
+    public function getEventHost($id) {
+        $this->db->query('SELECT * FROM event_management AS A LEFT JOIN users AS B ON a.posted_by = b.user_id WHERE a.id = :id');
+        $this->db->bind(':id', $id);
+
+       $row = $this->db->single();
+        if($this->db->rowCount() > 0 ){
+           return $row;
+        }
+    }
+
+
     public function getAllEvents() {
         $this->db->query('SELECT a.*, b.name FROM event_management AS a LEFT JOIN users AS b ON a.posted_by = b.user_id');
         $row = $this->db->resultSet();
@@ -27,6 +38,19 @@ class eventManagement {
     
     public function getAllEventsAvailable() {
         $this->db->query('SELECT a.*, b.name FROM event_management AS a LEFT JOIN users AS b ON a.posted_by = b.user_id WHERE a.isApproved = 1');
+        $row = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $row;
+        }
+    }
+
+
+    public function participatedEvents($id) {
+        $this->db->query('SELECT * FROM event_management AS a 
+                        LEFT JOIN participants AS b 
+                        ON a.id = b.event_id
+                        WHERE user_id = :id;');
+        $this->db->bind(':id', $id);
         $row = $this->db->resultSet();
         if($this->db->rowCount() > 0){
             return $row;

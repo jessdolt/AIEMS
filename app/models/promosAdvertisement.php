@@ -119,6 +119,19 @@ class promosAdvertisement {
         }
     }
 
+    public function findOwner($id) {
+        $this->db->query('SELECT * FROM promos_advertisement AS a
+                        LEFT JOIN users AS b
+                        ON a.posted_by = b.user_id
+                        WHERE promoid = :id');
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+
+        if($this->db->rowCount() > 0 ){
+           return $row;
+        }
+    }
+
     public function singlePromo($id) {
         $this->db->query('SELECT * FROM promos_advertisement WHERE promoid = :id');
         $this->db->bind(':id', $id);

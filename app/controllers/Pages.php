@@ -548,10 +548,11 @@ class Pages extends Controller{
     public function alumniEvent() {
         $eventManagementModel = $this->model('eventmanagement');
         $yourEvents = $eventManagementModel->yourEvents($_SESSION['id']);
+        $participatedEvents = $eventManagementModel->participatedEvents($_SESSION['id']);
         $upcomingEvent = $eventManagementModel->upcomingEvents($_SESSION['id']);
         $data = [
             'yourEvents' => $yourEvents,
-            'participatedEvents' => '',
+            'participatedEvents' => $participatedEvents,
             'upcomingEvents' => $upcomingEvent,
         ];
             $this->view('pages/alumniEvent', $data);
