@@ -1,4 +1,9 @@
 <?php 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
     Class Event_management extends Controller {
 
         public function __construct() {
@@ -90,19 +95,69 @@
             
             $json = json_decode(json_encode($data));
 
-            $isAdded = $eventManagementModel->participateEvent($json);    
+            $isAdded = $eventManagementModel->participateEvent($json);
 
             if($isAdded){
-
-                $response = ['message' => 'You have successfully participated', 'isSuccess' => 1];
-
-            } else {
-                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-
-            }
-
-            echo json_encode($response);
+                $data = $eventManagementModel->singleEvent($data->event_id);
+                $date = date("M. d, Y h:i A", strtotime($data->start)).' to '.date("M. d, Y h:i A", strtotime($data->end));
+                $mail = new PHPMailer(true);
+                
+                    //Server settings
+                    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                    $mail->SMTPDebug = 0;
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                    $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                
+                    //Recipients
+                    $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                    $mail->addAddress($_SESSION['email'], $_SESSION['name']);     //Add a recipient
+                    // $mail->addAddress('ellen@example.com');               //Name is optional
+                    // $mail->addReplyTo('info@example.com', 'Information');
+                    // $mail->addCC('cc@example.com');
+                    // $mail->addBCC('bcc@example.com');
+                
+                    //Attachments
+                    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                
+                    //Content
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'AIEMS Event Participation';
+                    $mail->Body    = 'You have been listed as a participant.<br>'
+                                    .'<br><b>What:</b> '.$data->title
+                                    .'<br><b>When:</b> '.$date
+                                    .'<br><b>Where:</b> '.$data->location
+                                    .'<br><br>'.$data->description
+                                    . '<br><br><img src="cid:eventImage" 
+                                    style="display: block;
+                                    width: 50%;">';
+                    $path = URLROOT.'/public/uploads/'.$data->image;
+                    $name = $data->image;
+                    $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
+    
+                    // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                    $mail->AddEmbeddedImage("$path2", "eventImage", "$name");
+                    $mail->Priority = 1;
+                    $mail->addCustomHeader("X-MSMail-Priority: High");
+                    $mail->addCustomHeader("Importance: High");
+    
+                    // print_r($path2);
+                    if($mail->Send()){
+                        $response = ['message' => 'You have successfully participated', 'isSuccess' => 1];
+                    } else {
+                        $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                    }
             
+            } else {
+                    $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+        
+            echo json_encode($response);
         }
 
         public function isParticipated(){
@@ -131,15 +186,91 @@
         public function approveRow($id){
             $eventManagementModel = $this->model('eventmanagement');
             $isEventUpdated = $eventManagementModel->approveEvent($id);
-      
+        
             if($isEventUpdated){
-                  $response = ['message' => 'Event is successfully approved', 'isSuccess' => 1];
+                $data = $eventManagementModel->getEventHost($id);
+                $date = date("M. d, Y h:i A", strtotime($data->start)).' to '.date("M. d, Y h:i A", strtotime($data->end));
+                $mail = new PHPMailer(true);
+                
+                    //Server settings
+                    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                    $mail->SMTPDebug = 0;
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                    $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                
+                    //Recipients
+                    $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                    $mail->addAddress($data->email, $data->name);     //Add a recipient
+                    // $mail->addAddress('ellen@example.com');               //Name is optional
+                    // $mail->addReplyTo('info@example.com', 'Information');
+                    // $mail->addCC('cc@example.com');
+                    // $mail->addBCC('bcc@example.com');
+                
+                    //Attachments
+                    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                
+                    //Content
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'AIEMS Event Approval';
+                    $mail->Body    = 'Your event has been approved.<br>'
+                                    .'<br><b>What:</b> '.$data->title
+                                    .'<br><b>When:</b> '.$date
+                                    .'<br><b>Where:</b> '.$data->location
+                                    .'<br><br>'.$data->description
+                                    . '<br><br><img src="cid:eventImage" 
+                                    style="display: block;
+                                    width: 50%;">';
+                    $path = URLROOT.'/public/uploads/'.$data->image;
+                    $name = $data->image;
+                    $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
+    
+                    // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                    $mail->AddEmbeddedImage("$path2", "eventImage", "$name");
+                    $mail->Priority = 1;
+                    $mail->addCustomHeader("X-MSMail-Priority: High");
+                    $mail->addCustomHeader("Importance: High");
+    
+                    // print_r($path2);
+                    if($mail->Send()){
+                        $response = ['message' => 'Event is successfully approved', 'isSuccess' => 1];
+                    } else {
+                        $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                    }
+            
             } else {
-                  $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+                    $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
             }
-      
+        
             echo json_encode($response);
-         }
+        }
+
+        public function viewEvent($id) {
+            $eventManagementModel = $this->model('eventmanagement');
+            $data = $eventManagementModel->singleEvent($id);
+            $data->start = date("m/d/Y h:i A", strtotime($data->start));
+            $data->end = date("m/d/Y h:i A", strtotime($data->end));
+
+            $this->view('event_management/viewEvent', $data);
+        }
+
+        public function userDeleteEvent($id) {
+            $eventManagementModel = $this->model('eventmanagement');
+            $isEventDeleted = $eventManagementModel->deleteEvent($id);
+
+            if($isEventDeleted){
+                $response = ['message' => 'Event is successfully deleted', 'isSuccess' => 1];
+
+            } else {
+                $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+            }
+            echo json_encode($response);
+        }
 
         // FOR DELETING INLINE //
         public function deleteRow($id) {
@@ -175,9 +306,8 @@
         }
 
         public function sendEventNotification($id){
-            $eventManagementModel = $this->model('eventmanagement');
-            $data = $eventManagementModel->singleEvent($id);
-
+            $data = $eventManagementModel->getEventHost($id);
+            $date = date("M. d, Y h:i A", strtotime($data->start)).' to '.date("M. d, Y h:i A", strtotime($data->end));
             $mail = new PHPMailer(true);
             
                 //Server settings
@@ -206,17 +336,19 @@
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = 'AIEMS Event';
-                $mail->Body    = 'Your reference code is <b>'.$data->code.'</b>'
-                                . '<img src="cid:voucherImage" 
+                $mail->Body    = 'Your event has been approved.'
+                                .'What? '.$data->title
+                                .'When: '.$date
+                                .'Where: '.$data->location
+                                . '<img src="cid:eventImage" 
                                 style="display: block;
                                 width: 50%;">';
-                $path = URLROOT.'/public/uploads/'.$getPromo->image;
-                $name = $getPromo->image;
+                $path = URLROOT.'/public/uploads/'.$data->image;
+                $name = $data->image;
                 $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
 
-
                 // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
-                $mail->AddEmbeddedImage("$path2", "voucherImage", "$name");
+                $mail->AddEmbeddedImage("$path2", "eventImage", "$name");
                 $mail->Priority = 1;
                 $mail->addCustomHeader("X-MSMail-Priority: High");
                 $mail->addCustomHeader("Importance: High");

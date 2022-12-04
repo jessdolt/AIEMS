@@ -23,6 +23,7 @@ requestData();
 const calendarInit = () => {
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
+    eventStartEditable: false,
     eventMaxStack: true,
     editable: true,
     views: {
@@ -61,12 +62,28 @@ const calendarInit = () => {
       $("#structureModal").modal("show");
 
       const { isParticipated } = JSON.parse(await checkIfParticipated());
-      if (isParticipated) {
-        btnAdd.textContent = "Participated";
-        btnAdd.disabled = true;
+      const currentDate = new Date();
+      const eventDate = new Date(start);
+
+      const posted_by = info.event.extendedProps.posted_by;
+      const userId = document.getElementById("user_id").value;
+      console.log(posted_by);
+      console.log(userId);
+
+      if (posted_by != userId) {
+        if (isParticipated) {
+          btnAdd.textContent = "Participated";
+          btnAdd.disabled = true;
+        } else if (eventDate > currentDate) {
+          btnAdd.textContent = "Participate";
+          btnAdd.disabled = false;
+        } else {
+          btnAdd.textContent = "Event has passed";
+          btnAdd.disabled = true;
+        }
       } else {
-        btnAdd.textContent = "Participate";
-        btnAdd.disabled = false;
+        btnAdd.textContent = "Host cannot participate";
+        btnAdd.disabled = true;
       }
     },
   });

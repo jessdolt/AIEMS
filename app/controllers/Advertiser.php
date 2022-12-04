@@ -334,5 +334,20 @@ class Advertiser extends Controller {
       echo json_encode($response);
   }
 
+   public function viewPromo($id) {
+      $promosAdvertismentModel = $this->model('promosadvertisement');
+      $references = $promosAdvertismentModel->getReferenceCodes($id);
+         
+      $promo = $promosAdvertismentModel->singlePromo($id);
+
+      $data =[ 
+         'promo'=> $promo,
+         'codes' => $references
+      ];
+
+
+      $this->view('external_user/viewPromo', $data);
+   }
+
 }
 ?>

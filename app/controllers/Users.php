@@ -100,7 +100,7 @@ use PHPMailer\PHPMailer\Exception;
                 } elseif(strlen($data['password']) < 7){
                     $data['password_err'] = 'Password must be at least 8 characters';
                 } elseif (preg_match($passwordValidation, $data['password'])) {
-                    $data['password_err'] = 'Password must be have at least one numeric value.';
+                    $data['password_err'] = 'Password must have at least one numeric value.';
                 }
 
                  //Validate confirm password
@@ -188,23 +188,23 @@ use PHPMailer\PHPMailer\Exception;
             $mail->SMTPAuth = true;
             $mail->Host = 'smtp.gmail.com';
             
-            $mail->Username = 'itechpup1@gmail.com';
-            $mail->Password = 'PUPtest123';
+            $mail->Username = 'universitymailtest@gmail.com';
+            $mail->Password = 'buiesfznxbpjznhp';
             $mail->SMTPSecure = 'tls';
             $mail->Port = '587';
     
             $mail->isHTML();
             
-            $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+            $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
     
             $mail->addAddress($email);
-            $mail->Subject = 'PUPIAIS Account Validated';
+            $mail->Subject = 'AIEMS Account Validated';
     
             $website = URLROOT;
             
             $msg = '
-                    <p> You are now officially registed to PUPIAIS </p>
-                    <p> You can now access to our website:<strong>'. $website.'</strong></p>
+                    <p> You are now officially registed to AIEMS </p>
+                    <p> You can now access to our website: <strong>'. $website.'</strong></p>
                     ';
                     
             $mail->Body = $msg;

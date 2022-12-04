@@ -12,31 +12,6 @@ use PHPMailer\PHPMailer\Exception;
 
         }
 
-        // public function approveRow($promoid){
-        //     $promosAdvertismentModel = $this->model('promosadvertisement');
-        //     $getUser = $promosAdvertismentModel->singlePromo($promoid);
-
-        //     if($getUser->user_type == "Advertiser") {
-        //         $duration = $getUser->duration;
-        //         $currentDate = date('Y-m-d');
-        //         $expiry_date = strtotime($currentDate.'+ '.$duration);
-        //         // $isPromosUpdated = $promosAdvertismentModel->approvePromoAdvertiser($promoid, $expiry_date);
-        //     } else {
-        //         // $isPromosUpdated = $promosAdvertismentModel->approvePromo($promoid);
-        //     }
-  
-        
-        //     if($isPromosUpdated){
-
-        //         $response = ['message' => 'Promo is successfully approved', 'isSuccess' => 1];
-        //     }
-        //     else{
-        //         $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-        //     }
-
-        //     echo json_encode($response);
-        // }
-
         public function actionViewPromo(){
             $promosAdvertismentModel = $this->model('promosadvertisement');
 
@@ -63,7 +38,82 @@ use PHPMailer\PHPMailer\Exception;
             }
   
             if($isPromosUpdated){
-                $response = ['message' => 'Updated Successfully', 'isSuccess' => 1];
+                $data = $promosAdvertismentModel->findOwner($json->id);
+                switch($data->type) {
+                    case 1:
+                        $type = "Promos";
+                        break;
+                    case 2:
+                        $type = "Discount/Voucher";
+                        break;
+                    case 3:
+                        $type = "Gift Certificates";
+                        break;
+                    case 4:
+                        $type = "Plain Advertisement";
+                        break;
+                }
+
+                switch($json->status) {
+                    case 1:
+                        $status = "Approved";
+                        break;
+                    case 2:
+                        $status = "Rejected";
+                        break;
+                }
+                
+            $mail = new PHPMailer(true);
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+                $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            
+                //Recipients
+                $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+                $mail->addAddress($data->email, $data->name);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                // $mail->addReplyTo('info@example.com', 'Information');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+            
+                //Attachments
+                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'AIEMS Promo/Advertisement Approval';
+                $mail->Body    = 'Your Promo/Advertisement has been <b>'.strtoupper($status).'</b>.<br>'
+                                .'<br><b>Type:</b> '.$type
+                                .'<br><b>Title:</b> '.$data->title
+                                .'<br><b>Date of Advertisement:</b> '.$data->date
+                                .'<br><b>Redeemable Quantity:</b> '.$data->quantity
+                                .'<br><br>'.$data->description
+                                . '<br><br><img src="cid:promoImage" 
+                                style="display: block;
+                                width: 50%;">';
+                $path = URLROOT.'/public/uploads/'.$data->image;
+                $name = $data->image;
+                $path2 = $_SERVER['DOCUMENT_ROOT'].'/aiems/public/uploads/'.$name;
+
+                // $mail->AddEmbeddedImage($path, 'voucherImage', 'Voucher Image');
+                $mail->AddEmbeddedImage("$path2", "promoImage", "$name");
+                $mail->Priority = 1;
+                $mail->addCustomHeader("X-MSMail-Priority: High");
+                $mail->addCustomHeader("Importance: High");
+
+                // print_r($path2);
+                if($mail->Send()){
+                    $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
+                } else {
+                    $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+                }
             }
             else{
                 $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
@@ -99,11 +149,9 @@ use PHPMailer\PHPMailer\Exception;
                 if($isACUpdated){
                     $_SESSION['alumniCoins'] = $updatedAlumniCoin;
                     $response = ['message' => 'Promo is Successfully redeemed', 'isSuccess' => 1];
-    
                 }
                 else{
                     $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
-    
                 }
     
                 echo json_encode($response);

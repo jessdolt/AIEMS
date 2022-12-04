@@ -46,7 +46,7 @@
   
     </main>
   
-    <div class="modal fade" id="structureModal" tabindex="-1" role="dialog" aria-labelledby="structureModalTitle" aria-hidden="true">
+  <div class="modal fade" id="structureModal" tabindex="-1" role="dialog" aria-labelledby="structureModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg modal-frame" role="document" style="width: 600px; overflow-y: auto">
         <form action="" class="form-new">
             <div class="modal-content">
@@ -123,12 +123,12 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" name="btn-participate" id="btn-participate" class="btn btn-primary">Participate</button>&nbsp;
+                    <button type="submit" name="btn-participate" id="btn-participate" class="btn btn-primary"></button>&nbsp;
                 </div>
             </div>
         </form>
     </div>
-</div>
+  </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"

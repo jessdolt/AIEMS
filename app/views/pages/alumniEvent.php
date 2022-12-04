@@ -73,7 +73,9 @@
                           class="d-flex justify-content-between align-items-center"
                         >
                           <h2 class="mt-2"><?= $yourEvents->title?></h2>
-                          <button class="btn rounded-pill">Edit</button>
+                          <a href="<?php echo URLROOT?>/event_management/viewEvent/<?= $yourEvents->id?>">
+                          <button class="btn rounded-pill">View</button>
+                          </a>
                         </div>
                         <div
                           class="d-flex justify-content-center align-items-center"
@@ -215,7 +217,5 @@
         </div>
       </div>
     </main>
-
-    <script src="<?= URLROOT?>/js/PromosAdvertisement/redeemPromosAdvertisement.js"></script>
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 
