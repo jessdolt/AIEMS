@@ -1,6 +1,6 @@
 <?php 
 
-    class siteConfig {
+    class Siteconfig {
         private $db;
         public function __construct(){
             $this->db = new Database;
