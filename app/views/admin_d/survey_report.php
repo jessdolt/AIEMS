@@ -59,11 +59,7 @@
                         <?php if(!empty($data['pastSurvey'])) :?>
                         <?php foreach($data['pastSurvey'] as $survey): ?>
                         <li class="survey-card <?php echo ($survey->s_type == 'google_form') ? 'google-form' : '' ?>">
-<<<<<<< HEAD
-                            <a class="card-link"href="<?php echo ($survey->s_type=='built_in') ? URLROOT.'/survey_report/view_report/'.$survey->id : $survey->google_form_editor_link.'#responses'?>" <?php echo ($survey->s_type == 'google_form') ? "target='_blank'" : ''?>>View</a>
-=======
                             <a class="card-link" href="<?php echo ($survey->s_type=='built_in') ? URLROOT.'/survey_report/view_report/'.$survey->id : $survey->google_form_editor_link.'#responses'?>" <?php echo ($survey->s_type == 'google_form') ? "target='_blank'" : ''?>>View</a>
->>>>>>> 679c69bb5ab1a701d2c9fe2e354a0fa7ebc7c369
                             <svg class="card-svg" viewBox="0 0 347 313" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M196 18.5L236.5 0H347V97.5L196 18.5Z"/>
                                 <path d="M236.5 0L69 76.5L0 36.0239V0H236.5Z"/>

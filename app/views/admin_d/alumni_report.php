@@ -73,20 +73,7 @@
                         </button>
                     </form>
                     <?php endif; ?>
-                    <a href="<?php if($url[1] == "showBatch" || $url[1] == "showBatch_1st_half" || $url[1] == "showBatch_2nd_half") {
-                        echo URLROOT.'/alumni_report/showBatch_1st_half/'.$url[2];
-                    } elseif ($url[1] == "showCourse" || $url[1] == "showCourse_1st_half" || $url[1] == "showCourse_2nd_half") {
-                        echo URLROOT.'/alumni_report/showCourse_1st_half/'.$url[2].'/'.$url[3];
-                    } else {
-                        echo URLROOT.'/admin/alumni_report_1st_half';
-                    }?>">January - June</a>
-                    <a href="<?php if($url[1] == "showBatch" || $url[1] == "showBatch_1st_half" || $url[1] == "showBatch_2nd_half") {
-                        echo URLROOT.'/alumni_report/showBatch_2nd_half/'.$url[2];
-                    } elseif ($url[1] == "showCourse" || $url[1] == "showCourse_1st_half" || $url[1] == "showCourse_2nd_half") {
-                        echo URLROOT.'/alumni_report/showCourse_2nd_half/'.$url[2].'/'.$url[3];
-                    } else {
-                        echo URLROOT.'/admin/alumni_report_2nd_half';
-                    }?>">July - December</a>
+                    
                         
                     </div>
                 </div>
