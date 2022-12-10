@@ -2,15 +2,10 @@
 
 <body>  
     <main class="loginMain">
-        <span class="pupPylon">
-            <div class="img-con">
-                <img src="<?php echo URLROOT?>/images/login-pylon.png">
-            </div>
-        </span>
             
         <div>
             <header>
-                <h1>PUP-Itech AIS</h1>
+                <h1><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?></h1>
                 <div></div>
                 <span class="changePassHeader text-initial">Check your email</span>
                 <span>
