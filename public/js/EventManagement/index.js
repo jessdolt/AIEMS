@@ -8,7 +8,9 @@ const requestData = () => {
     url: `/aiems/event_management/viewAllEventsAvailable`,
     dataType: "JSON",
     success: function (data) {
-      DATA.Events = [...data];
+      if (data?.length >= 1) {
+        DATA.Events = [...data];
+      }
       calendarInit();
     },
     error: function (xhr, status, error) {
@@ -17,7 +19,6 @@ const requestData = () => {
     },
   });
 };
-
 requestData();
 
 const calendarInit = () => {
