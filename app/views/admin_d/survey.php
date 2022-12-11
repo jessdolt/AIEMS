@@ -46,6 +46,7 @@
                                 </tr> 
                             </thead>
                             <tbody id="search_insert">
+                                <?php if(!empty($data['surver'])) : ?>
                                 <?php foreach($data['survey'] as $survey):?>
                                 <tr>
                                     <td><input type="checkbox" name="checkbox[]" value="<?php echo $survey->id;?>"></td>
@@ -74,7 +75,12 @@
                                         </div>
                                     </div></td>
                                 </tr>
-                                <?php endforeach;?>
+                                <?php endforeach; ?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                             </tbody>
                         </table>
                         

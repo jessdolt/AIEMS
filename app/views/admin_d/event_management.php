@@ -28,9 +28,8 @@
                             </tr>
                         </thead>
                         <tbody id="search_insert">
-                            <?php 
-                            if (!empty($data)) {
-                            foreach($data as $eventManagement) : ?>
+                            <?php if (!empty($data)) : ?>
+                            <?php foreach($data as $eventManagement) : ?>
                             <tr>
                             <td><input type="checkbox" name="checkbox[]" value="<?php echo $eventManagement->id; ?>"></td>
                             <td><img src="<?php echo URLROOT;?>/uploads/<?php echo $eventManagement->image?>"></td>
@@ -71,7 +70,12 @@
                                 </div>
                             </td>
                             </tr>
-                            <?php endforeach; } ?>
+                            <?php endforeach; ?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                         </tbody>
                     </table>
                     

@@ -30,7 +30,6 @@ class Promosadvertisement {
         }
     }
     
-    // AND is_approved = 1 PENDING LALAGYAN KO PABA NG NULL EXPIRY DATE
     public function checkHasReferenceCode($id) {
         $this->db->query('SELECT * 
         FROM `promos_advertisement` AS a 

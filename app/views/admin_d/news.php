@@ -44,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody id="search_insert">
-                        
+                        <?php if(!empty($data['news'])) : ?>
                         <?php foreach($data['news'] as $post): ?>
                             <tr>
                                 <td><input type="checkbox" name="checkbox[]" value="<?php echo $post->id; ?>"></td>
@@ -73,8 +73,12 @@
                                     </div>
                                 </div></td>
                             </tr>
-                        <?php endforeach; ?>
-                        
+                            <?php endforeach; ?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                         </tbody>
                     </table>
                     

@@ -105,6 +105,7 @@
                             </tr>
                         </thead>
                         <tbody id="search-insert">
+                            <?php if(!empty($data['alumni'])) :?>
                             <?php foreach($data['alumni'] as $alumni) : ?>
                             <tr>
                                 <td><p class="studentID"><?php echo $alumni->student_no?></p></td>
@@ -122,7 +123,12 @@
                                     </span>
                                 </div></td>
                             </tr>
-                            <?php endforeach; ?>
+                            <?php endforeach;?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td style="width:20%; min-width:200px;"><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                         </tbody>
                     </table>
                     

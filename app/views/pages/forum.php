@@ -18,6 +18,7 @@
         <section class="mainContent">
             <div class="container forumCon">
                 <ul class="forum-list">
+                    <?php if (!empty($data['post'])):?>
                 <?php $post = $data['post']?>
                 <?php foreach($post as $post): ?>
                     
@@ -99,6 +100,9 @@
                         </a>
                     </li> 
                     <?php endforeach;?>
+                    <?php else :?>
+                    <h3>No forum post available</h3>
+                <?php endif;?>
                     
                 </ul>
                 <div class="pagination">
@@ -195,16 +199,23 @@
             </div>
         </section>
     </main>
-    <footer class="mainFooter">
+    <style>
+    .mainFooter h1::before{
+        background-image:none !important
+    }
+    .mainFooter h1{
+        margin-top: 0;
+    }
+    </style>
+<footer class="mainFooter" style="background-image:none !important">
         <h1>
-            Polytechnic University of the Philippines
+            <?= empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'];?>
             <br>
-            <span>Institute of Technology</span>
+            <span>Alumni Information and Event Management System</span>
         </h1>
         <hr>
-        <p class="tagline">iskolar ng bayan</p>
         <ul class="links">
-            <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/home">PUP</a></li>
+            <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/home">Home</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/news">News</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/events">Events</a></li>
             <li class="link-item"><a href="<?php echo URLROOT; ?>/pages/job_portals">Jobs</a></li>

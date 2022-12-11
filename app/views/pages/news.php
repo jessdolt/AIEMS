@@ -21,6 +21,7 @@
                 <h3>
                     Latest News and Articles
                 </h3>
+                <?php if(!empty($data['latestNews'])): ?>
                 <?php foreach($data['latestNews'] as $news) : ?>
                 <article class="card news">
                     <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($news->image); ?>" alt=" ">
@@ -58,17 +59,25 @@
                 </article>
                 <?php endforeach; ?>
             </div>
+            <?php else :?>
+                <h3>No news available</h3>
+            <?php endif;?>
         </section>
         <section id="redirect" class="moreContent">
             <div class="container additional">
                 <h3>More News and Articles</h3>
+
                 <ul>
+                <?php if(!empty($data['oldNews'])) :?>
                     <?php foreach($data['oldNews'] as $oldNews) : ?>
                         <li>
                             <a href="<?php echo URLROOT?>/posts/single/<?php echo $oldNews->id; ?>"><?php echo $oldNews->title; ?></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
+                <?php else :?>
+                    <h3>No news available</h3>
+                <?php endif;?>
                 <div class="pagination">
                     <span class="currentRows"><?php echo $data['start'] . '-' . $data['limit'] . ' of ' . $data['total']?></span>
                     <a href="<?php echo URLROOT; ?>/pages/news<?php echo $data['first'] ?>#redirect" class="start">

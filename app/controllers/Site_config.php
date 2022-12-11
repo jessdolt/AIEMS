@@ -191,11 +191,11 @@ Class Site_config extends Controller {
         $siteConfigModel = $this->model('siteconfig');
         $json  =  json_decode(file_get_contents('php://input'));
         
-        // $hashPassword = password_hash($json->password, PASSWORD_DEFAULT);
+        $hashPassword = password_hash($json->password, PASSWORD_DEFAULT);
 
         // get user_id in users table for admin table
-        // $isAdded = $siteConfigModel->addAdmin($json, $hashPassword);
-        $isAdded = $siteConfigModel->addAdmin($json);
+        $isAdded = $siteConfigModel->addAdmin($json, $hashPassword);
+        // $isAdded = $siteConfigModel->addAdmin($json);
         
         if(!empty($isAdded)) {
             
