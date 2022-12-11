@@ -23,9 +23,8 @@
                             </tr>
                         </thead>
                         <tbody id="search_insert">
-                            <?php 
-                            if (!empty($data)) {
-                            foreach($data as $advertiser) : ?>
+                            <?php if (!empty($data)) : ?>
+                            <?php foreach($data as $advertiser) : ?>
                             <tr>
                             <td><input type="checkbox" name="checkbox[]" value="<?php echo $advertiser->user_id; ?>"></td>
                             <td><img src="<?php echo URLROOT;?>/uploads/<?php echo $advertiser->image?>"></td>
@@ -60,7 +59,12 @@
                                 </div>
                             </td>
                             </tr>
-                            <?php endforeach; } ?>
+                            <?php endforeach; ?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                         </tbody>
                     </table>
                     

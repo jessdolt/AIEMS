@@ -43,14 +43,11 @@
                 <h3>Available Rewards</h3>
               </div>
               <hr />
-              
               <div class="row d-flex flex-wrap justify-content-around align-items-center">
                 <!-- Start of card voucher -->
                     <!-- DITO START NG FOREACH -->
-                    <?php 
-                    if (!empty($data)) {
-                    foreach ($data as $allAvailablePromos): 
-                    ?>
+                    <?php if (!empty($data)) : ?>
+                    <?php foreach ($data as $allAvailablePromos): ?>
                   <div class="col-md-4 mt-2 mb-2">
                     <div class="card rounded shadow-lg"  style="background-color: grey; padding: 0; border:none;">
                       <img
@@ -70,7 +67,10 @@
                       </div>
                     </div>
                   </div>
-                  <?php endforeach; } ?>
+                  <?php endforeach; ?>
+                  <?php else :?>
+                    <h3>No rewards available</h3>
+                  <?php endif;?>
                     <!-- END NG FOREACH -->
                 <!-- end of card voucher -->
               </div>

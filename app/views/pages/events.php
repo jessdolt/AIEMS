@@ -21,6 +21,7 @@
                 <h3>
                     Latest Events
                 </h3>
+                <?php if (!empty($data['latestEvents'])) : ?>
                 <?php foreach($data['latestEvents'] as $event) : ?>
                 <article class="card news">
                     <img class="card-img" src="<?php echo URLROOT; ?>/uploads/<?php echo($event->image); ?>" alt=" ">
@@ -57,17 +58,24 @@
                     </div>
                 </article>
                 <?php endforeach; ?>
+                <?php else :?>
+                    <h3>No events available</h3>
+                <?php endif;?>
             </div>
         </section>
         <section id="redirect" class="moreContent">
             <div class="container additional">
                 <h3>More Events</h3>
                 <ul>
+                    <?php if (!empty($data['oldEvents'])): ?>
                     <?php foreach($data['oldEvents'] as $oldEvents) : ?>
                         <li>
                             <a href="<?php echo URLROOT?>/events/single/<?php echo $oldEvents->id; ?>"><?php echo $oldEvents->title; ?></a>
                         </li>
                     <?php endforeach; ?>
+                    <?php else :?>
+                    <h3>No events available</h3>
+                <?php endif;?>
                 </ul>
                 <div class="pagination">
                     <span class="currentRows"><?php echo $data['start'] . '-' . $data['limit'] . ' of ' . $data['total']?></span>

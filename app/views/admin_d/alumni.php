@@ -171,6 +171,7 @@
                             <th></th>
                         </tr>
                     </thead>
+
                     <tbody id="search-insert-alumni">
                     <?php if(count($data['alumni']) > 0) :?>
                     <?php foreach($data['alumni'] as $alumni):?>
@@ -204,8 +205,12 @@
                                     </div>
                                 </div></td>
                             </tr>
-                        <?php endforeach; ?>
-                        <?php endif;?>
+                            <?php endforeach; ?>
+                                <?php else :?>
+                                    <tr style="border-bottom: 0px; margin-top:175px">
+                                        <td><h3>No data available</h3></td>
+                                    </tr>
+                                <?php endif;?>
                     </tbody>
                 </table>
                 
