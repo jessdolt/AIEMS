@@ -561,11 +561,13 @@
             $this->view('admin_d/gallery' , $data);
         }
 
-        public function alumni_report() {
+        public function alumni_report($year = "") {
             $this->alumniRModel = $this->model('alumniR_model');
             extract($_POST);
+            
 
             if(!isset($isSearch)) {
+                $currentYear = !empty($year) ? $year : date('Y');
                 // $alumni = $this->alumniRModel->showAll();
                 $allCount = $this->alumniRModel->allCount();
                 $batch = $this->alumniRModel->showBatch();
@@ -585,27 +587,8 @@
                 $newData = [
                     'start' => $start,
                     'limit' => $limit,
+                    'year' => $currentYear
                 ];
-
-                if(isset($_POST['dateFilter'])) {
-                    if($_POST['dateFilter'] == 1) {
-                        $startDate = date('Y')."-01-01";
-                        $endDate = date('Y')."-06-31";
-                    } 
-
-                    if ($_POST['dateFilter'] == 2) {
-                        $startDate = date('Y')."-07-01";
-                        $endDate = date('Y')."-12-31";
-                    }
-
-                    $newData = [
-                        'start' => $start,
-                        'limit' => $limit,
-                        'date' => $_POST['dateFilter'],
-                        'startDate' => $startDate,
-                        'endDate' => $endDate
-                    ];    
-                }
 
                 $alumni = $this->alumniRModel->showAlumniIndex($newData);
                 
@@ -656,6 +639,7 @@
 
                 $this->view('admin_d/alumni_report', $data);
             } else {
+
                 $alumni = $this->alumniRModel->searchAlumniReport($searchKey);
                 //array_print($events);
                 if(!empty($alumni)){
