@@ -1,9 +1,9 @@
 <?php 
     //LOCAL DB (PHPMYADMIN)
-    // define('DB_HOST', 'localhost');
-    // define('DB_USER', 'root');
-    // define('DB_PASS', '12345');
-    // define('DB_NAME', 'aiems');
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root');
+    define('DB_PASS', '12345');
+    define('DB_NAME', 'aiems');
 
     define('AC_HIGHEST', 12);
     define('AC_LOWEST', 4);
@@ -15,7 +15,7 @@
     define('CLOGOROOT', dirname(dirname(dirname(__FILE__))). '\public\company_logo\\');
     
     //Url Root
-    // define('URLROOT', 'http://localhost/aiems'); 
+    define('URLROOT', 'http://localhost/aiems'); 
     //http://localhost/pupiais
     
 
@@ -27,8 +27,8 @@
 
 
     // HOSTING 
-    define('URLROOT', 'https://aiems-online.preview-domain.com/'); 
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'u693528914_sa');
-    define('DB_PASS', 'Pup@1928');
-    define('DB_NAME', 'u693528914_aiems');
+    // define('URLROOT', 'https://aiems-online.preview-domain.com/'); 
+    // define('DB_HOST', 'localhost');
+    // define('DB_USER', 'u693528914_sa');
+    // define('DB_PASS', 'Pup@1928');
+    // define('DB_NAME', 'u693528914_aiems');

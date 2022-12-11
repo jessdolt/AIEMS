@@ -3,6 +3,16 @@
 <?php 
     $url= rtrim($_GET['url'],'/');
     $url= explode('/', $url);
+
+    $filteredYear = isset($url[2]) ? $url[2] : date('Y');
+
+    if($url[1] === 'alumni_report'){
+        $filteredYear = isset($url[2]) ? $url[2] : date('Y');
+    }   else if($url[1] === 'showBatch'){
+        $filteredYear = isset($url[3]) ? $url[3] : date('Y');
+    }  else if($url[1]=== 'showCourse'){
+        $filteredYear = isset($url[4]) ? $url[4] : date('Y');
+    }
 ?>
         <section class="filterNav">
             <a href="<?php echo URLROOT?>/admin/alumni_report" class="allUser">
@@ -10,12 +20,20 @@
                 All Respondents
                 <span class="allUserCount"><?php echo (!empty($data['allCount'])) ? $data['allCount'] : '0'?></span>
             </a>
+          
+
+            <select name="forma" onchange="location = this.value;">
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2022"  <?= $filteredYear == "2022" ? 'selected' : ""?>>2022</option>
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2023"  <?= $filteredYear == "2023" ? 'selected' : ""?>>2023</option>
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2024"  <?= $filteredYear == "2024" ? 'selected' : ""?>>2024</option>
+            </select>
+
             <hr>
             <ul class="department">
                 <?php foreach($data['batch'] as $batch) : ?>    
                 <li>
 
-                    <a href="<?php echo URLROOT?>/alumni_report/showBatch/<?php echo $batch->id?>" class="deptHead <?php echo ($url[2] == $batch->id) ? 'active' : ''?>">
+                    <a href="<?php echo URLROOT?>/alumni_report/showBatch/<?php echo $batch->id?>/<?= $filteredYear ?>" class="deptHead <?php echo ($url[2] == $batch->id) ? 'active' : ''?>">
                         Batch <?php echo $batch->year?>
                         <span class="icon dropArrow">
                             <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +54,7 @@
                     <ul class="groupList">
                         <?php foreach($data['course'] as $course) :?>
                         <li class="group">
-                            <a href="<?php echo URLROOT?>/alumni_report/showCourse/<?php echo $batch->id?>/<?php echo $course->id?>" class="groupHeader <?php echo ($url[3] == $course->id) ? 'active' : ''?>">
+                            <a href="<?php echo URLROOT?>/alumni_report/showCourse/<?php echo $batch->id?>/<?php echo $course->id?>/<?= $filteredYear ?>" class="groupHeader <?php echo ($url[3] == $course->id) ? 'active' : ''?>">
                                 <?php echo $course->course_code?> 
                             </a>
                         </li>
