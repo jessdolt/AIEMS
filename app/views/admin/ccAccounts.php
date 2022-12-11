@@ -12,6 +12,7 @@
         </div>
         <form action="" id="add-new-account" class="table-form">
             <table class="data-table">
+                <?php if(!empty($data)) :?>
                 <?php if($url[1] != 'deleteRowCc'):?>
                 <?php foreach($data as $cc): ?>
                 <tr>
@@ -37,7 +38,10 @@
                     </div></td>
                 </tr>
                 <?php endforeach; ?>
-                <?php endif; ?>
+                        <?php endif; ?>
+                        <?php else :?>
+                            <h3 style="text-align:center;">No data available</h3>
+                        <?php endif;?>
             </table>
         </form>
         <div class="btn-con">

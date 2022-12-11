@@ -23,7 +23,7 @@
             </div>
         </section>
         <section class="mainContent alumGallery">
-
+            <?php if(!empty($data['gallery'])):?>
             <?php foreach($data['gallery'] as $gal):?>
             <div class="album-con">
                 <div class="album-cover">
@@ -71,8 +71,12 @@
                     <span class="item-count"><?php echo $i?> Photos</span>
                 </div>
             </div>
-            <?php endforeach;?>
-
+            <?php endforeach; ?>
+            <?php else :?>
+                <tr style="border-bottom: 0px; margin-top:175px">
+                    <td><h3>No data available</h3></td>
+                </tr>
+            <?php endif;?>
 
            
         </section>

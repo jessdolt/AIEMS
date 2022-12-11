@@ -49,8 +49,11 @@
                                 </span>
                             </div>
                         </li>
-                        <?php endforeach;?>
-                        <?php else: ?>
+                        <?php endforeach; ?>
+                        <?php else :?>
+                            <li>
+                                <h3 style="border-bottom: 0px">No data available</h3>
+                            </li>
                         <?php endif;?>
                     </ul>
 
@@ -79,8 +82,11 @@
                                 </span> 
                             </div>
                         </li>
-                        <?php endforeach;?>
-                        <?php else: ?>
+                        <?php endforeach; ?>
+                        <?php else :?>
+                            <li>
+                                <h3 style="border-bottom: 0px">No data available</h3>
+                            </li>
                         <?php endif;?>
                     </ul>
                 
