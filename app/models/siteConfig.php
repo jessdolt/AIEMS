@@ -1,6 +1,6 @@
 <?php 
 
-    class siteConfig {
+    class Siteconfig {
         private $db;
         public function __construct(){
             $this->db = new Database;
@@ -67,12 +67,11 @@
         }
 
         // PUT  addAdmin($data, $hashPassword)
-        public function addAdmin($data) {
+        public function addAdmin($data, $hashPassword) {
             $this->db->query('INSERT INTO users (name, email, password, user_type) VALUES (:name, :email, :password, :user_type)');
             $this->db->bind(':name', $data->name);
             $this->db->bind(':email', $data->email);
-            $this->db->bind(':password', $data->password);
-            // $this->db->bind(':password', $hashPassword);
+            $this->db->bind(':password', $hashPassword);
             $this->db->bind(':user_type', $data->user_type);
 
             try{

@@ -84,7 +84,7 @@ class Advertiser extends Controller {
           }
       }
 
-      // $hashPassword = password_hash($_POST['password], PASSWORD_DEFAULT);
+      $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
       $data = [
          'logo' => $fileNameNew,
@@ -92,7 +92,7 @@ class Advertiser extends Controller {
          'mobileNumber' => $_POST['mobileNumber'],
          'address' => $_POST['address'],
          'email' => $_POST['email'],
-         'password' => $_POST['password'],
+         'password' => $hashPassword,
          'user_type' => 6
       ];
 

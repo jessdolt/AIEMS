@@ -10,6 +10,7 @@
         </section>
         <section class="mainContent">
             <ul class="container galCon">
+                <?php if (!empty($data['gallery'])): ?>
                 <?php foreach($data['gallery'] as $gallery): ?>
                 <li>
                     <a href="<?php echo URLROOT;?>/pages/singleGallery/<?php echo $gallery->id?>">
@@ -26,7 +27,11 @@
                     </a>
                 </li>
                 <?php endforeach; ?>
+                <?php else :?>
+                    <h3>No image available</h3>
+                <?php endif;?>
             </ul>
+
             <div class="container">
                 <div class="pagination">
                     <span class="currentRows"><?php echo $data['start'] . '-' . $data['limit'] . ' of ' . $data['total']?></span>

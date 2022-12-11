@@ -19,7 +19,6 @@ const requestData = () => {
     },
   });
 };
-
 requestData();
 
 const calendarInit = () => {

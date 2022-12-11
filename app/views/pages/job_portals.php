@@ -13,6 +13,7 @@
                 <h3>
                     Active Job Openings
                 </h3>
+                <?php if(!empty($data['active'])):?>
                 <?php foreach($data['active'] as $active): ?>
                 <a href="<?php echo URLROOT ?>/job_portals/single/<?php echo $active->id ?>" class="card jobs <?php echo ($active->work_status == 'Full-Time') ? 'fullTime' : 'partTime'?>"> 
                     <div class="card-body">
@@ -36,6 +37,9 @@
                     </div>
                 </a>
                 <?php endforeach; ?>
+                <?php else :?>
+                    <h3>No job post available</h3>
+                <?php endif;?>
             </div>
             <div class="container jobCon archive">
                 <h3>
@@ -64,6 +68,7 @@
                     </div>
                 </a>
                 <?php endforeach; ?>
+
 
                 <div class="card-filter">Show Archive</div>
             </div>
