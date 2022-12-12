@@ -321,6 +321,106 @@
                     } 
         }
 
+        public function profileAdditionalUpdate($id) {
+            $this->accountPass();
+            $user = $this->userModel->singleUser($id);
+            $userData = $this->userModel->singleAlumni($id);
+
+            $data = $this->userModel->getEmploymentData($id);
+
+            $date_respond_update = date('Y-m-d', strtotime('+1 year', strtotime($data->date_responded)));
+            if ($date_respond_update > date("Y-m-d")) {
+                redirect('pages');
+            }
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+                $data = [
+                    'alumni_id' => $_SESSION['alumni_id'],  
+                    'course' => $user->course_code,
+                    'gDate' => $_POST['gDate'],
+                    'status' => $_POST['cstatus'],
+                    'eDate' => $_POST['eDate'],
+                    'ceDate' => $_POST['ceDate'],
+                    'tWork' => $_POST['tWork'],
+                    'wPosition' => $_POST['wPosition'],
+                    'ifRelated' => $_POST['related'],
+                    'file' => '',
+                    'file_error' => '',
+                    'isUploaded' => $_POST['isUploaded']
+                ];
+
+                $file = $_FILES['newsImageInput'];
+                $isUploaded = $_POST['isUploaded'];
+
+                $filename = $file['name'];
+                $fileTmpName = $file['tmp_name'];
+                $fileSize = $file['size'];
+                $fileError = $file['error'];
+                $fileType = $file['type'];
+
+                $fileExt = explode ('.',$filename);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg','jpeg', 'png');
+    
+                    if(in_array($fileActualExt, $allowed) && $isUploaded == 1){
+                        if($fileError == 0){
+                            if($fileSize < 1000000){
+                                $fileNameNew = uniqid('',true).".".$fileActualExt;
+                                $target = "uploads/". basename($fileNameNew);
+                                move_uploaded_file($fileTmpName, $target);
+                                $data['file'] = $fileNameNew;
+                            }
+                        } else {
+                            $data['file_error'] = 'File Size too big. Maximum of 1mb only';
+                        }
+                    } elseif($isUploaded == 1){
+                        $data['file_error'] = 'There was a problem in uploading the file';
+                    }
+
+                if(empty($data['eDate'])) {
+                    $data['eDate'] = NULL;
+                }
+
+                if(empty($data['ceDate'])) {
+                    $data['ceDate'] = NULL;
+                }
+
+                if(empty($data['file_error'])){
+
+                    if($this->userModel->profileAdditionalUpdate($data)){
+                        if($data['status'] == "Student") {
+                            $data['status'] = "Unemployed";
+                        }
+                        if($this->userModel->updateEmployment($data)) {
+                        redirect('pages');
+                        } else {
+                            die("Something went wrong");
+                        }
+                    } else {
+                        die("Something went wrong");
+                    }
+                } else {
+                    $this->view('users/additionalProfileAdd', $data);
+                }
+            } else {
+                $data = [
+                    'course' => $user->course_code,
+                    'gDate' => $data->graduation,
+                    'status' => $data->status,
+                    'eDate' => $data->first_employment,
+                    'ceDate' => $data->current_employment,
+                    'tWork' => $data->type_of_work,
+                    'wPosition' => $data->work_position,
+                    'ifRelated' => $data->if_related,
+                    'file' => $data->company_id,
+                    'file_error' => ''
+                ];
+            }
+
+            $this->view('users/additionalProfileUpdate', $data);
+        }
+
         public function privacyConsent() {
 
             $data = [
