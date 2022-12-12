@@ -567,7 +567,7 @@
             
 
             if(!isset($isSearch)) {
-                $currentYear = !empty($year) ? $year : date('Y');
+                $currentYear = !empty($year) ? $year : "";
                 // $alumni = $this->alumniRModel->showAll();
                 $allCount = $this->alumniRModel->allCount();
                 $batch = $this->alumniRModel->showBatch();
