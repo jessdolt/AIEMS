@@ -113,8 +113,16 @@ class Pages extends Controller{
             else {
                 if($this->isEmployed()) {
                     redirect('profile/profileAdditionalAdd/'.$_SESSION['alumni_id']);
-                } 
-              
+                }
+
+                $employmentData = $this->userModel->getEmploymentData($_SESSION['alumni_id']);
+                if (!empty($employmentData)) {
+                    $date_respond_update = date('Y-m-d', strtotime('+1 year', strtotime($employmentData->date_responded)));
+                    if ($date_respond_update < date("Y-m-d")) {
+                        redirect('profile/profileAdditionalUpdate/'.$_SESSION['alumni_id']);
+                    }
+                }
+
                 if($this->checkSurvey()){
                     redirect('survey_widget');
                 }

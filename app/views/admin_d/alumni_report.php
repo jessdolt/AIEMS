@@ -20,13 +20,6 @@
                 All Respondents
                 <span class="allUserCount"><?php echo (!empty($data['allCount'])) ? $data['allCount'] : '0'?></span>
             </a>
-          
-
-            <select name="forma" onchange="location = this.value;">
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2022"  <?= $filteredYear == "2022" ? 'selected' : ""?>>2022</option>
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2023"  <?= $filteredYear == "2023" ? 'selected' : ""?>>2023</option>
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2024"  <?= $filteredYear == "2024" ? 'selected' : ""?>>2024</option>
-            </select>
 
             <hr>
             <ul class="department">
@@ -91,7 +84,11 @@
                         </button>
                     </form>
                     <?php endif; ?>
-                    
+                    <select name="forma" onchange="location = this.value;">
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2022"  <?= $filteredYear == "2022" ? 'selected' : ""?>>2022</option>
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2023"  <?= $filteredYear == "2023" ? 'selected' : ""?>>2023</option>
+                <option value="<?php echo URLROOT?>/admin/alumni_report/2024"  <?= $filteredYear == "2024" ? 'selected' : ""?>>2024</option>
+            </select>
                         
                     </div>
                 </div>
