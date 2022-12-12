@@ -13,6 +13,13 @@
     }  else if($url[1]=== 'showCourse'){
         $filteredYear = isset($url[4]) ? $url[4] : date('Y');
     }
+
+    // $date_responded = array();
+    // foreach($data['alumni'] as $alumni) {
+    //     $date_responded[] = date("Y", strtotime($alumni->date_responded));
+    // }
+    // $min = min($date_responded);
+    // $max = max($date_responded);
 ?>
         <section class="filterNav">
             <a href="<?php echo URLROOT?>/admin/alumni_report" class="allUser">
@@ -84,11 +91,14 @@
                         </button>
                     </form>
                     <?php endif; ?>
+                    
                     <select name="forma" onchange="location = this.value;">
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2022"  <?= $filteredYear == "2022" ? 'selected' : ""?>>2022</option>
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2023"  <?= $filteredYear == "2023" ? 'selected' : ""?>>2023</option>
-                <option value="<?php echo URLROOT?>/admin/alumni_report/2024"  <?= $filteredYear == "2024" ? 'selected' : ""?>>2024</option>
-            </select>
+                        <option value="<?php echo URLROOT?>/admin/alumni_report/2020"  <?= $filteredYear == "2020" ? 'selected' : ""?>>2020</option>
+                        <option value="<?php echo URLROOT?>/admin/alumni_report/2021"  <?= $filteredYear == "2021" ? 'selected' : ""?>>2021</option>
+                        <option value="<?php echo URLROOT?>/admin/alumni_report/2022"  <?= $filteredYear == "2022" ? 'selected' : ""?>>2022</option>
+                        <option value="<?php echo URLROOT?>/admin/alumni_report/2023"  <?= $filteredYear == "2023" ? 'selected' : ""?>>2023</option>
+                        <option value="<?php echo URLROOT?>/admin/alumni_report/2024"  <?= $filteredYear == "2024" ? 'selected' : ""?>>2024</option>
+                    </select>
                         
                     </div>
                 </div>
