@@ -42,7 +42,8 @@ class Advertiser extends Controller {
    }
 
    public function create(){
-      $data =[];
+      $advertiserModel = $this->model('advertiser_model');
+      $data = $advertiserModel->getGCash();
 
       $this->view('external_user/create', $data);
    }
@@ -340,9 +341,13 @@ class Advertiser extends Controller {
          
       $promo = $promosAdvertismentModel->singlePromo($id);
 
+      $advertiserModel = $this->model('advertiser_model');
+      $gcash = $advertiserModel->getGCash();
+
       $data =[ 
          'promo'=> $promo,
-         'codes' => $references
+         'codes' => $references,
+         'gcash' => $gcash
       ];
 
 
