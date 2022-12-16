@@ -148,7 +148,7 @@
         </div>
       </div>
     </main>
-    <script src="<?= URLROOT?>/js/PromosAdvertisement/PromosAdvertisement.js"></script>
+    <script src="<?= URLROOT?>/js/PromosAdvertisement/promosAdvertisement.js"></script>
 
     <?php require APPROOT . '/views/inc/footer_u.php'; ?>
 
