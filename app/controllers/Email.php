@@ -26,17 +26,17 @@ class Email extends Controller{
         $mail->SMTPAuth = true;
         $mail->Host = 'smtp.gmail.com';
        
-        $mail->Username = 'itechpup1@gmail.com';
-        $mail->Password = 'PUPtest123';
+        $mail->Username = 'universitymailtest@gmail.com';
+        $mail->Password = 'buiesfznxbpjznhp';
         $mail->SMTPSecure = 'tls';
         $mail->Port = '587';
 
         $mail->isHTML();
        
-        $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+        $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
 
         $mail->addAddress($alumni->email);
-        $mail->Subject = 'Login Credentials for PUPIAIS (Reference No. '.$referenceNo.')';
+        $mail->Subject = 'Login Credentials for AIEMS (Reference No. '.$referenceNo.')';
 
         $website = URLROOT;
        
@@ -76,14 +76,14 @@ class Email extends Controller{
                 $mail->SMTPAuth = true;
                 $mail->Host = 'smtp.gmail.com';
             
-                $mail->Username = 'itechpup1@gmail.com';
-                $mail->Password = 'PUPtest123';
+                $mail->Username = 'universitymailtest@gmail.com';
+                $mail->Password = 'buiesfznxbpjznhp';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = '587';
 
                 $mail->isHTML();
             
-                $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+                $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
                  
                 $mail->addAddress($alumni->email);
                 $mail->Subject = 'Login Credentials for PUPIAIS (Reference No. '.$referenceNo.')';
@@ -153,17 +153,17 @@ class Email extends Controller{
                         $mail->SMTPAuth = true;
                         $mail->Host = 'smtp.gmail.com';
                     
-                        $mail->Username = 'itechpup1@gmail.com';
-                        $mail->Password = 'PUPtest123';
+                        $mail->Username = 'universitymailtest@gmail.com';
+                        $mail->Password = 'buiesfznxbpjznhp';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = '587';
 
                         $mail->isHTML();
                     
-                        $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+                        $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
 
                         $mail->addAddress($data['email']);
-                        $mail->Subject = 'Password Reset for PUPIAIS (Reference No. '.$referenceNo.')';
+                        $mail->Subject = 'Password Reset for AIEMS (Reference No. '.$referenceNo.')';
                         $to = $data['email'];
 
                         $subject = "Password Reset Code";
@@ -235,14 +235,14 @@ class Email extends Controller{
                         $mail->SMTPAuth = true;
                         $mail->Host = 'smtp.gmail.com';
                     
-                        $mail->Username = 'itechpup1@gmail.com';
-                        $mail->Password = 'PUPtest123';
+                        $mail->Username = 'universitymailtest@gmail.com';
+                        $mail->Password = 'buiesfznxbpjznhp';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = '587';
 
                         $mail->isHTML();
                     
-                        $mail->setFrom('itechpup1@gmail.com', 'PUP ITECH Administrator');
+                        $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
 
                         $mail->addAddress($_SESSION['email']);
                         $mail->Subject = 'Password Reset for PUPIAIS (Reference No. '.$referenceNo.')';
