@@ -90,11 +90,11 @@
 
 <script>
 
-    window.onload = () =>{
+    window.onload = () => {
         btnApprovalHandler();
     }
 
-    const btnApprovalHandler = () =>{
+    const btnApprovalHandler = () => {
         const btnApprovals = document.querySelectorAll('.btnApproval');
         btnApprovals.forEach(btn =>{
             btn.addEventListener('click', function () {
@@ -112,6 +112,19 @@
         })
     }
 
+    var showLoading = function () {
+        swal({
+            title: "Please Wait..",
+            text: "Sending e-mail.", // add html attribute if you want or remove
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            button: false,
+            onBeforeOpen: () => {
+            swal.showLoading();
+            },
+        });
+        };
+
 
         const updateData = (id) => {
         // console.log("zxc");
@@ -119,10 +132,13 @@
             type: "POST",
             url: `/aiems/advertiser/approveRow/${id}`,
             method: "POST",
+            beforeSend: function () {
+                showLoading();
+            },
             success: function (data) {
             const response = JSON.parse(data);
             if (response.isSuccess) {
-                swal("Updated Successfully", `${response.message}`, "success").then(
+                swal("Updated and Sent Successfully", `${response.message}`, "success").then(
                 () => {
                     window.location.replace(`/aiems/admin/advertiser`);
                 }
