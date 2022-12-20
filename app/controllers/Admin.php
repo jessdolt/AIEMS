@@ -549,6 +549,10 @@
 
         }
 
+        public function generate_report(){
+            $this->view('reports/index', []);
+        }
+
         public function gallery(){
             $this->galleryModel = $this->model('gallery');
             $rowGallery = $this->galleryModel->showGallery();
