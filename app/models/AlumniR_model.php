@@ -6,6 +6,17 @@
             $this->db = new Database;
         }
 
+        public function getYearDropdown() {
+            $this->db->query('SELECT date_responded FROM employment');
+            $row = $this->db->resultSet();
+            if($this->db->rowCount() > 0){
+                return $row;
+            }
+            else{
+                return false;
+            }
+        }   
+
         public function showAlumniIndex($newData) {
             if(empty($newData['year'])) {
                 $this->db->query('SELECT * 

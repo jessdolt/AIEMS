@@ -592,7 +592,7 @@
 
                 $alumni = $this->alumniRModel->showAlumniIndex($newData);
                 
-
+                $getYearDD = $this->alumniRModel->getYearDropdown();
                 $pagination = $this->alumniRModel->NoOfResults();
 
             
@@ -622,6 +622,7 @@
                 }
                 
                 $data = [
+                    'yearDropDown' => $getYearDD,
                     'allCount' => $allCount,
                     'alumni' => $alumni,
                     'batch' => $batch,
