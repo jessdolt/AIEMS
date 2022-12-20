@@ -1,5 +1,7 @@
 <?php 
+
     //LOCAL DB (PHPMYADMIN)
+
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASS', '12345');
@@ -18,7 +20,7 @@
     //Url Root
     define('URLROOT', 'http://localhost/aiems'); 
 
-    //http://localhost/pupiais
+    // http://localhost/pupiais
     
     //Site Name
     define('SITENAME', 'AIEMS');
