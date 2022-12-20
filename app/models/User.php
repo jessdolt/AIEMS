@@ -405,7 +405,8 @@ class User {
         }
 
         public function profileAdditionalAdd($data){
-            $this->db->query('INSERT INTO employment (alumni_id, course, graduation, status, first_employment, current_employment, type_of_work, work_position, monthly_income, if_related, company_id) VALUES (:alumni_id, :course, :graduation, :status, :first_employment, :current_employment, :type_of_work, :work_position, :monthly_income, :if_related, :company_id)');
+            $this->db->query('INSERT INTO employment (alumni_id, course, graduation, status, first_employment, current_employment, type_of_work, work_position, if_related, company_id, date_responded) VALUES (:alumni_id, :course, :graduation, :status, :first_employment, :current_employment, :type_of_work, :work_position, :if_related, :company_id, :date_responded)');
+
             $this->db->bind(':alumni_id', $data['alumni_id']);
             $this->db->bind(':course', $data['course']);
             $this->db->bind(':graduation', $data['gDate']);
@@ -414,15 +415,59 @@ class User {
             $this->db->bind(':current_employment', $data['ceDate']);
             $this->db->bind(':type_of_work', $data['tWork']);
             $this->db->bind(':work_position', $data['wPosition']);
-            $this->db->bind(':monthly_income', $data['mIncome']);
             $this->db->bind(':if_related', $data['ifRelated']);
             $this->db->bind(':company_id', $data['file']);
+            $this->db->bind(':date_responded', date("Y-m-d"));
             
             if($this->db->execute()){
                 return true;
             } else{
                 return false;
             }
+        }
+
+        public function profileAdditionalUpdate($data){
+            if($data['isUploaded'] == 1 ){
+                $this->db->query('UPDATE employment SET course = :course, graduation = :graduation, status = :status, first_employment = :first_employment, current_employment = :current_employment, type_of_work = :type_of_work, work_position = :work_position, if_related = :if_related, company_id = :company_id, date_responded = :date_responded WHERE alumni_id = :alumni_id');
+
+                $this->db->bind(':alumni_id', $data['alumni_id']);
+                $this->db->bind(':course', $data['course']);
+                $this->db->bind(':graduation', $data['gDate']);
+                $this->db->bind(':status', $data['status']);
+                $this->db->bind(':first_employment', $data['eDate']);
+                $this->db->bind(':current_employment', $data['ceDate']);
+                $this->db->bind(':type_of_work', $data['tWork']);
+                $this->db->bind(':work_position', $data['wPosition']);
+                $this->db->bind(':if_related', $data['ifRelated']);
+                $this->db->bind(':company_id', $data['file']);
+                $this->db->bind(':date_responded', date("Y-m-d"));
+                
+                if($this->db->execute()){
+                    return true;
+                } else{
+                    return false;
+                }
+            } else {
+                $this->db->query('UPDATE employment SET course = :course, graduation = :graduation, status = :status, first_employment = :first_employment, current_employment = :current_employment, type_of_work = :type_of_work, work_position = :work_position, if_related = :if_related, date_responded = :date_responded WHERE alumni_id = :alumni_id');
+                
+                $this->db->bind(':alumni_id', $data['alumni_id']);
+                $this->db->bind(':course', $data['course']);
+                $this->db->bind(':graduation', $data['gDate']);
+                $this->db->bind(':status', $data['status']);
+                $this->db->bind(':first_employment', $data['eDate']);
+                $this->db->bind(':current_employment', $data['ceDate']);
+                $this->db->bind(':type_of_work', $data['tWork']);
+                $this->db->bind(':work_position', $data['wPosition']);
+                $this->db->bind(':if_related', $data['ifRelated']);
+                $this->db->bind(':date_responded', date("Y-m-d"));
+                
+                if($this->db->execute()){
+                    return true;
+                } else{
+                    return false;
+                }
+            }
+        
         }
 
         public function employment($id) {
@@ -446,6 +491,16 @@ class User {
                 return true;
             } else {
                 return false;
+            }
+        }
+
+        public function getEmploymentData($id) {
+            $this->db->query('SELECT * FROM employment WHERE alumni_id = :alumni_id');
+            $this->db->bind(':alumni_id', $id);
+            $row = $this->db->single();
+    
+            if($this->db->rowCount() > 0) {
+                return $row;
             }
         }
 
