@@ -140,6 +140,8 @@
                                 <li><a href="<?php echo URLROOT;?>/admin/survey_list">Survey List</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/survey_report">Survey Report</a></li>
                                 <li><a href="<?php echo URLROOT;?>/admin/alumni_report">Alumni Report</a></li>
+                                <li><a href="<?php echo URLROOT;?>/admin/generate_report">Generate Report</a></li>
+
                             </ul>
                         </li>
 
