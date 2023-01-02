@@ -52,14 +52,48 @@
         }
 
 
-        public function print(){
+        public function save_report(){
+
             $grm = $this->model('generate_report_model');
 
             $type = $_POST['type'];
             $year = $_POST['year'];
             $chosen = $_POST['chosen'];
+            $toInsertData = [
+                'type' => $type,
+                'year' => $year,
+                'chosen' => join(',',$chosen)
+            ];
 
-            $arrayData = [];
+            $isAdded = $grm->addReport($toInsertData);
+
+            if($isAdded){
+                echo json_encode([
+                    'id' => $isAdded,
+                    'status' => 201
+                ]);
+            }
+            else{ 
+                echo json_encode('error');
+            }
+
+        }
+
+
+        public function print($id){
+            $grm = $this->model('generate_report_model');
+
+            $result = $grm->fetchReport($id);
+     
+            if(empty($result)){
+                return;
+            }
+
+            $type = $result->type;
+            $year = $result->year;
+            $chosen =  explode(',',$result->chosen);
+        
+            $arrayData = [];         
 
             if($type === 'college'){
                 $arrayOfColleges = [];
@@ -82,6 +116,7 @@
 
                         $courseTest = [
                             'name' => $course->course_name,
+                            'courseCode' => $course->course_code,
                             'data' => []
                         ];
 
@@ -127,7 +162,10 @@
                     }
                     array_push($arrayData, $test);
                 }
-                echo json_encode($arrayData);
+
+                
+             $this->view('reports/print_college', $arrayData);
+
             }
 
             else if($type==='course'){
@@ -141,6 +179,7 @@
                 foreach($arrayOfCourses as $course){
                     $courseTest = [
                         'name' => $course->course_name,
+                        'courseCode' => $course->course_code,
                         'data' => []
                     ];
 
@@ -186,7 +225,8 @@
                     array_push($arrayData, $courseTest);
                 }
 
-                echo json_encode($arrayData);
+                $this->view('reports/print_course', $arrayData);
+
             }
 
             else if($type==='batch'){
@@ -210,6 +250,7 @@
 
                         $courseTest = [
                             'name' => $course->course_name,
+                            'courseCode' => $course->course_code,
                             'alumni' => []
                         ];
 
@@ -246,7 +287,8 @@
 
                 }
 
-                echo json_encode($arrayData);
+                $this->view('reports/print_batch', $arrayData);
+
             }
 
 

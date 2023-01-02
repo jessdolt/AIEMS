@@ -6,6 +6,35 @@
             $this->db = new Database;
         }
 
+        public function addReport($data){
+            $this->db->query('INSERT INTO generate_report (type,year,chosen) VALUES (:type,:year,:chosen)');
+
+            $this->db->bind(':type', $data['type']);
+            $this->db->bind(':year', $data['year']);
+            $this->db->bind(':chosen', $data['chosen']);
+
+            if($this->db->execute()){
+                return $this->db->getLastId();
+            } else{
+                return false;
+            }
+        }
+
+        public function fetchReport($id){
+            $this->db->query('SELECT * 
+                            FROM generate_report WHERE id=:id
+                            ');
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+            if($this->db->rowCount() > 0){
+                return $row;
+            }
+            else{
+                return false;
+            }
+        }
+
+
         public function getColleges(){
             $this->db->query('SELECT * 
                             FROM department
