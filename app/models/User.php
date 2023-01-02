@@ -495,7 +495,7 @@ class User {
         }
 
         public function getEmploymentData($id) {
-            $this->db->query('SELECT * FROM employment WHERE alumni_id = :alumni_id');
+            $this->db->query('SELECT * FROM employment WHERE alumni_id = :alumni_id ORDER BY date_responded DESC LIMIT 1');
             $this->db->bind(':alumni_id', $id);
             $row = $this->db->single();
     

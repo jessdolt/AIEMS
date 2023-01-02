@@ -334,6 +334,9 @@
             }
 
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+                $file = $_FILES['newsImageInput'];
+                $isUploaded = $_POST['isUploaded'];
         
                 $data = [
                     'alumni_id' => $_SESSION['alumni_id'],  
@@ -345,13 +348,10 @@
                     'tWork' => $_POST['tWork'],
                     'wPosition' => $_POST['wPosition'],
                     'ifRelated' => $_POST['related'],
-                    'file' => '',
+                    'file' => $data->company_id,
                     'file_error' => '',
-                    'isUploaded' => $_POST['isUploaded']
                 ];
 
-                $file = $_FILES['newsImageInput'];
-                $isUploaded = $_POST['isUploaded'];
 
                 $filename = $file['name'];
                 $fileTmpName = $file['tmp_name'];
@@ -377,6 +377,7 @@
                     } elseif($isUploaded == 1){
                         $data['file_error'] = 'There was a problem in uploading the file';
                     }
+                    print_r($data);
 
                 if(empty($data['eDate'])) {
                     $data['eDate'] = NULL;
@@ -387,8 +388,7 @@
                 }
 
                 if(empty($data['file_error'])){
-
-                    if($this->userModel->profileAdditionalUpdate($data)){
+                    if($this->userModel->profileAdditionalAdd($data)){
                         if($data['status'] == "Student") {
                             $data['status'] = "Unemployed";
                         }

@@ -6,8 +6,6 @@
             <section class="mainContent adminForm questionnaire reportView">
                 <form action="<?php echo URLROOT?>/generate_report/print" method="POST">
                     <div class="form" id="answer-form">
-                    <input type="hidden" value="<?php echo URLROOT;?>" id="url-web">
-                    <input type="hidden" value="<?php echo $data['survey']->id?>" id="survey-id">
                         <h2>
                             Generate Report
                             
