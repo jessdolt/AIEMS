@@ -1,5 +1,9 @@
 <?php 
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class Advertiser extends Controller {
    
    public function __construct(){
@@ -42,7 +46,8 @@ class Advertiser extends Controller {
    }
 
    public function create(){
-      $data =[];
+      $advertiserModel = $this->model('advertiser_model');
+      $data = $advertiserModel->getGCash();
 
       $this->view('external_user/create', $data);
    }
@@ -279,14 +284,54 @@ class Advertiser extends Controller {
       $advertiserModel = $this->model('advertiser_model');
       $isAdvertiserUpdated = $advertiserModel->approveAdvertiser($id);
 
+
       if($isAdvertiserUpdated){
-            flash('advertiser_approve_success', 'Advertiser is successfully approved', 'successAlert');
-            $response = ['message' => 'Advertiser is successfully approved', 'isSuccess' => 1];
+         $data = $advertiserModel->singleAdvertiserProfile($id);
+
+         $mail = new PHPMailer(true);
+         // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+         $mail->SMTPDebug = 0;
+         $mail->isSMTP();                                            //Send using SMTP
+         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+         $mail->Username   = 'universitymailtest@gmail.com';                     //SMTP username
+         $mail->Password   = 'buiesfznxbpjznhp';                               //SMTP password
+         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+         //Recipients
+         $mail->setFrom('universitymailtest@gmail.com', 'AIEMS Administrator');
+         $mail->addAddress($data->email, $data->name);     //Add a recipient
+         // $mail->addAddress('ellen@example.com');               //Name is optional
+         // $mail->addReplyTo('info@example.com', 'Information');
+         // $mail->addCC('cc@example.com');
+         // $mail->addBCC('bcc@example.com');
+
+         //Attachments
+         // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+         // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+         
+         //Content
+         $mail->isHTML(true);                                  //Set email format to HTML
+         $mail->Subject = 'AIEMS Advertiser Account Approval';
+         $mail->Body    = 'Your Account has been <b> APPROVED </b>.<br>'
+                           .'<br>You may now create advertisements that will be promoted in <b>'.URLROOT.'</b> ';
+
+         $mail->Priority = 1;
+         $mail->addCustomHeader("X-MSMail-Priority: High");
+         $mail->addCustomHeader("Importance: High");
+
+         // print_r($path2);
+         if($mail->Send()){
+             $response = ['message' => 'Email has been sent successfully.', 'isSuccess' => 1];
+         } else {
+             $response = ['message' => $mail->ErrorInfo, 'isSuccess' => 0];
+         }
       } else {
-            $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
+         $response = ['message' => 'Something went wrong. Please try to reload the page', 'isSuccess' => 0];
       }
 
-      echo json_encode($response);
+     echo json_encode($response);
    }
 
    // FOR DELETING INLINE //
@@ -340,9 +385,13 @@ class Advertiser extends Controller {
          
       $promo = $promosAdvertismentModel->singlePromo($id);
 
+      $advertiserModel = $this->model('advertiser_model');
+      $gcash = $advertiserModel->getGCash();
+
       $data =[ 
          'promo'=> $promo,
-         'codes' => $references
+         'codes' => $references,
+         'gcash' => $gcash
       ];
 
 

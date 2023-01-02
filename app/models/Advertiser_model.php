@@ -5,6 +5,15 @@
             $this->db = new Database;
         }
 
+        public function getGCash() {
+            $this->db->query('SELECT gcash, qrcode FROM siteconfig ORDER BY id DESC LIMIT 1');
+
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
         public function allAdvertiser() {
             $this->db->query('SELECT * FROM advertiser');
 

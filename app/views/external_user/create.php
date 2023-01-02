@@ -135,13 +135,24 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="gCashRefNumber" class="form-label"
-                      >G-Cash Reference Number: (payment to
-                      <span id="gcashNumber">09794823420</span>)
+                      >GCash Reference No.: (Payment to
+                      <span id="gcashNumber"><?= $data[0]->gcash ?></span>)
                     </label>
                     <input type="input" class="form-control" id="gCashRefNumber" />
                   </div>
                 </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                  <img src="<?php echo URLROOT?>/uploads/<?php echo $data[0]->qrcode?>" id="myImg" style="width: 386px" class="img-fluid img-thumbnail">
+                  </div>
+                </div>
+
               </div>
+
+
+
+
 
               <div class="row">
                 <div class="col-md-12 mt-5">

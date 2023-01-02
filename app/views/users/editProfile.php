@@ -1,7 +1,7 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 
 <main class="alumni editProfile">
-        <section class="heroBox behind">
+    <section class="heroBox behind" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['heroimage']?>); background-color: transparent !important">
         </section>
         <section class="mainContent questionnaire">
             <div class="container">
