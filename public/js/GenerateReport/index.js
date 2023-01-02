@@ -98,17 +98,25 @@ const requestData = (type) => {
 const extractData = (data) => {
   $.ajax({
     type: "POST",
-    url: `/aiems/generate_report/print`,
+    url: `/aiems/generate_report/save_report`,
     data: data,
     cache: false,
     contentType: false,
     processData: false,
     method: "POST",
     success: function (data) {
-      console.log(JSON.parse(data));
-      //   console.log(data);
-      //   const response = JSON.parse(data);
-      //   console.log(JSON.parse(data));
+      const response = JSON.parse(data);
+      if (response.status === 201) {
+        const id = response.id;
+        window.setTimeout(function () {
+          window.open(
+            `generate_report/print/${id}`,
+            "summary-reports",
+            "height=600, width=800, top=10, left=10"
+          );
+        }, 0);
+      }
+
       return;
       if (response.isSuccess) {
         swal("Updated Successfully", `${response.message}`, "success").then(
