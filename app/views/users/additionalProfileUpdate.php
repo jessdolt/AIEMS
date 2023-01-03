@@ -5,10 +5,10 @@
         </section>
         <section class="mainContent questionnaire">
             <div class="container">
-            <form action="<?php echo URLROOT;?>/profile/profileAdditionalAdd/<?php echo $_SESSION['alumni_id'] ?>" method="POST" enctype="multipart/form-data" class="form">
+            <form action="<?php echo URLROOT;?>/profile/profileAdditionalUpdate/<?php echo $_SESSION['alumni_id'] ?>" method="POST" enctype="multipart/form-data" class="form">
                     <div>
                         <h2>Additional Information</h2>
-                        <p>Since you are employed, we would like you to answer this short survey</p>
+                        <p>You answered this survey a year ago and we would like if you could update your information</p>
                     </div>
                     <div class="questionCon addInfo">
                         <div class="smallComponentsContainer">
@@ -77,7 +77,11 @@
                         <div class="imageInputContainer">
                             <label for="news-image-input">Company ID:</label>
                             <div class="image-con">
-                                <img src=" " id="myImg">
+                            <?php if (empty($data['file'])) : ?>
+                            <img src=" " id="myImg">
+                        <?php else : ?>
+                            <img src="<?php echo URLROOT ?>/uploads/<?php echo $data['file']?>" id="myImg">
+                        <?php endif; ?>
                             </div>
                             <label for="news-image-input" class="fileUploadBtn">
                                 Edit
@@ -125,19 +129,4 @@
         }
     }
 </script>
-    <div class="privacyModalCon <?php echo ($data['consent'] == NULL) ? 'show' : '' ?>">
-        <div class="privacyModal">
-            <h2>Privacy Settings</h2>
-            <p>Before you enter this side of our website we have one favour to ask. We would like to collect data for analytical purposes.</p>
-            <p><strong class="emphasis">Your privacy is important to us! We will never share your browsing habits with third-parties.</strong></p>
-            <div class="btn-con">
-                <form action="<?php echo URLROOT?>/profile/privacyConsent" method="POST">
-                    <button class="agree" name="privacyConsent" value="Accept">Agree</button>
-                </form>
-                <form action="<?php echo URLROOT?>/profile/privacyConsent" method="POST">
-                    <button class="disagree" name="privacyConsent" value="Decline">Disagree</button>
-                </form>
-            </div>
-        </div>
-    </div>
 <?php require APPROOT . '/views/inc/footer_u.php'; ?>

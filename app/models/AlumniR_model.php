@@ -6,20 +6,51 @@
             $this->db = new Database;
         }
 
-        public function showAlumniIndex($newData) {
-                $this->db->query('SELECT * 
-                                FROM employment
-                                INNER JOIN alumni
-                                ON employment.alumni_id = alumni.alumni_id
-                                INNER JOIN batch
-                                ON alumni.batchID = batch.id
-                                LIMIT :start, :limit
-                                ');
-            $this->db->bind(':start', $newData['start']);
-            $this->db->bind(':limit', $newData['limit']);
+        public function getYearDropdown() {
+            $this->db->query('SELECT date_responded FROM employment');
             $row = $this->db->resultSet();
-            if($row > 0){
+            if($this->db->rowCount() > 0){
                 return $row;
+            }
+            else{
+                return false;
+            }
+        }   
+
+        public function showAlumniIndex($newData) {
+            if(empty($newData['year'])) {
+                $this->db->query('SELECT * 
+                FROM employment
+                INNER JOIN alumni
+                ON employment.alumni_id = alumni.alumni_id
+                INNER JOIN batch
+                ON alumni.batchID = batch.id
+                LIMIT :start, :limit
+                ');
+                    $this->db->bind(':start', $newData['start']);
+                    $this->db->bind(':limit', $newData['limit']);
+
+                $row = $this->db->resultSet();
+                if($row > 0){
+                    return $row;
+                }
+            } else {
+                $this->db->query('SELECT * 
+                FROM employment
+                INNER JOIN alumni
+                ON employment.alumni_id = alumni.alumni_id
+                INNER JOIN batch
+                ON alumni.batchID = batch.id WHERE YEAR(date_responded) = :year
+                LIMIT :start, :limit
+                ');
+                    $this->db->bind(':start', $newData['start']);
+                    $this->db->bind(':limit', $newData['limit']);
+                    $this->db->bind(':year', $newData['year']);
+
+                $row = $this->db->resultSet();
+                if($row > 0){
+                    return $row;
+                }
             }
         }
 
@@ -90,12 +121,14 @@
                             ON employment.alumni_id = alumni.alumni_id
                             INNER JOIN batch
                             ON alumni.batchID = batch.id
-                            WHERE alumni.batchID = :batch
+                            WHERE alumni.batchID = :batch AND YEAR(employment.date_responded) = :year
                             LIMIT :start, :limit
                             ');
             $this->db->bind(':batch', $newData['batch']);
             $this->db->bind(':start', $newData['start']);
             $this->db->bind(':limit', $newData['limit']);
+            $this->db->bind(':year', $newData['year']);
+
             $row = $this->db->resultSet();
                 if($row > 0){
                 return $row;
@@ -162,13 +195,16 @@
                             ON employment.alumni_id = alumni.alumni_id
                             INNER JOIN batch
                             ON alumni.batchID = batch.id
-                            WHERE alumni.batchID = :batch AND alumni.courseID = :course
+                            WHERE alumni.batchID = :batch AND alumni.courseID = :course AND YEAR(date_responded) = :year
                             LIMIT :page, :rowsperpage
                             ');
             $this->db->bind(':batch', $newData['batch']);
             $this->db->bind(':course', $newData['course']);
             $this->db->bind(':page', $newData['start']);
             $this->db->bind(':rowsperpage', $newData['limit']);
+            $this->db->bind(':year', $newData['year']);
+
+
             $row = $this->db->resultSet();
                 if($row > 0){
                 return $row;
@@ -455,10 +491,6 @@
                 return $row;
             }
         }
-
-        
- 
-
     }
 
     

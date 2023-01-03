@@ -6,7 +6,7 @@
 ?>
 
 <main class="alumni">
-        <section class="heroBox behind">
+    <section class="heroBox behind" style="background-image: url(<?php echo URLROOT.'/uploads/'.$_SESSION['heroimage']?>); background-color: transparent !important">
         </section>
         <section class="mainContent profile">
             <div class="container">

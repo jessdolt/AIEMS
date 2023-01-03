@@ -91,8 +91,6 @@ Class Site_config extends Controller {
     public function editSiteConfig($id){
       
         $siteConfigModel = $this->model('siteconfig');
-
-        // SCHOOL LOGO
    
         if (isset($_POST['heroimage'])){
             $fileNameHeroImg = $_POST['heroimage'];
@@ -101,6 +99,11 @@ Class Site_config extends Controller {
             $fileNameLogoImg = $_POST['logo'];
         }
 
+        if (isset($_POST['qrcode'])){
+            $fileNameQRCodeImg = $_POST['qrcode'];
+        }
+
+        // SCHOOL LOGO
         if (isset($_FILES['logo'])) {
             $file = $_FILES['logo'];
             $filename = $file['name'];
@@ -151,12 +154,39 @@ Class Site_config extends Controller {
         }
         }
 
+        // GCash QR Code
+        if (isset($_FILES['qrcode'])) {
+            $file = $_FILES['qrcode'];
+            $filename = $file['name'];
+            $fileTmpName = $file['tmp_name'];
+            $fileSize = $file['size'];
+            $fileError = $file['error'];
+            $fileType = $file['type'];
+    
+            $fileExt = explode ('.',$filename);
+            $fileActualExt = strtolower(end($fileExt));
+            $allowed = array('jpg','jpeg', 'png', 'pdf','jfif');
+    
+            if(in_array($fileActualExt, $allowed)){
+                if( $fileError === 0){
+                    if($fileSize < 1000000){        
+                        $fileNameQRCodeImg = uniqid('',true).".".$fileActualExt;
+                        $target = "uploads/". basename($fileNameQRCodeImg);
+                        move_uploaded_file($fileTmpName, $target);
+                        $data['qrcode'] = $fileNameQRCodeImg;
+                    }
+                }
+            }
+            }
+
 
 
         $data = [
             'schoolname' => $_POST['schoolname'],
             'logo' => $fileNameLogoImg,
             'heroimage'=> $fileNameHeroImg,
+            'gcash' => $_POST['gcash'],
+            'qrcode' => $fileNameQRCodeImg,
             'sitecolor' => $_POST['sitecolor'],
             'sitecolor_dark' => $_POST['sitecolor_dark'],
             'sitecolor_light' => $_POST['sitecolor_light'],

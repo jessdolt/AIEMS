@@ -20,7 +20,7 @@
 
         }
 
-        public function showBatch($batch_id) {
+        public function showBatch($batch_id, $year) {
             
             $allCount = $this->alumniRModel->allCount();
             $batch = $this->alumniRModel->showBatch();
@@ -41,7 +41,8 @@
             $newData = [
                 'batch' => $batch_id,
                 'limit' => $limit,
-                'start' => $start
+                'start' => $start,
+                'year'=> $year
             ];
 
             $alumni = $this->alumniRModel->showAlumniBatch($newData);
@@ -91,7 +92,8 @@
             $this->view('admin_d/alumni_report', $data);
         }
 
-        public function showCourse($batch_id, $course_id) {
+        public function showCourse($batch_id, $course_id, $year) {
+
             // $alumni = $this->alumniRModel->getAlumniByCourse($batch_id, $course_id);
             $allCount = $this->alumniRModel->allCount();
             $batch = $this->alumniRModel->showBatch();
@@ -113,7 +115,8 @@
                 'batch' => $batch_id,
                 'course' => $course_id,
                 'limit' => $limit,
-                'start' => $start
+                'start' => $start,
+                'year' => $year
             ];
            
             $alumni = $this->alumniRModel->showAlumniBatchAndCourse($newData);

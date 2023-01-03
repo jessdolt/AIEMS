@@ -47,6 +47,25 @@ const fileUploadHandler = () => {
     });
   };
 
+  const qrCodeRenderer = () => {
+    const reader = new FileReader();
+    const logoFileUpload = document.getElementById("qrcode_img");
+    const logo_box = document.getElementById("qrcode_container");
+
+    logoFileUpload.addEventListener("change", function (event) {
+      const files = event.target.files;
+      const file = files[0];
+      reader.readAsDataURL(file);
+      reader.addEventListener("load", function (event) {
+        logo_box.src = event.target.result;
+        logo_box.alt = file.name;
+      });
+
+      logoFileUpload.removeAttribute("value");
+    });
+  };
+
+  qrCodeRenderer();
   logoImgRendered();
   heroImgRenderer();
 };
@@ -54,9 +73,12 @@ const fileUploadHandler = () => {
 const validateData = () => {
   const logo_img = document.getElementById("logo_img");
   const hero_img = document.getElementById("hero_img");
+  const qrcode_img = document.getElementById("qrcode_img");
 
   const id = document.getElementById("site_id").value;
   const schoolName = document.getElementById("school_name").value;
+  const gcash = document.getElementById("gcash").value;
+
   const schoolLogoImage = logo_img.getAttribute("value")
     ? logo_img.getAttribute("value")
     : logo_img.files[0];
@@ -65,6 +87,10 @@ const validateData = () => {
     ? hero_img.getAttribute("value")
     : hero_img.files[0];
 
+  const qrcodeImage = qrcode_img.getAttribute("value")
+    ? qrcode_img.getAttribute("value")
+    : qrcode_img.files[0];
+
   const primaryColor = document.getElementById("primaryColor").value;
   const secondaryColor = document.getElementById("secondaryColor").value;
 
@@ -72,6 +98,8 @@ const validateData = () => {
     schoolname: schoolName,
     logo: schoolLogoImage,
     heroimage: heroImage,
+    gcash: gcash,
+    qrcode: qrcodeImage,
     sitecolor: primaryColor,
     sitecolor_secondary: secondaryColor,
     sitecolor_dark: shadeColor(primaryColor, -25),
@@ -88,6 +116,8 @@ const validateData = () => {
   newFData.append("logo", data.logo);
   newFData.append("heroimage", data.heroimage);
   newFData.append("schoolname", data.schoolname);
+  newFData.append("gcash", data.gcash);
+  newFData.append("qrcode", data.qrcode);
   newFData.append("sitecolor", data.sitecolor);
   newFData.append("sitecolor_dark", data.sitecolor_dark);
   newFData.append("sitecolor_light", data.sitecolor_light);
