@@ -15,6 +15,47 @@
             else{
                 return false;
             }
+        }
+
+        public function getYearDropdownShowBatch($year) {
+            $this->db->query('SELECT date_responded FROM employment
+                            LEFT JOIN alumni
+                            ON employment.alumni_id = alumni.alumni_id
+                            LEFT JOIN batch
+                            ON alumni.batchID = batch.id  
+                            WHERE batch.year = :year
+                            ');
+            $this->db->bind(':year', $year);
+
+            $row = $this->db->resultSet();
+            if($this->db->rowCount() > 0){
+                return $row;
+            }
+            else{
+                return false;
+            }
+        }
+
+        public function getYearDropdownShowCourse($course_id, $batch_id) {
+            $this->db->query('SELECT date_responded FROM employment
+                            LEFT JOIN alumni
+                            ON employment.alumni_id = alumni.alumni_id
+                            LEFT JOIN courses
+                            ON alumni.courseID = courses.id  
+                            LEFT JOIN batch
+                            ON alumni.batchID = batch.id 
+                            WHERE courses.id = :courseID AND batch.id = :batchID
+                            ');
+            $this->db->bind(':courseID', $course_id);
+            $this->db->bind(':batchID', $batch_id);
+
+            $row = $this->db->resultSet();
+            if($this->db->rowCount() > 0){
+                return $row;
+            }
+            else{
+                return false;
+            }
         }   
 
         public function showAlumniIndex($newData) {
@@ -114,25 +155,44 @@
         }
         
         public function showAlumniBatch($newData) {
-
+            if (empty($newData['dd_year'])) {
             $this->db->query('SELECT * 
                             FROM employment
                             INNER JOIN alumni
                             ON employment.alumni_id = alumni.alumni_id
                             INNER JOIN batch
                             ON alumni.batchID = batch.id
-                            WHERE alumni.batchID = :batch AND YEAR(employment.date_responded) = :year
+                            WHERE alumni.batchID = :batch
                             LIMIT :start, :limit
                             ');
             $this->db->bind(':batch', $newData['batch']);
             $this->db->bind(':start', $newData['start']);
             $this->db->bind(':limit', $newData['limit']);
-            $this->db->bind(':year', $newData['year']);
 
             $row = $this->db->resultSet();
                 if($row > 0){
                 return $row;
                 }
+            } else {
+                $this->db->query('SELECT * 
+                FROM employment
+                INNER JOIN alumni
+                ON employment.alumni_id = alumni.alumni_id
+                INNER JOIN batch
+                ON alumni.batchID = batch.id 
+                WHERE alumni.batchID = :batch AND YEAR(date_responded) = :year
+                LIMIT :start, :limit
+                ');
+                    $this->db->bind(':batch', $newData['batch']);
+                    $this->db->bind(':start', $newData['start']);
+                    $this->db->bind(':limit', $newData['limit']);
+                    $this->db->bind(':year', $newData['dd_year']);
+
+                $row = $this->db->resultSet();
+                if($row > 0){
+                    return $row;
+                }
+            }
         }
 
               
@@ -189,26 +249,50 @@
         }
 
         public function showAlumniBatchAndCourse($newData) {
-            $this->db->query('SELECT * 
-                            FROM employment
-                            INNER JOIN alumni
-                            ON employment.alumni_id = alumni.alumni_id
-                            INNER JOIN batch
-                            ON alumni.batchID = batch.id
-                            WHERE alumni.batchID = :batch AND alumni.courseID = :course AND YEAR(date_responded) = :year
-                            LIMIT :page, :rowsperpage
-                            ');
-            $this->db->bind(':batch', $newData['batch']);
-            $this->db->bind(':course', $newData['course']);
-            $this->db->bind(':page', $newData['start']);
-            $this->db->bind(':rowsperpage', $newData['limit']);
-            $this->db->bind(':year', $newData['year']);
+            if(empty($newData['dd_year'])) {
+                $this->db->query('SELECT * 
+                                FROM employment
+                                INNER JOIN alumni
+                                ON employment.alumni_id = alumni.alumni_id
+                                INNER JOIN batch
+                                ON alumni.batchID = batch.id
+                                WHERE alumni.batchID = :batch AND alumni.courseID = :course
+                                LIMIT :page, :rowsperpage
+                                ');
+                $this->db->bind(':batch', $newData['batch']);
+                $this->db->bind(':course', $newData['course']);
+                $this->db->bind(':page', $newData['start']);
+                $this->db->bind(':rowsperpage', $newData['limit']);
+                // $this->db->bind(':year', $newData['year']);
 
 
-            $row = $this->db->resultSet();
-                if($row > 0){
-                return $row;
-                }
+                $row = $this->db->resultSet();
+                    if($row > 0){
+                    return $row;
+                    }
+            } else {
+                $this->db->query('SELECT * 
+                                FROM employment
+                                INNER JOIN alumni
+                                ON employment.alumni_id = alumni.alumni_id
+                                INNER JOIN batch
+                                ON alumni.batchID = batch.id
+                                WHERE alumni.batchID = :batch AND alumni.courseID = :course AND YEAR(date_responded) = :year
+                                LIMIT :page, :rowsperpage
+                                ');
+                $this->db->bind(':batch', $newData['batch']);
+                $this->db->bind(':course', $newData['course']);
+                $this->db->bind(':page', $newData['start']);
+                $this->db->bind(':rowsperpage', $newData['limit']);
+                $this->db->bind(':year', $newData['dd_year']);
+
+
+                $row = $this->db->resultSet();
+                    if($row > 0){
+                    return $row;
+                    }
+            }
+            
             }
 
             public function showAlumniBatchAndCourseFiltered($newData) {
