@@ -223,7 +223,7 @@ use PHPMailer\PHPMailer\Exception;
 
 
 
-        public function login() {        
+        public function login() {
             $data = [
                 'email' => '',
                 'password' => '',
@@ -351,7 +351,7 @@ use PHPMailer\PHPMailer\Exception;
                 $_SESSION['image'] = $newUser->image;
             }
 
-            if ($_SESSION['user_type'] == "Admin" || $_SESSION['user_type'] == "Super Admin") {
+            if ($_SESSION['user_type'] == "Admin" || $_SESSION['user_type'] == "Super Admin" || $_SESSION['user_type'] == "Alumni Officer") {
                 redirect('admin/dashboard');
             } elseif ($_SESSION['user_type'] == "Content Creator") {
                 redirect('admin/news');
@@ -359,7 +359,6 @@ use PHPMailer\PHPMailer\Exception;
                 redirect('advertiser');
             } else {
                 redirect('pages'); 
-
             }
         }
 

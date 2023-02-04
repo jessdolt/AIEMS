@@ -37,6 +37,6 @@
             <button class="changePass" form="change-pass-form">Change Password</button>
         </div>
     </section>
-    <p>Polytechnic University Institute of Technology Alumni Information System (PUP-IAIS)</p>
+    <p>Alumni Information and Event Management System (AIEMS)</p>
 </main>
 <?php require APPROOT . '/views/inc/footer_adminManage.php';?>

@@ -202,6 +202,11 @@
             $this->view('admin/adminAccounts', $data);
         }
 
+        public function aoAccounts() {
+            $data = $this->adminModel->showAlumniOfficer($_SESSION['id']);
+            $this->view('admin/aoAccounts', $data);
+        }
+
         public function ccAccounts() {
             $data = $this->adminModel->showCc();
             $this->view('admin/ccAccounts', $data);
@@ -433,6 +438,191 @@
             }
 
             $this->view('admin/addNewCc', $data);
+        }
+
+        public function addNewAo() {
+            $departments = $this->adminModel->getDepartment();
+           
+            if(isset($_SESSION['noBack'])) {
+                unset($_SESSION['noBack']); 
+                redirect('admin_manage/manage');
+            }
+
+            $data = [
+                'departments' => $departments,
+                'dept_id' => '',
+                'user_type' => '',
+                'name' => '',
+                'email' => '',
+                'contact_no' => '',
+                'facebook' => '',
+                'password' => '',
+                'confirmPassword' => '',
+                'name_err' => '',
+                'number_err' => '',
+                'facebook_err' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'confirmPassword_err' => ''
+            ];
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'departments' => $departments,
+                    'dept_id' => trim($_POST['dept_id']),
+                    'user_type' => "Alumni Officer",
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'contact_no' => trim($_POST['contact_no']),
+                    'facebook' => trim($_POST['facebook']),
+                    'password' => trim($_POST['password']),
+                    'confirmPassword' => trim($_POST['confirmPassword']),
+                    'name_err' => '',
+                    'number_err' => '',
+                    'facebook_err' => '',
+                    'email_err' => '',
+                    'password_err' => '',
+                    'confirmPassword_err' => ''
+                ];
+
+                $passwordValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
+
+                if (empty($data['name'])) {
+                    $data['name_err'] = 'Please enter a name';
+                }
+
+                if (empty($data['contact_no'])) {
+                    $data['number_err'] = 'Please enter a contact number';
+                }
+
+                if (empty($data['facebook'])) {
+                    $data['facebook_err'] = 'Please enter a facebook link';
+                }
+
+                //Validate email
+                if (empty($data['email'])) {
+                    $data['email_err'] = 'Please enter email address.';
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $data['email_err'] = 'Please enter the correct format.';
+                } else {
+                    //Check if email exists.
+                    if ($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'Email is already taken.';
+                    }
+                }
+
+                // Validate password on length, numeric values,
+                if(empty($data['password'])){
+                    $data['password_err'] = 'Please enter password.';
+                } elseif(strlen($data['password']) < 7){
+                    $data['password_err'] = 'Password must be at least 8 characters';
+                } elseif (preg_match($passwordValidation, $data['password'])) {
+                    $data['password_err'] = 'Password must be have at least one numeric value.';
+                }
+
+                //Validate confirm password
+                if (empty($data['confirmPassword'])) {
+                    $data['confirmPassword_err'] = 'Please enter password.';
+                } else {
+                    if ($data['password'] != $data['confirmPassword']) {
+                    $data['confirmPassword_err'] = 'Passwords do not match, please try again.';
+                    }
+                }
+
+
+                // Make sure that errors are empty
+                if (empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['number_err']) && empty($data['facebook_err'])) {
+                    $userType = $this->adminModel->getUserTypeIdAdmin($data['user_type']);
+                    
+                    $data['user_type'] = $userType->id;
+
+                    // Hash password
+                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                    //Register user from model function
+                    $user_id = $this->adminModel->addAlumniOfficer($data);
+                    if(!empty($user_id)) {
+                        $newData = [
+                            'user_id' => $user_id,
+                            'name' => $data['name'],
+                            'email' => $data['email'],
+                            'contact_no' => $data['contact_no'],
+                            'facebook' => $data['facebook'],
+                            'dept_id' => $data['dept_id'],
+                            'user_type' => $data['user_type']
+                        ];
+                        if($this->adminModel->registerAlumniOfficer($newData)) {
+                        //Redirect to the login page
+                        $_SESSION['noBack'] = rand();
+                        redirect('admin_manage/aoAccounts');
+                        } else {
+                            die('Something went wrong.');
+                        }
+                    }
+
+                }
+
+            } else {
+                $data = [
+                    'departments' => $departments,
+                    'dept_id' => '',
+                    'name' => '',
+                    'email' => '',
+                    'contact_no' => '',
+                    'facebook' => '',
+                    'password' => '',
+                    'confirmPassword' => '',
+                    'name_err' => '',
+                    'number_err' => '',
+                    'facebook_err' => '',
+                    'email_err' => '',
+                    'password_err' => '',
+                    'confirmPassword_err' => ''
+                ];
+            }
+
+            $this->view('admin/addNewAo', $data);
+        }
+        
+        public function deleteRowAlumniOfficer($id){
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'email' => $_SESSION['email'],
+                    'password' => trim($_POST['password']),
+                    'password_error' => ''
+                ];
+
+                if(empty($data['password'])){
+                    $data['password_error'] = 'Please enter password.';
+                }
+
+                if(empty($data['password_error'])) {
+                    if ($this->adminModel->checkPassword($data)) {
+                        if($this->adminModel->deleteAdmin($id)){
+                            redirect('admin_manage/aoAccounts');
+                        }
+                        else {
+                            die("There's an error deleting this record");
+                        }
+                    } else {
+                        $data = [
+                            'password_error' => 'Your password is wrong.'
+                        ];
+                        $this->view('admin/aoAccounts', $data);
+                    }
+                }
+
+            } else {
+                $data = [
+                    'password' => '',
+                    'password_error' => ''
+                ];
+            }
+
         }
 
         public function deleteRowAdmin($id){
