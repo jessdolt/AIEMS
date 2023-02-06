@@ -555,15 +555,8 @@ class Pages extends Controller{
     }
 
     public function officers() {
-        $promosAdvertisementModel = $this->model('promosadvertisement');
-        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['id']);
-        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['id']);
-        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['id']);
-
-        $data = [
-         
-        ];
-
+        $adminModel = $this->model('admin_model');
+        $data = $adminModel->getAlumniOfficer();
         $this->view('pages/alumniofficers', $data);
     }
 

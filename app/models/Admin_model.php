@@ -254,5 +254,16 @@
             }
         }
 
+        public function getAlumniOfficer() {
+            $this->db->query('SELECT * FROM admin AS a
+                            LEFT JOIN department AS b
+                            ON a.dept_id = b.id
+                            WHERE user_type = 7');
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
 
     }
