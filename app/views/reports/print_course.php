@@ -108,7 +108,6 @@
     <input type="hidden" id="dateTo" value="<?= $dateTo ?>" />
     <input type="hidden" id="brCode" value="<?= $brCode ?>" />
     <input type="hidden" id="docType" value="<?= $docType ?>" />
-
     
     <div class="" id="element-to-print" style="padding: 0">
       <div class="col-xl-12">
@@ -132,7 +131,7 @@
       </div>
 
 
-      <?php foreach($data as $x) : ?>
+      <?php foreach($data['data'] as $x) : ?>
       <div
         id="table-report-HEAD"
         class="pb-2 mt-3"
@@ -183,15 +182,15 @@
       <div class="signatories">
         <div class="signatory-box">
           <h6>Prepared By:</h6>
-          <p>Jess Roque</p>
+          <p><?= $data['signatories']['preparedBy']?></p>
         </div>
         <div class="signatory-box">
-          <h6>Checked By:</h6>
-          <p>Jess Roque</p>
+          <h6>Noted By:</h6>
+          <p><?= $data['signatories']['notedBy']?></p>
         </div>
         <div class="signatory-box">
           <h6>Approved By:</h6>
-          <p>Jess Roque</p>
+          <p><?= $data['signatories']['approvedBy']?></p>
         </div>
       </div>
     </div>

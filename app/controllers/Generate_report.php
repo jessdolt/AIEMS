@@ -59,10 +59,19 @@
             $type = $_POST['type'];
             $year = $_POST['year'];
             $chosen = $_POST['chosen'];
+            $preparedBy = $_POST['preparedBy'];
+
+            $notedBy = $_POST['notedBy'];
+
+            $approvedBy = $_POST['approvedBy'];
+
             $toInsertData = [
                 'type' => $type,
                 'year' => $year,
-                'chosen' => join(',',$chosen)
+                'chosen' => join(',',$chosen),
+                'preparedBy' =>  $preparedBy,
+                'notedBy' =>  $notedBy,
+                'approvedBy' =>  $approvedBy,
             ];
 
             $isAdded = $grm->addReport($toInsertData);
@@ -92,7 +101,12 @@
             $type = $result->type;
             $year = $result->year;
             $chosen =  explode(',',$result->chosen);
-        
+            $signatories = [
+                'preparedBy' => $result->preparedBy,
+                'notedBy' => $result->notedBy,
+                'approvedBy' => $result->approvedBy,
+            ];
+
             $arrayData = [];         
 
             if($type === 'college'){
@@ -160,11 +174,19 @@
                         }
                         array_push($test['data'], $courseTest);
                     }
+
+
                     array_push($arrayData, $test);
+                  
+
                 }
 
+                $data = [
+                    'data' => $arrayData,
+                    'signatories' => $signatories
+                ];
                 
-             $this->view('reports/print_college', $arrayData);
+             $this->view('reports/print_college', $data);
 
             }
 
@@ -222,10 +244,18 @@
                         array_push($courseTest['data'], $batchTest);
                     }
 
+
                     array_push($arrayData, $courseTest);
+                  
+
                 }
 
-                $this->view('reports/print_course', $arrayData);
+                $data = [
+                    'data' => $arrayData,
+                    'signatories' => $signatories
+                ];
+
+                $this->view('reports/print_course', $data);
 
             }
 
@@ -283,11 +313,17 @@
                         array_push($batchTest['data'], $courseTest);
                     }
 
+
                     array_push($arrayData, $batchTest);
+                  
 
                 }
 
-                $this->view('reports/print_batch', $arrayData);
+                $data = [
+                    'data' => $arrayData,
+                    'signatories' => $signatories
+                ];
+                $this->view('reports/print_batch', $data);
 
             }
 
