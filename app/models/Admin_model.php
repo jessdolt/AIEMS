@@ -54,6 +54,14 @@
             }
         }
 
+        public function getAdminUsers(){
+            $this->db->query('SELECT * FROM admin');
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
         public function showCc() {
             $this->db->query('SELECT * FROM admin LEFT JOIN user_type ON admin.user_type = user_type.id WHERE user_control = "Content Creator"');
             $row = $this->db->resultSet();

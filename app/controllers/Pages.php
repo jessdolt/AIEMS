@@ -554,6 +554,19 @@ class Pages extends Controller{
         $this->view('pages/promos', $data);
     }
 
+    public function officers() {
+        $promosAdvertisementModel = $this->model('promosadvertisement');
+        $redeemedRewards = $promosAdvertisementModel->yourRedeemedRewards($_SESSION['id']);
+        $yourAdvertisement = $promosAdvertisementModel->yourAdvertisement($_SESSION['id']);
+        $unclaimedRewards = $promosAdvertisementModel->unclaimedRewards($_SESSION['id']);
+
+        $data = [
+         
+        ];
+
+        $this->view('pages/alumniofficers', $data);
+    }
+
     public function alumniEvent() {
         $eventManagementModel = $this->model('eventmanagement');
         $yourEvents = $eventManagementModel->yourEvents($_SESSION['id']);

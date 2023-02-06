@@ -7,11 +7,14 @@
         }
 
         public function addReport($data){
-            $this->db->query('INSERT INTO generate_report (type,year,chosen) VALUES (:type,:year,:chosen)');
+            $this->db->query('INSERT INTO generate_report (type,year,chosen,notedBy,approvedBy,preparedBy) VALUES (:type,:year,:chosen,:notedBy,:approvedBy,:preparedBy)');
 
             $this->db->bind(':type', $data['type']);
             $this->db->bind(':year', $data['year']);
             $this->db->bind(':chosen', $data['chosen']);
+            $this->db->bind(':notedBy', $data['notedBy']);
+            $this->db->bind(':approvedBy', $data['approvedBy']);
+            $this->db->bind(':preparedBy', $data['preparedBy']);
 
             if($this->db->execute()){
                 return $this->db->getLastId();
