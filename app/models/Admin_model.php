@@ -246,5 +246,13 @@
             }
         }
 
+        public function getAlumniOfficer() {
+            $this->db->query('SELECT * FROM admin WHERE user_type = 7');
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
 
     }
