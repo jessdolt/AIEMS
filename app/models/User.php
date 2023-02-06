@@ -169,7 +169,7 @@ class User {
                         ON users.user_type = user_type.id 
                         LEFT JOIN admin
                         ON users.user_id = admin.user_id
-                        WHERE users.email= :email');
+                        WHERE users.email = :email');
 
         $this->db->bind(':email', $user->email);
 
@@ -476,7 +476,7 @@ class User {
             $row = $this->db->single();
             if($this->db->rowCount() > 0){
                 return $row;
-            } else{
+            } else {
                 return false;
             }
         }

@@ -562,7 +562,6 @@
                             current_employment as "Current Employment",
                             type_of_work as "Type of Work",
                             work_position as "Work Position",
-                            monthly_income as "Monthly Income",
                             if_related as "Course Related",
                             date_responded as "Date Responded"
                             FROM employment 
