@@ -18,6 +18,9 @@ const handleEvents = () => {
   const submitHandler = () => {
     btnGenerateReport.addEventListener("click", () => {
       const checkBoxes = document.querySelectorAll(".check");
+      const approvedBy = document.getElementById("approvedBys").value;
+      const notedBy = document.getElementById("notedBys").value;
+      const preparedBy = document.getElementById("preparedBys").value;
 
       if (checkBoxes.length === 0) {
         alert("Please Choose an Option to Extract");
@@ -34,11 +37,17 @@ const handleEvents = () => {
         type,
         year,
         chosen,
+        preparedBy,
+        notedBy,
+        approvedBy,
       };
 
       const newFData = new FormData();
       newFData.append("type", data.type);
       newFData.append("year", data.year);
+      newFData.append("approvedBy", data.approvedBy);
+      newFData.append("notedBy", data.notedBy);
+      newFData.append("preparedBy", data.preparedBy);
 
       if (data?.chosen.length > 0) {
         data?.chosen.forEach((x) => {

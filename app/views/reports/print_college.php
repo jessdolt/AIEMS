@@ -131,7 +131,7 @@
       </div>
 
 
-      <?php foreach($data as $x) : ?>
+      <?php foreach($data['data'] as $x) : ?>
       <div
         id="table-report-HEAD"
         class="pb-2 mt-3"
@@ -182,15 +182,15 @@
       <div class="signatories">
         <div class="signatory-box">
           <h6>Prepared By:</h6>
-          <p>Jess Roque</p>
+          <p><?= $data['signatories']['preparedBy']?></p>
         </div>
         <div class="signatory-box">
-          <h6>Checked By:</h6>
-          <p>Jess Roque</p>
+          <h6>Noted By:</h6>
+          <p><?= $data['signatories']['notedBy']?></p>
         </div>
         <div class="signatory-box">
           <h6>Approved By:</h6>
-          <p>Jess Roque</p>
+          <p><?= $data['signatories']['approvedBy']?></p>
         </div>
       </div>
     </div>

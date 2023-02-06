@@ -550,7 +550,14 @@
         }
 
         public function generate_report(){
-            $this->view('reports/index', []);
+            $this->galleryModel = $this->model('admin_model');
+            $employees = $this->galleryModel->getAdminUsers();
+            
+            $data = [
+                'employees' => $employees 
+            ];
+
+            $this->view('reports/index', $data);
         }
 
         public function gallery(){
