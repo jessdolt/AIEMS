@@ -27,7 +27,26 @@
         }
 
         public function showAdmin($id) {
-            $this->db->query('SELECT * FROM admin LEFT JOIN user_type ON admin.user_type = user_type.id WHERE user_control = "Admin" OR user_control = "Super Admin" AND user_id <> :user_id ORDER BY user_control = "Super Admin" DESC');
+            $this->db->query('SELECT * FROM admin 
+                            LEFT JOIN user_type 
+                            ON admin.user_type = user_type.id 
+                            WHERE user_control = "Admin" 
+                            OR user_control = "Super Admin" 
+                            AND user_id <> :user_id 
+                            ORDER BY user_control = "Super Admin" DESC');
+            $this->db->bind(':user_id', $id);
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
+        public function showAlumniOfficer($id) {
+            $this->db->query('SELECT * FROM admin 
+                            LEFT JOIN user_type 
+                            ON admin.user_type = user_type.id 
+                            WHERE user_control = "Alumni Officer" 
+                            AND user_id <> :user_id');
             $this->db->bind(':user_id', $id);
             $row = $this->db->resultSet();
             if($row > 0){
@@ -66,6 +85,48 @@
             $this->db->bind(':name', $newData['name']);
             $this->db->bind(':email', $newData['email']);
             $this->db->bind(':user_type', $newData['user_type']);
+            
+            if($this->db->execute()){
+                return true;
+            } else{
+                return false;
+            }
+        }
+
+        public function getDepartment() {
+            $this->db->query('SELECT * FROM department');
+            $row = $this->db->resultSet();
+            if($row > 0){
+                return $row;
+            }
+        }
+
+        public function addAlumniOfficer($data) {
+            $this->db->query('INSERT INTO users (name, password, email, user_type) VALUES (:name, :password, :email, :user_type)');
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':password', $data['password']);
+            $this->db->bind(':user_type', $data['user_type']);
+
+            try{
+                if($this->db->execute()){
+                    return $this->db->getLastId();
+                }
+            }
+            catch (PDOException $e){
+                die('Something Went Wrong.');
+            }
+        }
+
+        public function registerAlumniOfficer($newData){
+            $this->db->query('INSERT INTO admin (user_id, name, email, contact_no, facebook, dept_id, user_type) VALUES (:user_id, :name, :email, :contact_no, :facebook, :dept_id, :user_type)');
+            $this->db->bind(':user_id', $newData['user_id']);
+            $this->db->bind(':name', $newData['name']);
+            $this->db->bind(':email', $newData['email']);
+            $this->db->bind(':contact_no', $newData['contact_no']);
+            $this->db->bind(':user_type', $newData['user_type']);
+            $this->db->bind(':facebook', $newData['facebook']);
+            $this->db->bind(':dept_id', $newData['dept_id']);
             
             if($this->db->execute()){
                 return true;
@@ -152,7 +213,8 @@
                 return $row;
             }
         }
-
+        
+        // USER_CONTROL/USER_TYPE not ID
         public function getUserTypeIdAdmin($id) {
             $this->db->query('SELECT * FROM user_type WHERE user_control = :id');
             $this->db->bind(':id', $id);
@@ -174,13 +236,11 @@
     
                 $password = $data['password'];
                 $hashedPassword = $row->password;
-    
                 if (password_verify($password, $hashedPassword)) {
                     return true;
                 } else {
                     return false;
                 }
-    
             } else {
                 return false;
             }

@@ -62,7 +62,7 @@
             <button class="save" form="edit-form">Save</button>
         </div>
     </section>
-    <p>Polytechnic University Institute of Technology Alumni Information System (PUP-IAIS)</p>
+    <p>Alumni Information and Event Management System (AIEMS)</p>
 </main>
     </div>
 </div>
