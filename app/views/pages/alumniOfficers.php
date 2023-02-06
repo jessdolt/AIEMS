@@ -68,6 +68,7 @@
               <hr />
 
               <!-- start of for each -->
+              <?php foreach($data as $alumniOfficer): ?>
               <div class="row">
                 <div class="card" style="max-width: 900px">
                     <div class="card-body">
@@ -76,32 +77,33 @@
                                 <div class="w-100 imageContainerr">
                                     <img
                                         class="rounded w-100"
-                                        src="<?php echo URLROOT?>/images/PUPlogo.png?>"
+                                        src="<?php echo (!empty($alumniOfficer->image)) ? URLROOT."/uploads/".$alumniOfficer->image : URLROOT."/images/default-user.jpg"?>"
                                         alt=""
                                         style="max-width: 100%; height: 150px; object-fit:cover"
                                     />   
                                 </div>
                             </div>
                             <div class="flex-grow-1 " style="padding-left: 20px">
-                                <h3 style="font-weight: bold">College of Computer Information System</h3>
+                                <h3 style="font-weight: bold"><?= $alumniOfficer->department_name ?></h3>
                                 <div class="divider"></div>
                                 <div style="margin-top: 5px; display: flex; flex-direction: column; padding-top: 5px">
                                     <div class="test">
-                                        <span class="p-label">Jess Angel C. Roque</span>
+                                        <span class="p-label"><?= $alumniOfficer->name ?></span>
                                     </div>
                                     <div class="test">
-                                        <span class="p-label">0916 292 5845</span>
+                                        <span class="p-label"><?= $alumniOfficer->contact_no ?></span>
                                     </div>
                                     <div class="test">
-                                        <a href="http://www.facebook.com/jessdolt" target="_blank" style="display:block; max-width: 50px;"> <i class="fa-brands fa-square-facebook" style="font-size: 50px; color:black"></i></a>
+                                        <a href="<?= $alumniOfficer->facebook ?>" target="_blank" style="display:block; max-width: 50px;"> <i class="fa-brands fa-square-facebook" style="font-size: 50px; color:black"></i></a>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
               </div>
-
+              <?php endforeach; ?>
               <!-- end of for each -->
 
 
