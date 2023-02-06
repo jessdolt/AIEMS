@@ -169,7 +169,7 @@ class User {
                         ON users.user_type = user_type.id 
                         LEFT JOIN admin
                         ON users.user_id = admin.user_id
-                        WHERE users.email= :email');
+                        WHERE users.email = :email');
 
         $this->db->bind(':email', $user->email);
 
@@ -476,7 +476,7 @@ class User {
             $row = $this->db->single();
             if($this->db->rowCount() > 0){
                 return $row;
-            } else{
+            } else {
                 return false;
             }
         }
@@ -495,7 +495,7 @@ class User {
         }
 
         public function getEmploymentData($id) {
-            $this->db->query('SELECT * FROM employment WHERE alumni_id = :alumni_id');
+            $this->db->query('SELECT * FROM employment WHERE alumni_id = :alumni_id ORDER BY date_responded DESC LIMIT 1');
             $this->db->bind(':alumni_id', $id);
             $row = $this->db->single();
     

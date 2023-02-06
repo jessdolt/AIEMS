@@ -20,7 +20,7 @@
 
         }
 
-        public function showBatch($batch_id, $year) {
+        public function showBatch($batch_id, $year, $dd_year = "") {
             
             $allCount = $this->alumniRModel->allCount();
             $batch = $this->alumniRModel->showBatch();
@@ -38,12 +38,17 @@
             $limit = 20;
             $start = ($page - 1) * $limit;
 
+            $currentYear = !empty($dd_year) ? $dd_year : "";
+
             $newData = [
                 'batch' => $batch_id,
                 'limit' => $limit,
                 'start' => $start,
-                'year'=> $year
+                'year'=> $year,
+                'dd_year' => $currentYear
             ];
+
+            $getYearDD = $this->alumniRModel->getYearDropdownShowBatch($year);
 
             $alumni = $this->alumniRModel->showAlumniBatch($newData);
             $pagination = $this->alumniRModel->NoOfResultsBatch($newData);
@@ -74,6 +79,7 @@
             }
 
             $data = [
+                'yearDropDown' => $getYearDD,
                 'allCount' => $allCount,
                 'alumni' => $alumni,
                 'batch' => $batch,
@@ -92,7 +98,7 @@
             $this->view('admin_d/alumni_report', $data);
         }
 
-        public function showCourse($batch_id, $course_id, $year) {
+        public function showCourse($batch_id, $course_id, $dd_year = "") {
 
             // $alumni = $this->alumniRModel->getAlumniByCourse($batch_id, $course_id);
             $allCount = $this->alumniRModel->allCount();
@@ -111,14 +117,18 @@
             $limit = 20;
             $start = ($page - 1) * $limit;
 
+            $currentYear = !empty($dd_year) ? $dd_year : "";
+
             $newData = [
                 'batch' => $batch_id,
                 'course' => $course_id,
                 'limit' => $limit,
                 'start' => $start,
-                'year' => $year
+                'dd_year' => $currentYear
             ];
-           
+
+            $getYearDD = $this->alumniRModel->getYearDropdownShowCourse($course_id, $batch_id);
+
             $alumni = $this->alumniRModel->showAlumniBatchAndCourse($newData);
             $pagination = $this->alumniRModel->NoOfResultsBatchAndCourse($newData);
 
@@ -150,6 +160,7 @@
 
             
             $data = [
+                'yearDropDown' => $getYearDD,
                 'allCount' => $allCount,
                 'alumni' => $alumni,
                 'batch' => $batch,

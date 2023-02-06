@@ -48,7 +48,7 @@
             <a href="<?php echo URLROOT?>/admin_manage/addCc" class="changePass" form="add-new-account">Add New Account</a>
         </div>
     </section>
-    <p>Polytechnic University Institute of Technology Alumni Information System (PUP-IAIS)</p>
+    <p>Alumni Information and Event Management System (AIEMS)</p>
 </main>
 </div>
 </div>

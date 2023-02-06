@@ -9,12 +9,12 @@
     if($url[1] === 'alumni_report'){
         $filteredYear = isset($url[2]) ? $url[2] : date('Y');
     }   else if($url[1] === 'showBatch'){
-        $filteredYear = isset($url[3]) ? $url[3] : date('Y');
+        $filteredYear = isset($url[4]) ? $url[4] : date('Y');
     }  else if($url[1]=== 'showCourse'){
         $filteredYear = isset($url[4]) ? $url[4] : date('Y');
     }
     // print_r(gettype($data['alumni'][0]->date_responded));
-    // print_r($data['yearDropDown']);
+    // array_print($data['yearDropDown']);
     if (!empty($data['yearDropDown'])) { 
         foreach($data['yearDropDown'] as $yearDropDown) {
             $date_responded[] = (int)date("Y", strtotime($yearDropDown->date_responded));
@@ -37,7 +37,7 @@
                 <?php foreach($data['batch'] as $batch) : ?>    
                 <li>
 
-                    <a href="<?php echo URLROOT?>/alumni_report/showBatch/<?php echo $batch->id?>/<?= $filteredYear ?>" class="deptHead <?php echo ($url[2] == $batch->id) ? 'active' : ''?>">
+                    <a href="<?php echo URLROOT?>/alumni_report/showBatch/<?php echo $batch->id?>/<?= $batch->year ?>" class="deptHead <?php echo ($url[2] == $batch->id) ? 'active' : ''?>">
                         Batch <?php echo $batch->year?>
                         <span class="icon dropArrow">
                             <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@
                     <ul class="groupList">
                         <?php foreach($data['course'] as $course) :?>
                         <li class="group">
-                            <a href="<?php echo URLROOT?>/alumni_report/showCourse/<?php echo $batch->id?>/<?php echo $course->id?>/<?= $filteredYear ?>" class="groupHeader <?php echo ($url[3] == $course->id) ? 'active' : ''?>">
+                            <a href="<?php echo URLROOT?>/alumni_report/showCourse/<?php echo $batch->id?>/<?php echo $course->id?>" class="groupHeader <?php echo ($url[3] == $course->id) ? 'active' : ''?>">
                                 <?php echo $course->course_code?> 
                             </a>
                         </li>
@@ -96,9 +96,16 @@
                     </form>
                     <?php endif; ?>
                     
-                    <select name="forma" onchange="location = this.value;">
+                    <select name="forma" id="yearDropDown" onchange="location = this.value;">
+                            <option hidden disabled selected value>- - Year - -</option>
                         <?php foreach ($years as $year) : ?>
-                        <option value="<?php echo URLROOT?>/admin/alumni_report/<?= $year?>"  <?= $filteredYear == $year ? 'selected' : ""?>><?= $year?></option>
+                        <?php if ($url[1] == "alumni_report") :?>
+                            <option value="<?php echo URLROOT?>/admin/alumni_report/<?= $year?>"  <?= $filteredYear == $year ? 'selected' : ""?>><?= $year?></option>
+                        <?php elseif ($url[1] == "showBatch") : ?>
+                            <option value="<?php echo URLROOT?>/alumni_report/showBatch/<?= $url[2] ?>/<?= $url[3] ?>/<?= $year?>"  <?= $filteredYear == $year ? 'selected' : ""?>><?= $year?></option>
+                        <?php elseif ($url[1] == "showCourse") : ?>
+                            <option value="<?php echo URLROOT?>/alumni_report/showCourse/<?= $url[2] ?>/<?= $url[3] ?>/<?= $year?>"  <?= $filteredYear == $year ? 'selected' : ""?>><?= $year?></option> 
+                        <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                         
@@ -160,20 +167,13 @@
                     </table>
                     
                     <div class="pagination">
+                        <?php if (($url[1] == 'alumni_report' && empty($url[2])) || ($url[1] == "showBatch" && empty($url[4])) || ($url[1] == "showCourse" && empty($url[4]))) :?>
                         <span class="currentRows"><?php echo $data['start'] . '-' . $data['limit'] . ' of ' . $data['total']?></span>
                         <a href="
                         <?php if($url[1] == 'showBatch') {
-                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . $data['first'];
+                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . "/". $url[3] . $data['first'];
                         } elseif($url[1] == 'showCourse') {
                             echo URLROOT .'/alumni_report/showCourse/'.$url[2]."/".$url[3] . $data['first'];
-                        } elseif($url[1] == 'alumni_report_1st_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_1st_half' . $data['first'];
-                        } elseif($url[1] == 'alumni_report_2nd_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_2nd_half' . $data['first'];
-                        } elseif($url[1] == 'showBatch_1st_half') {
-                            echo URLROOT .'/alumni_report/showBatch_1st_half/'. $url[2] . $data['first'];
-                        } elseif($url[1] == 'showBatch_2nd_half') {
-                            echo URLROOT .'/alumni_report/showBatch_2nd_half/'. $url[2] . $data['first'];
                         } else {
                             echo URLROOT .'/admin/alumni_report' . $data['first'];
                         }
@@ -184,17 +184,9 @@
                         </a>
                         <a href="
                         <?php if($url[1] == 'showBatch') {
-                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . $data['previous'];
+                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . "/". $url[3] . $data['previous'];
                         } elseif($url[1] == 'showCourse') {
                             echo URLROOT .'/alumni_report/showCourse/'.$url[2]."/".$url[3] . $data['previous'];
-                        } elseif($url[1]== 'alumni_report_1st_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_1st_half'. $data['first'];
-                        } elseif($url[1]== 'alumni_report_2nd_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_2nd_half'. $data['first'];
-                        } elseif($url[1]== 'showBatch_1st_half') {
-                            echo URLROOT .'/alumni_report/showBatch_1st_half/'. $url[2] . $data['first'];
-                        } elseif($url[1]== 'showBatch_2nd_half') {
-                            echo URLROOT .'/alumni_report/showBatch_2nd_half/'. $url[2] . $data['first'];
                         }  else {
                             echo URLROOT .'/admin/alumni_report' . $data['previous'];
                         }
@@ -205,17 +197,9 @@
                         </a>
                         <a href="
                         <?php if($url[1] == 'showBatch') {
-                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . $data['next'];
+                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . "/". $url[3] . $data['next'];
                         } elseif($url[1] == 'showCourse') {
                             echo URLROOT .'/alumni_report/showCourse/'.$url[2]."/".$url[3] . $data['next'];
-                        } elseif($url[1]== 'alumni_report_1st_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_1st_half' . $data['first'];
-                        } elseif($url[1]== 'alumni_report_2nd_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_2nd_half' . $data['first'];
-                        } elseif($url[1]== 'showBatch_1st_half') {
-                            echo URLROOT .'/alumni_report/showBatch_1st_half/'. $url[2] . $data['first'];
-                        } elseif($url[1]== 'showBatch_2nd_half') {
-                            echo URLROOT .'/alumni_report/showBatch_2nd_half/'. $url[2] . $data['first'];
                         }  else {
                             echo URLROOT .'/admin/alumni_report' . $data['next'];
                         }
@@ -226,17 +210,9 @@
                         </a>
                         <a href="
                         <?php if($url[1] == 'showBatch') {
-                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . $data['last'];
+                            echo URLROOT .'/alumni_report/showBatch/'. $url[2] . "/". $url[3] . $data['last'];
                         } elseif($url[1] == 'showCourse') {
                             echo URLROOT .'/alumni_report/showCourse/'.$url[2]."/".$url[3] . $data['last'];
-                        } elseif($url[1]== 'alumni_report_1st_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_1st_half' . $data['first'];
-                        } elseif($url[1]== 'alumni_report_2nd_half') {
-                            echo URLROOT .'/alumni_report/alumni_report_2nd_half' . $data['first'];
-                        } elseif($url[1]== 'showBatch_1st_half') {
-                            echo URLROOT .'/alumni_report/showBatch_1st_half/'. $url[2] . $data['first'];
-                        } elseif($url[1]== 'showBatch_2nd_half') {
-                            echo URLROOT .'/alumni_report/showBatch_2nd_half/'. $url[2] . $data['first'];
                         }  else {
                             echo URLROOT .'/admin/alumni_report' . $data['last'];
                         }
@@ -245,6 +221,7 @@
                                 <path d="M18 3C18.245 3.00003 18.4814 3.08996 18.6644 3.25272C18.8474 3.41547 18.9644 3.63975 18.993 3.883L19 4V20C18.9997 20.2549 18.9022 20.5 18.7272 20.6854C18.5522 20.8707 18.3131 20.9822 18.0586 20.9972C17.8042 21.0121 17.5537 20.9293 17.3582 20.7657C17.1627 20.6021 17.0371 20.3701 17.007 20.117L17 20V4C17 3.73478 17.1054 3.48043 17.2929 3.29289C17.4805 3.10536 17.7348 3 18 3ZM5.29303 3.293C5.46522 3.12082 5.69432 3.01739 5.93735 3.00211C6.18038 2.98683 6.42063 3.06075 6.61303 3.21L6.70703 3.293L14.707 11.293C14.8792 11.4652 14.9826 11.6943 14.9979 11.9373C15.0132 12.1803 14.9393 12.4206 14.79 12.613L14.707 12.707L6.70703 20.707C6.52707 20.8863 6.2856 20.9905 6.03165 20.9982C5.7777 21.006 5.53032 20.9168 5.33975 20.7488C5.14919 20.5807 5.02973 20.3464 5.00563 20.0935C4.98154 19.8406 5.05462 19.588 5.21003 19.387L5.29303 19.293L12.586 12L5.29303 4.707C5.10556 4.51947 5.00024 4.26516 5.00024 4C5.00024 3.73484 5.10556 3.48053 5.29303 3.293Z" fill="black" fill-opacity="0.87"/>
                             </svg>
                         </a>
+                        <?php endif; ?>
                     </div>
                 </form>
             </section>

@@ -158,7 +158,7 @@
                                         <div>
                                             <label for="student-id" class="outsideLabel">Student ID:</label>
                                             <div class="textFieldContainer">
-                                                <input type="text" name="student_no" id="student-id"required>
+                                                <input type="text" name="student_no" required>
                                                 <span class="error"></span>
                                             </div>
                                         </div>

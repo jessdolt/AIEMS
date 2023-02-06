@@ -103,25 +103,31 @@
     </style>
   </head>
 
-  <body>
+  <body id="element-to-print">
 
     <input type="hidden" id="dateFrom" value="<?= $dateFrom ?>" />
     <input type="hidden" id="dateTo" value="<?= $dateTo ?>" />
     <input type="hidden" id="brCode" value="<?= $brCode ?>" />
     <input type="hidden" id="docType" value="<?= $docType ?>" />
-    <div class="" id="element-to-print" style="padding: 0">
+    <div class="" style="padding: 0">
       <div class="col-xl-12">
         <div class="container-fluid">
           <div class="row">
             <div class="col-9">
-             
-              <strong>Polytechnic University of the Philippines</strong>
+            <img
+                src="<?php echo URLROOT.'/uploads/'.$_SESSION['logo']?>"
+                class="rounded float-left"
+                width="75"
+                alt="logo"
+                srcset=""
+              />
+              <strong><?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'] ;?></strong>
             </div>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <h6 class="text-uppercase">ALUMNI REPORT AS OF DEC. 06, 2022</h6>
+        <h6 class="text-uppercase">ALUMNI REPORT AS OF <?php echo date("M d, Y")?></h6>
       </div>
 
 
@@ -164,9 +170,6 @@
                   </tr>
                   <?php endforeach;?>
                 </tbody>
-                <tfoot id="summary-reports-footer"></tfoot>
-
-              
               </table>
             </div>
             <?php if(empty($z['alumni'])) : ?>
@@ -254,7 +257,7 @@
       <div class="col-md-4 d-flex align-items-center">
         <img src="public/images/plm.png" width="40" alt="" srcset="" />
 
-        <span class="mb-3 mb-md-0 text-muted">© 2022 University Name</span>
+        <span class="mb-3 mb-md-0 text-muted">© 2022 <?php echo empty($_SESSION['schoolname']) ? "AIEMS" : $_SESSION['schoolname'] ;?></span>
       </div>
     </footer>
   </body>
