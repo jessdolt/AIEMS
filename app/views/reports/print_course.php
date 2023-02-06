@@ -108,6 +108,8 @@
     <input type="hidden" id="dateTo" value="<?= $dateTo ?>" />
     <input type="hidden" id="brCode" value="<?= $brCode ?>" />
     <input type="hidden" id="docType" value="<?= $docType ?>" />
+
+    
     <div class="" id="element-to-print" style="padding: 0">
       <div class="col-xl-12">
         <div class="container-fluid">
